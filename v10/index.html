@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sable Nakamura — Principal Game Designer</title>
+  <meta name="description" content="Portfolio of Sable Nakamura, veteran game designer with 16 years crafting worlds that matter.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div id="ambient-glow" aria-hidden="true"></div>
+
+  <!-- HUD Navigation -->
+  <nav id="hud-nav" role="navigation" aria-label="Panel navigation">
+    <button class="hud-dot active" data-panel="0" aria-label="Identity panel" aria-current="true">
+      <span class="hud-dot-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+      </span>
+      <span class="hud-label">IDENTITY</span>
+    </button>
+    <button class="hud-dot" data-panel="1" aria-label="Dossier panel">
+      <span class="hud-dot-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      <span class="hud-label">DOSSIER</span>
+    </button>
+    <button class="hud-dot" data-panel="2" aria-label="Operations panel">
+      <span class="hud-dot-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </span>
+      <span class="hud-label">OPERATIONS</span>
+    </button>
+    <button class="hud-dot" data-panel="3" aria-label="Systems panel">
+      <span class="hud-dot-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </span>
+      <span class="hud-label">SYSTEMS</span>
+    </button>
+    <button class="hud-dot" data-panel="4" aria-label="Trajectory panel">
+      <span class="hud-dot-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </span>
+      <span class="hud-label">TRAJECTORY</span>
+    </button>
+    <button class="hud-dot" data-panel="5" aria-label="Transmit panel">
+      <span class="hud-dot-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </span>
+      <span class="hud-label">TRANSMIT</span>
+    </button>
+  </nav>
+
+  <!-- Panel indicator -->
+  <div id="panel-indicator" aria-hidden="true">
+    <span class="indicator-current">01</span>
+    <span class="indicator-sep">/</span>
+    <span class="indicator-total">06</span>
+  </div>
+
+  <!-- 3D Scene -->
+  <main id="scene" role="main" aria-label="Portfolio panels">
+    <div id="scene-inner">
+
+      <!-- Panel 0: IDENTITY -->
+      <section class="panel panel-identity active" data-index="0" data-accent="cyan" aria-label="Identity">
+        <div class="panel-glass">
+          <div class="panel-scanlines" aria-hidden="true"></div>
+          <div class="panel-border" aria-hidden="true"></div>
+          <header class="panel-header">
+            <span class="panel-tag mono">SYS::IDENTITY</span>
+            <span class="panel-status mono">ACTIVE</span>
+          </header>
+          <div class="panel-content identity-content">
+            <div class="identity-sigil" aria-hidden="true">
+              <div class="sigil-ring sigil-ring-outer"></div>
+              <div class="sigil-ring sigil-ring-mid"></div>
+              <div class="sigil-ring sigil-ring-inner"></div>
+              <div class="sigil-core"></div>
+            </div>
+            <h1 class="identity-name">Sable Nakamura</h1>
+            <p class="identity-title mono">Principal Game Designer</p>
+            <p class="identity-tagline">Sixteen years building worlds that teach us<br>who we could become.</p>
+            <div class="identity-stats mono">
+              <div class="stat">
+                <span class="stat-value">16</span>
+                <span class="stat-label">YEARS</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">5</span>
+                <span class="stat-label">SHIPPED</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">4</span>
+                <span class="stat-label">STUDIOS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 1: DOSSIER -->
+      <section class="panel panel-dossier" data-index="1" data-accent="amber" aria-label="Dossier">
+        <div class="panel-glass">
+          <div class="panel-scanlines" aria-hidden="true"></div>
+          <div class="panel-border" aria-hidden="true"></div>
+          <header class="panel-header">
+            <span class="panel-tag mono">SYS::DOSSIER</span>
+            <span class="panel-status mono">STANDBY</span>
+          </header>
+          <div class="panel-content dossier-content">
+            <div class="dossier-avatar" aria-hidden="true">
+              <svg viewBox="0 0 120 120" class="avatar-wireframe">
+                <ellipse cx="60" cy="45" rx="25" ry="30" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <ellipse cx="60" cy="45" rx="20" ry="25" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                <line x1="60" y1="75" x2="60" y2="95" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <line x1="60" y1="80" x2="40" y2="100" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <line x1="60" y1="80" x2="80" y2="100" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <line x1="60" y1="95" x2="45" y2="115" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <line x1="60" y1="95" x2="75" y2="115" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <circle cx="50" cy="40" r="3" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.5"/>
+                <circle cx="70" cy="40" r="3" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.5"/>
+              </svg>
+              <div class="avatar-glow"></div>
+            </div>
+            <div class="dossier-text">
+              <h2 class="dossier-heading">About</h2>
+              <p>I started modding <em>Unreal Tournament</em> maps at fourteen, and never looked back. What began as geometry and trigger volumes became a lifelong obsession with the invisible architecture of play &mdash; the systems beneath systems that shape how people feel, choose, and connect.</p>
+              <p>Over sixteen years across four studios, I&rsquo;ve led design on combat systems, narrative frameworks, open-world ecologies, and multiplayer economies. At Phantom Arc I helped define an IP that sold three million copies. At Ironlight Interactive I rebuilt a live-service game&rsquo;s entire progression loop mid-lifecycle and watched retention double. At Tessera Digital I directed a small team through a critically acclaimed indie launch on a budget that would make most publishers weep.</p>
+              <p>I believe games are the most powerful empathy machines ever built. Every mechanic is a lens, every system a mirror. When we design well, we don&rsquo;t just entertain &mdash; we give players the vocabulary to understand experiences they&rsquo;ve never lived. That conviction drives every decision I make at the whiteboard, in the spreadsheet, and in the room.</p>
+              <p>Now independent, I consult with studios who want design that respects the player&rsquo;s intelligence and rewards their curiosity. If that sounds like your team, let&rsquo;s talk.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 2: OPERATIONS -->
+      <section class="panel panel-operations" data-index="2" data-accent="cyan" aria-label="Operations">
+        <div class="panel-glass">
+          <div class="panel-scanlines" aria-hidden="true"></div>
+          <div class="panel-border" aria-hidden="true"></div>
+          <header class="panel-header">
+            <span class="panel-tag mono">SYS::OPERATIONS</span>
+            <span class="panel-status mono">STANDBY</span>
+          </header>
+          <div class="panel-content operations-content">
+            <h2 class="sr-only">Shipped Titles</h2>
+            <div class="ops-list">
+
+              <article class="ops-card" data-game="0">
+                <div class="ops-card-inner">
+                  <div class="ops-card-front">
+                    <span class="ops-year mono">2024</span>
+                    <h3 class="ops-title">VOIDFRAME</h3>
+                    <p class="ops-studio mono">Tessera Digital</p>
+                    <p class="ops-role">Lead Designer &amp; Creative Director</p>
+                    <span class="ops-genre mono">Sci-Fi &middot; Immersive Sim</span>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO EXPAND ]</div>
+                  </div>
+                  <div class="ops-card-back">
+                    <h3 class="ops-title">VOIDFRAME</h3>
+                    <p class="ops-desc">A single-player immersive sim set aboard a derelict generation ship drifting between stars. Players piece together the fate of 10,000 colonists through environmental storytelling and emergent systems&mdash;every airlock, every failed hydroponics bay, every handwritten note tells a story of hope or desperation. Praised for its interlocking ecology of ship systems where every player action cascades through oxygen, power, and social stability.</p>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO CLOSE ]</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="ops-card" data-game="1">
+                <div class="ops-card-inner">
+                  <div class="ops-card-front">
+                    <span class="ops-year mono">2021</span>
+                    <h3 class="ops-title">IRONHEART PROTOCOL</h3>
+                    <p class="ops-studio mono">Ironlight Interactive</p>
+                    <p class="ops-role">Systems Design Lead</p>
+                    <span class="ops-genre mono">Sci-Fi &middot; Tactical RPG</span>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO EXPAND ]</div>
+                  </div>
+                  <div class="ops-card-back">
+                    <h3 class="ops-title">IRONHEART PROTOCOL</h3>
+                    <p class="ops-desc">A tactical RPG where players command a fireteam of augmented soldiers across a near-future conflict zone, making choices that blur the line between liberation and occupation. The progression system I rebuilt mid-lifecycle replaced a generic XP treadmill with a reputation web&mdash;factions remember, civilians react, and no two playthroughs produce the same political landscape.</p>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO CLOSE ]</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="ops-card" data-game="2">
+                <div class="ops-card-inner">
+                  <div class="ops-card-front">
+                    <span class="ops-year mono">2018</span>
+                    <h3 class="ops-title">PHANTOM DIVIDE</h3>
+                    <p class="ops-studio mono">Phantom Arc Games</p>
+                    <p class="ops-role">Senior Game Designer</p>
+                    <span class="ops-genre mono">Action-Adventure &middot; Open World</span>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO EXPAND ]</div>
+                  </div>
+                  <div class="ops-card-back">
+                    <h3 class="ops-title">PHANTOM DIVIDE</h3>
+                    <p class="ops-desc">An open-world action-adventure set in a fractured mythological landscape where the spirit world bleeds into reality. I designed the core combat loop and the &ldquo;echo system&rdquo;&mdash;defeated enemies leave behind spectral imprints that alter terrain, unlock paths, and teach players new abilities. Three million copies sold. The echo mechanic became the studio&rsquo;s signature design pillar.</p>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO CLOSE ]</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="ops-card" data-game="3">
+                <div class="ops-card-inner">
+                  <div class="ops-card-front">
+                    <span class="ops-year mono">2015</span>
+                    <h3 class="ops-title">SALT &amp; CIRCUIT</h3>
+                    <p class="ops-studio mono">Phantom Arc Games</p>
+                    <p class="ops-role">Game Designer</p>
+                    <span class="ops-genre mono">Puzzle-Platformer &middot; Co-op</span>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO EXPAND ]</div>
+                  </div>
+                  <div class="ops-card-back">
+                    <h3 class="ops-title">SALT &amp; CIRCUIT</h3>
+                    <p class="ops-desc">A co-op puzzle-platformer about two estranged siblings&mdash;one human, one AI&mdash;navigating a flooded underground city. Each player sees a different version of reality; solving puzzles requires communicating what you see and trusting what you can&rsquo;t. Won &ldquo;Best Co-op Experience&rdquo; at two indie showcases and became a quiet cult hit.</p>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO CLOSE ]</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="ops-card" data-game="4">
+                <div class="ops-card-inner">
+                  <div class="ops-card-front">
+                    <span class="ops-year mono">2012</span>
+                    <h3 class="ops-title">LAST LIGHT FALLING</h3>
+                    <p class="ops-studio mono">Ironlight Interactive</p>
+                    <p class="ops-role">Junior Designer</p>
+                    <span class="ops-genre mono">Survival Horror &middot; Narrative</span>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO EXPAND ]</div>
+                  </div>
+                  <div class="ops-card-back">
+                    <h3 class="ops-title">LAST LIGHT FALLING</h3>
+                    <p class="ops-desc">A survival horror experience set in an Antarctic research station where the real monster is isolation and paranoia. I designed the trust system&mdash;NPCs form opinions of the player based on observed behavior, not dialogue choices, creating an atmosphere where being watched matters more than being armed. My first shipped title.</p>
+                    <div class="ops-expand-hint mono" aria-hidden="true">[ CLICK TO CLOSE ]</div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: SYSTEMS -->
+      <section class="panel panel-systems" data-index="3" data-accent="amber" aria-label="Systems">
+        <div class="panel-glass">
+          <div class="panel-scanlines" aria-hidden="true"></div>
+          <div class="panel-border" aria-hidden="true"></div>
+          <header class="panel-header">
+            <span class="panel-tag mono">SYS::SYSTEMS</span>
+            <span class="panel-status mono">STANDBY</span>
+          </header>
+          <div class="panel-content systems-content">
+            <h2 class="sr-only">Skills &amp; Expertise</h2>
+
+            <div class="sys-category" data-cat="design">
+              <h3 class="sys-cat-title mono"><span class="sys-cat-icon" aria-hidden="true">&#9670;</span> DESIGN</h3>
+              <ul class="sys-readouts">
+                <li class="sys-readout" data-level="5"><span class="sys-name">Systems Design</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="5"><span class="sys-name">Combat &amp; Action Loops</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Narrative Design</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="5"><span class="sys-name">Economy &amp; Progression</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Level &amp; World Design</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+              </ul>
+            </div>
+
+            <div class="sys-category" data-cat="technical">
+              <h3 class="sys-cat-title mono"><span class="sys-cat-icon" aria-hidden="true">&#9670;</span> TECHNICAL</h3>
+              <ul class="sys-readouts">
+                <li class="sys-readout" data-level="4"><span class="sys-name">Unreal Engine</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Unity</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="3"><span class="sys-name">Scripting (Lua, Python, C#)</span><span class="sys-bars" aria-label="Power level 3 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="5"><span class="sys-name">Prototyping &amp; Tools</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Data &amp; Analytics</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+              </ul>
+            </div>
+
+            <div class="sys-category" data-cat="leadership">
+              <h3 class="sys-cat-title mono"><span class="sys-cat-icon" aria-hidden="true">&#9670;</span> LEADERSHIP</h3>
+              <ul class="sys-readouts">
+                <li class="sys-readout" data-level="5"><span class="sys-name">Creative Direction</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Team Management</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="5"><span class="sys-name">Cross-Discipline Collab</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Stakeholder Communication</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+              </ul>
+            </div>
+
+            <div class="sys-category" data-cat="creative">
+              <h3 class="sys-cat-title mono"><span class="sys-cat-icon" aria-hidden="true">&#9670;</span> CREATIVE</h3>
+              <ul class="sys-readouts">
+                <li class="sys-readout" data-level="5"><span class="sys-name">Player Psychology</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">Worldbuilding</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="4"><span class="sys-name">UX &amp; Interaction Design</span><span class="sys-bars" aria-label="Power level 4 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+                <li class="sys-readout" data-level="5"><span class="sys-name">Playtesting &amp; Iteration</span><span class="sys-bars" aria-label="Power level 5 of 5"><i></i><i></i><i></i><i></i><i></i></span></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 4: TRAJECTORY -->
+      <section class="panel panel-trajectory" data-index="4" data-accent="cyan" aria-label="Trajectory">
+        <div class="panel-glass">
+          <div class="panel-scanlines" aria-hidden="true"></div>
+          <div class="panel-border" aria-hidden="true"></div>
+          <header class="panel-header">
+            <span class="panel-tag mono">SYS::TRAJECTORY</span>
+            <span class="panel-status mono">STANDBY</span>
+          </header>
+          <div class="panel-content trajectory-content">
+            <h2 class="sr-only">Career Trajectory</h2>
+            <div class="traj-path">
+              <svg class="traj-line" viewBox="0 0 600 400" preserveAspectRatio="none" aria-hidden="true">
+                <path class="traj-flight-path" d="M 30,350 C 80,340 100,300 150,280 S 220,200 280,180 S 360,160 400,120 S 460,80 520,60 S 560,40 580,30" fill="none" stroke="url(#trajGrad)" stroke-width="2"/>
+                <defs>
+                  <linearGradient id="trajGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.9"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <div class="traj-node" data-year="2010" style="--x: 5%; --y: 85%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2010</span>
+                  <span class="traj-event">Joined Ironlight Interactive</span>
+                  <span class="traj-detail">QA tester, then junior designer within 8 months</span>
+                </div>
+              </div>
+
+              <div class="traj-node" data-year="2012" style="--x: 20%; --y: 68%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2012</span>
+                  <span class="traj-event">Last Light Falling ships</span>
+                  <span class="traj-detail">First shipped title. Designed the trust system.</span>
+                </div>
+              </div>
+
+              <div class="traj-node" data-year="2014" style="--x: 35%; --y: 52%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2014</span>
+                  <span class="traj-event">Joined Phantom Arc Games</span>
+                  <span class="traj-detail">Recruited as game designer for new IP development</span>
+                </div>
+              </div>
+
+              <div class="traj-node" data-year="2018" style="--x: 52%; --y: 38%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2018</span>
+                  <span class="traj-event">Phantom Divide — 3M copies</span>
+                  <span class="traj-detail">Promoted to senior designer. Echo system becomes studio signature.</span>
+                </div>
+              </div>
+
+              <div class="traj-node" data-year="2020" style="--x: 67%; --y: 25%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2020</span>
+                  <span class="traj-event">Returns to Ironlight as Lead</span>
+                  <span class="traj-detail">Rebuilt live-service progression. Retention doubled in 6 months.</span>
+                </div>
+              </div>
+
+              <div class="traj-node" data-year="2022" style="--x: 80%; --y: 15%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2022</span>
+                  <span class="traj-event">Co-founds Tessera Digital</span>
+                  <span class="traj-detail">Small studio, big ambitions. Creative director on Voidframe.</span>
+                </div>
+              </div>
+
+              <div class="traj-node" data-year="2025" style="--x: 93%; --y: 5%;">
+                <div class="traj-star" aria-hidden="true"></div>
+                <div class="traj-info">
+                  <span class="traj-year mono">2025</span>
+                  <span class="traj-event">Independent Consultant</span>
+                  <span class="traj-detail">Advising studios on systems design and player-first philosophy.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 5: TRANSMIT -->
+      <section class="panel panel-transmit" data-index="5" data-accent="amber" aria-label="Transmit">
+        <div class="panel-glass">
+          <div class="panel-scanlines" aria-hidden="true"></div>
+          <div class="panel-border" aria-hidden="true"></div>
+          <header class="panel-header">
+            <span class="panel-tag mono">SYS::TRANSMIT</span>
+            <span class="panel-status mono">STANDBY</span>
+          </header>
+          <div class="panel-content transmit-content">
+            <h2 class="transmit-heading">Open Channel</h2>
+            <p class="transmit-sub mono">COMMS ARRAY ONLINE — SIGNAL STRENGTH: NOMINAL</p>
+
+            <div class="transmit-links">
+              <a href="mailto:sable@nakamura.design" class="transmit-link">
+                <span class="transmit-link-icon mono">[&gt;]</span>
+                <span class="transmit-link-label">sable@nakamura.design</span>
+                <span class="transmit-link-type mono">EMAIL</span>
+              </a>
+              <a href="#" class="transmit-link" aria-label="LinkedIn profile">
+                <span class="transmit-link-icon mono">[&gt;]</span>
+                <span class="transmit-link-label">linkedin.com/in/sable-nakamura</span>
+                <span class="transmit-link-type mono">LINKEDIN</span>
+              </a>
+              <a href="#" class="transmit-link" aria-label="Portfolio">
+                <span class="transmit-link-icon mono">[&gt;]</span>
+                <span class="transmit-link-label">nakamura.design</span>
+                <span class="transmit-link-type mono">PORTFOLIO</span>
+              </a>
+            </div>
+
+            <form class="transmit-form">
+              <div class="transmit-form-header mono">
+                <span>COMPOSE TRANSMISSION</span>
+                <span class="transmit-blink" aria-hidden="true">&#9608;</span>
+              </div>
+              <div class="form-field">
+                <label for="tx-name" class="mono">CALLSIGN</label>
+                <input type="text" id="tx-name" name="name" placeholder="Your name" autocomplete="name">
+              </div>
+              <div class="form-field">
+                <label for="tx-email" class="mono">RETURN FREQ</label>
+                <input type="email" id="tx-email" name="email" placeholder="your@email.com" autocomplete="email">
+              </div>
+              <div class="form-field">
+                <label for="tx-msg" class="mono">MESSAGE</label>
+                <textarea id="tx-msg" name="message" rows="4" placeholder="Your transmission..."></textarea>
+              </div>
+              <button type="submit" class="transmit-send mono">
+                <span class="transmit-send-icon" aria-hidden="true">&gt;&gt;</span> TRANSMIT
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Mobile swipe hint -->
+  <div id="mobile-hint" class="mono" aria-hidden="true">
+    <span>&larr;</span> SWIPE TO NAVIGATE <span>&rarr;</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="styles.js"></script>
+</body>
+</html>
