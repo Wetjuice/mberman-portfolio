@@ -1151,7 +1151,17 @@ a.contact-value:hover {
   .glitch::before, .glitch::after { display: none; }
 }
 
-/* --- MOBILE FALLBACK --- */
+/* --- MOBILE TOGGLE (hidden on desktop) --- */
+#terminal-toggle {
+  display: none;
+}
+
+/* --- MOBILE COMMAND CHIPS (hidden on desktop) --- */
+#mobile-commands {
+  display: none;
+}
+
+/* --- MOBILE LAYOUT --- */
 @media (max-width: 768px) {
   :root {
     --terminal-width: 100%;
@@ -1161,14 +1171,24 @@ a.contact-value:hover {
     flex-direction: column;
   }
 
-  #terminal {
-    width: 100%;
-    height: 50vh;
+  /* Viewport is the star on mobile — takes ~75-80% */
+  #viewport {
+    order: 1;
+    height: 76vh;
+    height: 76dvh;
+    flex: none;
   }
 
+  #viewport-content {
+    padding: 20px 16px;
+  }
+
+  /* Beam sits between viewport and terminal */
   #connection-beam {
+    order: 2;
     width: 100%;
     height: 2px;
+    flex-shrink: 0;
     background: linear-gradient(
       90deg,
       transparent 0%,
@@ -1179,16 +1199,187 @@ a.contact-value:hover {
     );
   }
 
-  #viewport {
-    height: 50vh;
+  /* Terminal collapses to compact strip at bottom */
+  #terminal {
+    order: 3;
+    width: 100%;
+    height: 24vh;
+    height: 24dvh;
+    transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
   }
 
-  #viewport-content {
-    padding: 20px;
+  /* Expanded terminal state */
+  #terminal.terminal-expanded {
+    height: 55vh;
+    height: 55dvh;
   }
 
+  /* Toggle handle — visible on mobile */
+  #terminal-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 0;
+    background: var(--bg-header);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .toggle-bar {
+    width: 20px;
+    height: 2px;
+    background: var(--text-muted);
+    border-radius: 1px;
+    transition: background 0.2s ease;
+  }
+
+  .toggle-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+  }
+
+  #terminal-toggle:active .toggle-bar,
+  #terminal.terminal-expanded #terminal-toggle .toggle-bar {
+    background: var(--green);
+  }
+
+  #terminal-toggle:active .toggle-label,
+  #terminal.terminal-expanded #terminal-toggle .toggle-label {
+    color: var(--green);
+  }
+
+  /* Terminal header — compact on mobile */
+  #terminal-header {
+    padding: 0 12px;
+    height: 28px;
+    min-height: 28px;
+  }
+
+  .terminal-dots {
+    display: none;
+  }
+
+  .terminal-title {
+    font-size: 0.68rem;
+  }
+
+  .terminal-header-right {
+    font-size: 0.6rem;
+  }
+
+  /* Terminal output — limited in collapsed state */
+  #terminal-output {
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide suggestion chips on mobile (replaced by mobile-commands) */
+  #terminal-suggestions {
+    display: none;
+  }
+
+  /* Mobile command chips — visible */
+  #mobile-commands {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 6px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-shrink: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #mobile-commands::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-cmd-chip {
+    flex-shrink: 0;
+    background: rgba(0, 255, 136, 0.06);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .mobile-cmd-chip:active {
+    background: rgba(0, 255, 136, 0.15);
+    border-color: var(--green);
+    transform: scale(0.95);
+  }
+
+  .mobile-cmd-chip.active {
+    background: rgba(0, 255, 136, 0.12);
+    border-color: var(--green);
+    color: #fff;
+  }
+
+  /* Terminal input — compact on mobile */
+  #terminal-input-line {
+    padding: 6px 12px 8px;
+    flex-shrink: 0;
+  }
+
+  #terminal-input {
+    font-size: 0.82rem;
+  }
+
+  .prompt {
+    font-size: 0.85rem;
+    margin-right: 8px;
+  }
+
+  /* --- Mobile viewport label adjustments --- */
+  #viewport-label {
+    bottom: 8px;
+    left: 12px;
+    font-size: 0.58rem;
+  }
+
+  #viewport-coords {
+    display: none;
+  }
+
+  /* --- Mobile scene adjustments --- */
   .idle-name {
-    font-size: 1.8rem;
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+  }
+
+  .idle-title {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+  }
+
+  .idle-hint {
+    font-size: 0.68rem;
   }
 
   .about-header {
@@ -1196,14 +1387,38 @@ a.contact-value:hover {
     gap: 16px;
   }
 
+  .about-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.6rem;
+  }
+
+  .about-identity h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-stats {
+    gap: 16px;
+  }
+
+  .about-bio {
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
   .help-grid {
     grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .help-item {
+    padding: 12px 14px;
   }
 
   .project-node {
     position: relative !important;
     max-width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 0;
     left: auto !important;
     top: auto !important;
   }
@@ -1213,10 +1428,30 @@ a.contact-value:hover {
     flex-direction: column;
     gap: 8px;
     padding-top: 8px;
+    height: auto;
   }
 
   .constellation-svg {
     display: none;
+  }
+
+  .detail-scene {
+    padding-top: 16px;
+    gap: 18px;
+  }
+
+  .detail-title {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+
+  .detail-description {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .detail-meta {
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .skill-node {
@@ -1232,9 +1467,65 @@ a.contact-value:hover {
     justify-content: center;
     align-content: flex-start;
     padding-top: 16px;
+    height: auto;
   }
 
   .skills-svg {
     display: none;
+  }
+
+  .philosophy-scene {
+    padding: 0 4px;
+    gap: 24px;
+    justify-content: flex-start;
+    height: auto;
+    padding-top: 16px;
+  }
+
+  .philosophy-quote {
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  }
+
+  .philosophy-body {
+    font-size: 0.84rem;
+    line-height: 1.75;
+  }
+
+  .contact-scene {
+    gap: 20px;
+    justify-content: flex-start;
+    height: auto;
+    padding-top: 24px;
+  }
+
+  .contact-row {
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .contact-label {
+    min-width: auto;
+    text-align: center;
+  }
+
+  .egg-scene {
+    height: auto;
+    padding-top: 40px;
+  }
+
+  .egg-large {
+    font-size: 2rem;
+  }
+
+  /* Scanline effect lighter on mobile for readability */
+  #terminal::after {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.04) 2px,
+      rgba(0, 0, 0, 0.04) 4px
+    );
   }
 }

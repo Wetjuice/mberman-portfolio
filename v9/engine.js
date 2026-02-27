@@ -158,7 +158,11 @@ for (const p of PROJECTS) {
 // --- REDUCED MOTION ---
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isMobile = window.innerWidth <= 768;
+let isMobile = window.innerWidth <= 768;
+
+window.addEventListener('resize', () => {
+  isMobile = window.innerWidth <= 768;
+});
 
 function animDuration(d) {
   return prefersReducedMotion ? 0.01 : d;
@@ -338,10 +342,14 @@ class Terminal {
 
     this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
 
-    // Focus input on click anywhere in terminal
+    // Focus input on click anywhere in terminal (desktop only — avoids keyboard popup on mobile)
     document.getElementById('terminal').addEventListener('click', (e) => {
       if (e.target.closest('.suggestion-chip')) return;
-      this.input.focus();
+      if (e.target.closest('.mobile-cmd-chip')) return;
+      if (e.target.closest('#terminal-toggle')) return;
+      if (!isMobile) {
+        this.input.focus();
+      }
     });
 
     // Track typing for viewport particle effect
@@ -473,9 +481,13 @@ class Terminal {
       chip.textContent = s;
       chip.setAttribute('aria-label', `Run command: ${s}`);
       chip.addEventListener('click', () => {
-        this.input.value = s;
-        this.input.focus();
-        this.handleKeydown({ key: 'Enter', preventDefault: () => {} });
+        if (isMobile && window.__executeCommand) {
+          window.__executeCommand(s);
+        } else {
+          this.input.value = s;
+          this.input.focus();
+          this.handleKeydown({ key: 'Enter', preventDefault: () => {} });
+        }
       });
       this.suggestions.appendChild(chip);
     }
@@ -624,7 +636,9 @@ const Scenes = {
     container.querySelectorAll('.help-item').forEach((item) => {
       const handler = () => {
         const cmd = item.dataset.cmd;
-        if (window.__terminalInstance) {
+        if (isMobile && window.__executeCommand) {
+          window.__executeCommand(cmd);
+        } else if (window.__terminalInstance) {
           window.__terminalInstance.input.value = cmd;
           window.__terminalInstance.input.focus();
           window.__terminalInstance.handleKeydown({
@@ -747,7 +761,9 @@ const Scenes = {
     container.querySelectorAll('.project-node').forEach((node) => {
       const handler = () => {
         const projectId = node.dataset.project;
-        if (window.__terminalInstance) {
+        if (isMobile && window.__executeCommand) {
+          window.__executeCommand(projectId);
+        } else if (window.__terminalInstance) {
           window.__terminalInstance.input.value = projectId;
           window.__terminalInstance.input.focus();
           window.__terminalInstance.handleKeydown({
@@ -787,7 +803,9 @@ const Scenes = {
 
     // Back button
     container.querySelector('.detail-back').addEventListener('click', () => {
-      if (window.__terminalInstance) {
+      if (isMobile && window.__executeCommand) {
+        window.__executeCommand('projects');
+      } else if (window.__terminalInstance) {
         window.__terminalInstance.input.value = 'projects';
         window.__terminalInstance.input.focus();
         window.__terminalInstance.handleKeydown({
@@ -1288,8 +1306,10 @@ async function init() {
     }
   );
 
-  // Focus input
-  inputEl.focus();
+  // Focus input (only on desktop — avoid popping keyboard on mobile)
+  if (!isMobile) {
+    inputEl.focus();
+  }
 
   // Keyboard shortcut: Escape to focus terminal
   document.addEventListener('keydown', (e) => {
@@ -1297,6 +1317,61 @@ async function init() {
       inputEl.focus();
     }
   });
+
+  // === MOBILE ENHANCEMENTS ===
+
+  const terminalEl = document.getElementById('terminal');
+  const toggleBtn = document.getElementById('terminal-toggle');
+  const mobileCommandsEl = document.getElementById('mobile-commands');
+
+  // Terminal expand/collapse toggle
+  toggleBtn.addEventListener('click', () => {
+    const isExpanded = terminalEl.classList.toggle('terminal-expanded');
+    toggleBtn.setAttribute('aria-expanded', isExpanded);
+    toggleBtn.querySelector('.toggle-label').textContent = isExpanded ? 'COLLAPSE' : 'TERMINAL';
+  });
+
+  // Helper: execute a command programmatically (for mobile chips)
+  function executeCommand(cmd) {
+    // Show command in terminal feed as if typed
+    terminal.addLine(`<span class="cmd-prompt">→</span> ${terminal.escapeHtml(cmd)}`, 'command');
+    terminal.history.unshift(cmd);
+    terminal.historyIndex = -1;
+    // Clear input if anything was typed
+    terminal.input.value = '';
+    // Run the command
+    handleCommand(cmd.toLowerCase());
+    // Collapse terminal after command on mobile
+    if (isMobile && terminalEl.classList.contains('terminal-expanded')) {
+      terminalEl.classList.remove('terminal-expanded');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.querySelector('.toggle-label').textContent = 'TERMINAL';
+    }
+    // Update active chip state
+    updateActiveChip(cmd.toLowerCase());
+  }
+
+  // Track active command chip
+  function updateActiveChip(cmd) {
+    mobileCommandsEl.querySelectorAll('.mobile-cmd-chip').forEach((chip) => {
+      chip.classList.toggle('active', chip.dataset.cmd === cmd);
+    });
+  }
+
+  // Mobile command chip handlers — execute WITHOUT focusing input
+  mobileCommandsEl.querySelectorAll('.mobile-cmd-chip').forEach((chip) => {
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const cmd = chip.dataset.cmd;
+      if (cmd && !terminal.isTyping) {
+        executeCommand(cmd);
+      }
+    });
+  });
+
+  // Expose executeCommand for viewport scene click handlers on mobile
+  window.__executeCommand = executeCommand;
 }
 
 // --- BOOT ---

@@ -20,6 +20,13 @@
 
     <!-- ========== TERMINAL PANEL ========== -->
     <section id="terminal" role="region" aria-label="Command terminal">
+      <!-- Mobile toggle handle -->
+      <button id="terminal-toggle" aria-label="Expand terminal" aria-expanded="false">
+        <span class="toggle-bar" aria-hidden="true"></span>
+        <span class="toggle-label">TERMINAL</span>
+        <span class="toggle-bar" aria-hidden="true"></span>
+      </button>
+
       <header id="terminal-header">
         <div class="terminal-dots">
           <span class="terminal-dot red" aria-hidden="true"></span>
@@ -37,6 +44,16 @@
 
       <nav id="terminal-suggestions" aria-label="Suggested commands"></nav>
 
+      <!-- Mobile command chips (primary navigation on mobile) -->
+      <nav id="mobile-commands" aria-label="Quick commands">
+        <button class="mobile-cmd-chip" data-cmd="about">About</button>
+        <button class="mobile-cmd-chip" data-cmd="projects">Projects</button>
+        <button class="mobile-cmd-chip" data-cmd="skills">Skills</button>
+        <button class="mobile-cmd-chip" data-cmd="philosophy">Philosophy</button>
+        <button class="mobile-cmd-chip" data-cmd="contact">Contact</button>
+        <button class="mobile-cmd-chip" data-cmd="help">Help</button>
+      </nav>
+
       <div id="terminal-input-line">
         <span class="prompt" aria-hidden="true">→</span>
         <label for="terminal-input" class="sr-only">Enter command</label>
@@ -45,7 +62,6 @@
           id="terminal-input"
           autocomplete="off"
           spellcheck="false"
-          autofocus
           placeholder="type a command..."
           aria-describedby="input-hint"
         >
