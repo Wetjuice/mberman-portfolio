@@ -35,6 +35,7 @@ canvas#ship{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;image-r
 #content-panel::-webkit-scrollbar-thumb{background:#2a3a2a;border-radius:2px}
 #panel-close{position:absolute;top:16px;right:16px;font-family:'Press Start 2P',monospace;font-size:10px;color:#5cdb5c;cursor:pointer;background:none;border:1px solid #2a3a2a;padding:6px 10px;pointer-events:auto;z-index:21;transition:background .2s}
 #panel-close:hover{background:#1a2a1a}
+.close-back{display:none}
 .panel-room-title{font-family:'Press Start 2P',monospace;font-size:13px;color:#5cdb5c;text-shadow:0 0 10px #5cdb5c60;margin-bottom:6px;line-height:1.6}
 .panel-room-sub{font-family:'Press Start 2P',monospace;font-size:7px;color:#4a8;margin-bottom:20px;letter-spacing:1px}
 .panel-section{margin-bottom:24px}
@@ -81,10 +82,43 @@ canvas#ship{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;image-r
 .mobile-header{font-family:'Press Start 2P',monospace;font-size:11px;color:#5cdb5c;margin-bottom:16px;text-align:center}
 
 @media(max-width:600px){
-  #mobile-fallback{display:block}
+  #mobile-fallback{display:block;background:rgba(10,10,18,0.85)}
   canvas#ship,#power-bar,#hotkeys,#hud-top,#room-label{display:none}
-  #content-panel{position:fixed;right:-100%;width:100%;max-width:100%}
+  canvas#starfield{display:block}
+  #content-panel{
+    position:fixed;top:0;right:-100%;width:100%;max-width:100%;height:100%;
+    z-index:60;padding:0;border-left:none;
+    background:rgba(12,12,24,0.97);
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  }
   #content-panel.open{right:0}
+  #panel-close{
+    position:sticky;top:0;left:0;right:auto;
+    display:block;width:100%;
+    font-size:12px;padding:16px 20px;
+    background:#0d0d18;
+    border:none;border-bottom:2px solid #2a3a2a;
+    text-align:left;min-height:52px;
+    border-radius:0;
+  }
+  #panel-close:hover{background:#0d0d18}
+  .close-x{display:none}
+  .close-back{display:inline}
+  #panel-content{padding:20px 16px 60px}
+  .mobile-room-btn{
+    -webkit-tap-highlight-color:rgba(92,219,92,0.15);
+    touch-action:manipulation;min-height:52px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .skill-name{width:90px;font-size:6px}
+  .panel-room-title{font-size:11px}
+  .panel-room-sub{font-size:6px}
+  .weapon-card{padding:12px}
+  .weapon-name{font-size:7px}
+  .weapon-desc{font-size:12px}
+  .freq-band{width:60px;font-size:6px}
+  .freq-val{font-size:12px}
+  .starmap-info .node-title{font-size:7px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -110,7 +144,7 @@ canvas#ship{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;image-r
 <div id="power-bar"></div>
 
 <div id="content-panel">
-  <button id="panel-close">[X]</button>
+  <button id="panel-close"><span class="close-x">[X]</span><span class="close-back">&#8592; BACK</span></button>
   <div id="panel-content"></div>
 </div>
 
@@ -638,12 +672,15 @@ const panel = document.getElementById('content-panel');
 const panelContent = document.getElementById('panel-content');
 const roomLabel = document.getElementById('room-label');
 
+function isMobile() { return window.innerWidth <= 600; }
+
 function openRoom(idx) {
   if (idx < 0 || idx >= ROOMS.length) return;
   activeRoom = idx;
   const room = ROOMS[idx];
   panelContent.innerHTML = CONTENT[room.id];
   panel.classList.add('open');
+  panel.scrollTop = 0;
   roomLabel.textContent = '';
   roomLabel.classList.remove('visible');
 }
@@ -653,7 +690,9 @@ function closePanel() {
   activeRoom = -1;
 }
 
-document.getElementById('panel-close').onclick = closePanel;
+const panelCloseBtn = document.getElementById('panel-close');
+panelCloseBtn.onclick = closePanel;
+panelCloseBtn.addEventListener('touchend', (e) => { e.preventDefault(); closePanel(); });
 
 // ─── EVENTS ───
 shipCanvas.addEventListener('mousemove', (e) => {
@@ -694,7 +733,8 @@ function buildMobile() {
     const btn = document.createElement('button');
     btn.className = 'mobile-room-btn';
     btn.innerHTML = `<span class="room-num">[${i+1}]</span> ${room.name}`;
-    btn.onclick = () => openRoom(i);
+    btn.addEventListener('click', () => openRoom(i));
+    btn.addEventListener('touchend', (e) => { e.preventDefault(); openRoom(i); });
     cont.appendChild(btn);
   });
 }
@@ -715,8 +755,10 @@ function loop() {
     }
     sfCtx.globalAlpha = 1;
   }
-  if (!prefersReduced) updateCrew();
-  drawShip();
+  if (!isMobile()) {
+    if (!prefersReduced) updateCrew();
+    drawShip();
+  }
   requestAnimationFrame(loop);
 }
 
@@ -726,8 +768,8 @@ function init() {
   initCrew();
   buildPowerBar();
   buildMobile();
-  // Open bridge by default
-  openRoom(0);
+  // Open bridge by default (desktop only)
+  if (!isMobile()) openRoom(0);
   loop();
 }
 
