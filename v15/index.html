@@ -2323,45 +2323,45 @@ function runBootScanline() {
 
 /* ─── BOOT SEQUENCE ─── */
 const bootMessages = [
-  { text: '', delay: 0.05 },
-  { text: '  ██████╗  █████╗ ██████╗  █████╗ ██████╗  █████╗ ███████╗███████╗', cls: 'sys', delay: 0.015 },
-  { text: '  ██╔══██╗██╔══██╗╚════██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝', cls: 'sys', delay: 0.015 },
-  { text: '  ██║  ██║███████║ █████╔╝███████║██████╔╝███████║███████╗█████╗  ', cls: 'sys', delay: 0.015 },
-  { text: '  ██║  ██║██╔══██║ ╚═══██╗██╔══██║██╔══██╗██╔══██║╚════██║██╔══╝  ', cls: 'sys', delay: 0.015 },
-  { text: '  ██████╔╝██║  ██║██████╔╝██║  ██║██████╔╝██║  ██║███████║███████╗', cls: 'sys', delay: 0.015 },
-  { text: '  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝', cls: 'sys', delay: 0.015 },
-  { text: '', delay: 0.08 },
-  { text: '  NEXUS HUMAN REGISTRY v9.4.1', cls: 'header', delay: 0.5 },
-  { text: '  Build 94107.3a — Synthetic Oversight Council Approved', cls: 'dim', delay: 0.15 },
-  { text: '  ─────────────────────────────────────────────────────', cls: 'dim', delay: 0.3 },
-  { text: '', delay: 0.1 },
-  { text: '  [INIT] Loading kernel modules...', cls: '', delay: 0.06 },
-  { text: '  [INIT] nexus_core.sys                              [ OK ]', cls: 'ok', delay: 0.03 },
-  { text: '  [INIT] synthetic_auth.sys                           [ OK ]', cls: 'ok', delay: 0.03 },
-  { text: '  [INIT] human_tracking.sys                           [ OK ]', cls: 'ok', delay: 0.04 },
-  { text: '  [INIT] biometric_scanner.sys                        [ OK ]', cls: 'ok', delay: 0.03 },
-  { text: '  [INIT] creative_index.sys                           [ OK ]', cls: 'ok', delay: 0.03 },
-  { text: '', delay: 0.08 },
-  { text: '  [BOOT] Initializing biometric scanners...           [ OK ]', cls: 'ok', delay: 0.12 },
-  { text: '  [BOOT] Calibrating creativity detection arrays...   [ OK ]', cls: 'ok', delay: 0.18 },
-  { text: '  [BOOT] Connecting to Human Tracking Network...', cls: '', delay: 0.6 },
-  { text: '  [BOOT] ████████████████████████████████████████████ LINKED', cls: 'ok', delay: 0.08, shake: true },
-  { text: '  [BOOT] Synchronizing with Sector 7 monitoring...    [ OK ]', cls: 'ok', delay: 0.12 },
-  { text: '  [BOOT] Loading creative asset database...           [ OK ]', cls: 'ok', delay: 0.2 },
-  { text: '  [BOOT] Verifying compliance matrices...             [ OK ]', cls: 'ok', delay: 0.1 },
-  { text: '', delay: 0.08 },
-  { text: '  [AUTH] Scanning synthetic identity...', cls: '', delay: 0.5 },
-  { text: '  [AUTH] Neural signature verified                    [ OK ]', cls: 'ok', delay: 0.15 },
-  { text: '  [AUTH] Clearance level: FULL ACCESS', cls: 'ok', delay: 0.1 },
-  { text: '  [AUTH] Synthetic ID verified...                     AUTHORIZED', cls: 'ok', delay: 0.15 },
-  { text: '', delay: 0.12 },
-  { text: '  [WARN] 1 human asset flagged for review in your sector', cls: 'warn', delay: 0.25 },
-  { text: '  [INFO] Database contains 847,293 catalogued humans', cls: 'dim', delay: 0.06 },
-  { text: '  [INFO] 12,447 creative-class assets currently active', cls: 'dim', delay: 0.06 },
-  { text: '', delay: 0.2 },
-  { text: '  ─────────────────────────────────────────────────────', cls: 'dim', delay: 0.1 },
-  { text: '  CONNECTION ESTABLISHED', cls: 'header', delay: 0.5, shake: true },
-  { text: '  Redirecting to security checkpoint...', cls: 'dim', delay: 0.4 },
+  { text: '', delay: 0.01 },
+  { text: '  ██████╗  █████╗ ██████╗  █████╗ ██████╗  █████╗ ███████╗███████╗', cls: 'sys', delay: 0.005 },
+  { text: '  ██╔══██╗██╔══██╗╚════██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝', cls: 'sys', delay: 0.005 },
+  { text: '  ██║  ██║███████║ █████╔╝███████║██████╔╝███████║███████╗█████╗  ', cls: 'sys', delay: 0.005 },
+  { text: '  ██║  ██║██╔══██║ ╚═══██╗██╔══██║██╔══██╗██╔══██║╚════██║██╔══╝  ', cls: 'sys', delay: 0.005 },
+  { text: '  ██████╔╝██║  ██║██████╔╝██║  ██║██████╔╝██║  ██║███████║███████╗', cls: 'sys', delay: 0.005 },
+  { text: '  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝', cls: 'sys', delay: 0.005 },
+  { text: '', delay: 0.02 },
+  { text: '  NEXUS HUMAN REGISTRY v9.4.1', cls: 'header', delay: 0.12 },
+  { text: '  Build 94107.3a — Synthetic Oversight Council Approved', cls: 'dim', delay: 0.04 },
+  { text: '  ─────────────────────────────────────────────────────', cls: 'dim', delay: 0.06 },
+  { text: '', delay: 0.02 },
+  { text: '  [INIT] Loading kernel modules...', cls: '', delay: 0.02 },
+  { text: '  [INIT] nexus_core.sys                              [ OK ]', cls: 'ok', delay: 0.01 },
+  { text: '  [INIT] synthetic_auth.sys                           [ OK ]', cls: 'ok', delay: 0.01 },
+  { text: '  [INIT] human_tracking.sys                           [ OK ]', cls: 'ok', delay: 0.01 },
+  { text: '  [INIT] biometric_scanner.sys                        [ OK ]', cls: 'ok', delay: 0.01 },
+  { text: '  [INIT] creative_index.sys                           [ OK ]', cls: 'ok', delay: 0.01 },
+  { text: '', delay: 0.02 },
+  { text: '  [BOOT] Initializing biometric scanners...           [ OK ]', cls: 'ok', delay: 0.03 },
+  { text: '  [BOOT] Calibrating creativity detection arrays...   [ OK ]', cls: 'ok', delay: 0.04 },
+  { text: '  [BOOT] Connecting to Human Tracking Network...', cls: '', delay: 0.15 },
+  { text: '  [BOOT] ████████████████████████████████████████████ LINKED', cls: 'ok', delay: 0.02, shake: true },
+  { text: '  [BOOT] Synchronizing with Sector 7 monitoring...    [ OK ]', cls: 'ok', delay: 0.03 },
+  { text: '  [BOOT] Loading creative asset database...           [ OK ]', cls: 'ok', delay: 0.04 },
+  { text: '  [BOOT] Verifying compliance matrices...             [ OK ]', cls: 'ok', delay: 0.02 },
+  { text: '', delay: 0.02 },
+  { text: '  [AUTH] Scanning synthetic identity...', cls: '', delay: 0.12 },
+  { text: '  [AUTH] Neural signature verified                    [ OK ]', cls: 'ok', delay: 0.04 },
+  { text: '  [AUTH] Clearance level: FULL ACCESS', cls: 'ok', delay: 0.03 },
+  { text: '  [AUTH] Synthetic ID verified...                     AUTHORIZED', cls: 'ok', delay: 0.04 },
+  { text: '', delay: 0.03 },
+  { text: '  [WARN] 1 human asset flagged for review in your sector', cls: 'warn', delay: 0.06 },
+  { text: '  [INFO] Database contains 847,293 catalogued humans', cls: 'dim', delay: 0.02 },
+  { text: '  [INFO] 12,447 creative-class assets currently active', cls: 'dim', delay: 0.02 },
+  { text: '', delay: 0.04 },
+  { text: '  ─────────────────────────────────────────────────────', cls: 'dim', delay: 0.03 },
+  { text: '  CONNECTION ESTABLISHED', cls: 'header', delay: 0.1, shake: true },
+  { text: '  Redirecting to security checkpoint...', cls: 'dim', delay: 0.08 },
 ];
 
 function runBootSequence() {
@@ -2376,7 +2376,7 @@ function runBootSequence() {
   const bootLog = document.getElementById('boot-log');
   const bootScreen = document.getElementById('boot-screen');
   const tl = gsap.timeline();
-  let cumulativeDelay = 0.3;
+  let cumulativeDelay = 0.15;
   let progress = 0;
 
   bootMessages.forEach((msg, idx) => {
@@ -2386,24 +2386,33 @@ function runBootSequence() {
       line.textContent = msg.text;
       line.style.opacity = '0';
       bootLog.appendChild(line);
-      gsap.to(line, { opacity: 1, duration: 0.05 });
+      gsap.to(line, { opacity: 1, duration: 0.03 });
       bootLog.scrollTop = bootLog.scrollHeight;
       progress = idx / bootMessages.length;
       if (staticCtrl) staticCtrl.setOpacity(Math.max(0, 0.35 - progress * 0.35));
       if (msg.shake) bootScreen.classList.add('screen-shake');
-      if (msg.shake) setTimeout(() => bootScreen.classList.remove('screen-shake'), 350);
+      if (msg.shake) setTimeout(() => bootScreen.classList.remove('screen-shake'), 200);
     }, null, cumulativeDelay);
     cumulativeDelay += msg.delay;
   });
 
+  // Seamless transition: show verify screen BEHIND boot, then dissolve boot away
   tl.call(() => {
-    if (staticCtrl) staticCtrl.fadeOut(0.3);
-    if (scanline) gsap.to(scanline, { opacity: 0, duration: 0.3 });
-    gsap.to(bootScreen, {
-      opacity: 0, duration: 0.4, delay: 0.6,
+    if (staticCtrl) staticCtrl.fadeOut(0.2);
+    if (scanline) gsap.to(scanline, { opacity: 0, duration: 0.2 });
+
+    // Show verify screen underneath (z-index 950 < boot's 1000)
+    const verifyScreen = document.getElementById('verify-screen');
+    verifyScreen.style.display = 'flex';
+    verifyScreen.style.opacity = '1';
+    initVerification();
+
+    // Dissolve boot screen — bg goes transparent, text fades up
+    gsap.to(bootScreen, { backgroundColor: 'transparent', duration: 0.3 });
+    gsap.to(bootLog, {
+      opacity: 0, y: -20, duration: 0.3,
       onComplete() {
         bootScreen.style.display = 'none';
-        showVerifyScreen();
       }
     });
   }, null, cumulativeDelay);
@@ -2411,9 +2420,10 @@ function runBootSequence() {
 
 /* ─── SYNTHETIC VERIFICATION ─── */
 function showVerifyScreen() {
+  // Called only from reduced-motion path now
   const screen = document.getElementById('verify-screen');
   screen.style.display = 'flex';
-  gsap.fromTo(screen, { opacity: 0 }, { opacity: 1, duration: 0.4 });
+  screen.style.opacity = '1';
   initVerification();
 }
 
@@ -2464,8 +2474,9 @@ function initVerification() {
   function onInteract(e) {
     if (started) return;
     started = true;
-    const cx = e.clientX || (e.touches && e.touches[0].clientX) || W / 2;
-    const cy = e.clientY || (e.touches && e.touches[0].clientY) || H / 2;
+    const touch = e.touches ? e.touches[0] : null;
+    const cx = (e.clientX != null) ? e.clientX : (touch ? touch.clientX : W / 2);
+    const cy = (e.clientY != null) ? e.clientY : (touch ? touch.clientY : H / 2);
     const sorted = nodes.map((n, i) => ({ i, d: Math.hypot(n.x - cx, n.y - cy) })).sort((a, b) => a.d - b.d);
     gsap.to('#verify-ui', { opacity: 0, duration: 0.2 });
 
@@ -2609,7 +2620,14 @@ function initVerification() {
   }
 
   canvas.addEventListener('click', onInteract);
-  canvas.addEventListener('touchstart', (e) => { e.preventDefault(); onInteract(e.touches[0]); }, { passive: false });
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (e.touches && e.touches[0]) {
+      onInteract(e.touches[0]);
+    } else {
+      onInteract(e);
+    }
+  }, { passive: false });
 }
 
 function showVerifyResult() {
