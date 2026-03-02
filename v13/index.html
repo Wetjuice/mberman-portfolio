@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elara Chen — Game Design Director</title>
+  <meta name="description" content="14 years of game design leadership. From indie studios to AAA — the career timeline of Elara Chen, Game Design Director.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@latest/dist/splitting.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Floating year indicator -->
+  <div class="year-indicator" aria-hidden="true">
+    <span class="year-indicator__label">Year</span>
+    <span class="year-indicator__value">2025</span>
+  </div>
+
+  <!-- Timeline rail -->
+  <nav class="timeline-rail" aria-label="Career timeline navigation">
+    <div class="timeline-rail__track">
+      <div class="timeline-rail__progress"></div>
+    </div>
+    <div class="timeline-rail__nodes">
+      <button class="timeline-rail__node active" data-section="hero" aria-label="Introduction" aria-current="true">
+        <span class="timeline-rail__dot"></span>
+      </button>
+      <button class="timeline-rail__node" data-section="role-1" aria-label="2023 — Present: Creative Director">
+        <span class="timeline-rail__dot"></span>
+        <span class="timeline-rail__year">Now</span>
+      </button>
+      <button class="timeline-rail__node" data-section="role-2" aria-label="2019 — 2023: Design Director">
+        <span class="timeline-rail__dot"></span>
+        <span class="timeline-rail__year">2019</span>
+      </button>
+      <button class="timeline-rail__node" data-section="role-3" aria-label="2016 — 2019: Lead Game Designer">
+        <span class="timeline-rail__dot"></span>
+        <span class="timeline-rail__year">2016</span>
+      </button>
+      <button class="timeline-rail__node" data-section="role-4" aria-label="2013 — 2016: Senior Game Designer">
+        <span class="timeline-rail__dot"></span>
+        <span class="timeline-rail__year">2013</span>
+      </button>
+      <button class="timeline-rail__node" data-section="role-5" aria-label="2011 — 2013: Game Designer">
+        <span class="timeline-rail__dot"></span>
+        <span class="timeline-rail__year">2011</span>
+      </button>
+      <button class="timeline-rail__node" data-section="role-6" aria-label="2009 — 2011: Junior Designer">
+        <span class="timeline-rail__dot"></span>
+        <span class="timeline-rail__year">2009</span>
+      </button>
+      <button class="timeline-rail__node" data-section="footer-section" aria-label="Skills & Contact">
+        <span class="timeline-rail__dot"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero section" id="hero" data-year="2025">
+      <div class="container">
+        <div class="hero__eyebrow">
+          <span class="hero__line"></span>
+          <span class="label">Portfolio &mdash; 2025</span>
+        </div>
+        <h1 class="hero__name" data-splitting>Elara Chen</h1>
+        <p class="hero__title">Game Design Director</p>
+        <p class="hero__tagline">14 years building worlds players never want to leave.</p>
+        <div class="hero__cta">
+          <span class="label">Scroll to explore</span>
+          <svg class="hero__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero__accent" aria-hidden="true">
+        <div class="hero__accent-line"></div>
+        <div class="hero__accent-line"></div>
+        <div class="hero__accent-line"></div>
+      </div>
+    </section>
+
+    <!-- ============ ROLE 1 — CURRENT ============ -->
+    <section class="role section" id="role-1" data-year="2023">
+      <div class="container">
+        <div class="role__header">
+          <div class="role__meta">
+            <span class="role__number label">01</span>
+            <span class="role__dates label"><span class="mono">2023</span> &mdash; Present</span>
+            <span class="role__current-badge label">Current</span>
+          </div>
+          <h2 class="role__company" data-splitting>Independent</h2>
+          <h3 class="role__title">Creative Director & Consultant</h3>
+          <div class="role__rule"></div>
+        </div>
+        <div class="role__content">
+          <div class="role__summary">
+            <p class="role__description">Leading creative vision for indie studios navigating ambitious projects. Currently directing an unannounced narrative-driven action game with a small, extraordinary team.</p>
+            <p class="role__description">After a decade and a half in the industry — from QA floors to director's chairs — the move to independence was inevitable. The goal now: fewer compromises, deeper craft, more meaningful games.</p>
+          </div>
+          <blockquote class="role__quote">
+            <p>&ldquo;After years inside the machine, I chose to build my own. Now I partner with studios who want to make something that matters.&rdquo;</p>
+          </blockquote>
+          <div class="role__details">
+            <button class="role__expand" aria-expanded="false" aria-controls="details-1">
+              <span class="role__expand-text">View details</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </button>
+            <div class="role__details-content" id="details-1">
+              <ul class="role__achievements">
+                <li>Creative direction for 3 indie studios across narrative design, systems design, and UX</li>
+                <li>Unannounced title in pre-production — narrative action game blending systemic storytelling with handcrafted moments</li>
+                <li>Consulting on player retention and engagement systems for a live-service title</li>
+                <li>Speaking engagements at GDC, GamesBeat, and Nordic Game on design leadership</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="role__bg-accent" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ PHILOSOPHY PULL QUOTE ============ -->
+    <section class="pullquote section" aria-label="Design philosophy">
+      <div class="container">
+        <div class="pullquote__mark" aria-hidden="true">&ldquo;</div>
+        <p class="pullquote__text" data-splitting>Design is the invisible hand that guides a player through wonder without them ever noticing the push.</p>
+        <div class="pullquote__rule"></div>
+      </div>
+    </section>
+
+    <!-- ============ ROLE 2 ============ -->
+    <section class="role section" id="role-2" data-year="2019">
+      <div class="container">
+        <div class="role__header">
+          <div class="role__meta">
+            <span class="role__number label">02</span>
+            <span class="role__dates label"><span class="mono">2019</span> &mdash; <span class="mono">2023</span></span>
+          </div>
+          <h2 class="role__company" data-splitting>Meridian Interactive</h2>
+          <h3 class="role__title">Design Director</h3>
+          <div class="role__rule"></div>
+        </div>
+        <div class="role__content">
+          <div class="role__summary">
+            <p class="role__description">Oversaw all game design across a 200-person studio during its most ambitious era. Shipped the studio's flagship title to critical and commercial success while building a world-class design team from the ground up.</p>
+          </div>
+          <div class="role__stats">
+            <div class="role__stat">
+              <span class="role__stat-value mono">4.2M</span>
+              <span class="role__stat-label label">Copies sold</span>
+            </div>
+            <div class="role__stat">
+              <span class="role__stat-value mono">91</span>
+              <span class="role__stat-label label">Metacritic</span>
+            </div>
+            <div class="role__stat">
+              <span class="role__stat-value mono">28</span>
+              <span class="role__stat-label label">Designers led</span>
+            </div>
+          </div>
+          <blockquote class="role__quote">
+            <p>&ldquo;The game that taught me what scale really means. Every system touched every other system. Designing it was like conducting an orchestra.&rdquo;</p>
+          </blockquote>
+          <div class="role__details">
+            <button class="role__expand" aria-expanded="false" aria-controls="details-2">
+              <span class="role__expand-text">View details</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </button>
+            <div class="role__details-content" id="details-2">
+              <h4 class="role__project-title">Echoes of the Pale</h4>
+              <p class="role__project-desc">Open-world action RPG set in a dying world where player choices shaped the environment itself. A living ecosystem of interconnected systems — weather, economy, faction politics, ecology — all reacting to player behavior.</p>
+              <ul class="role__achievements">
+                <li>Led design vision from concept through 4-year development cycle to successful launch</li>
+                <li>Architected the "Resonance System" — a proprietary design framework connecting all game systems through cause-and-effect chains</li>
+                <li>Built design team from 8 to 28, establishing mentorship pipelines and design review culture</li>
+                <li>Collaborated with narrative, art, and engineering directors to maintain coherent creative vision across 200+ contributors</li>
+                <li>Post-launch: 2 major expansions, sustained 92% positive Steam reviews</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="role__bg-accent" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ ROLE 3 ============ -->
+    <section class="role section" id="role-3" data-year="2016">
+      <div class="container">
+        <div class="role__header">
+          <div class="role__meta">
+            <span class="role__number label">03</span>
+            <span class="role__dates label"><span class="mono">2016</span> &mdash; <span class="mono">2019</span></span>
+          </div>
+          <h2 class="role__company" data-splitting>Osprey Digital</h2>
+          <h3 class="role__title">Lead Game Designer</h3>
+          <div class="role__rule"></div>
+        </div>
+        <div class="role__content">
+          <div class="role__summary">
+            <p class="role__description">Led design on the studio's breakout hit — a tactical co-op shooter that proved emergent gameplay could be both accessible and deep. Pioneered new approaches to player-driven storytelling through systems design.</p>
+          </div>
+          <div class="role__stats">
+            <div class="role__stat">
+              <span class="role__stat-value mono">2.8M</span>
+              <span class="role__stat-label label">Copies sold</span>
+            </div>
+            <div class="role__stat">
+              <span class="role__stat-value mono">Emergent</span>
+              <span class="role__stat-label label">Design philosophy</span>
+            </div>
+          </div>
+          <blockquote class="role__quote">
+            <p>&ldquo;We gave players tools instead of scripts. They surprised us every single day.&rdquo;</p>
+          </blockquote>
+          <div class="role__details">
+            <button class="role__expand" aria-expanded="false" aria-controls="details-3">
+              <span class="role__expand-text">View details</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </button>
+            <div class="role__details-content" id="details-3">
+              <h4 class="role__project-title">Ironfall</h4>
+              <p class="role__project-desc">4-player tactical co-op shooter where every mission played differently. Procedural objectives layered onto hand-designed environments, with AI that adapted to player strategies in real time.</p>
+              <ul class="role__achievements">
+                <li>Designed the core gameplay loop: plan, execute, adapt — with systems that rewarded creative problem-solving over rote memorization</li>
+                <li>Created the "Dynamic Directive" system — procedural mission objectives that generated unique tactical scenarios each playthrough</li>
+                <li>Established the studio's emergent design methodology, now used across all projects</li>
+                <li>Led a cross-discipline strike team of 12 during critical pre-launch crunch, delivering on time and under budget</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="role__bg-accent" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ ROLE 4 ============ -->
+    <section class="role section" id="role-4" data-year="2013">
+      <div class="container">
+        <div class="role__header">
+          <div class="role__meta">
+            <span class="role__number label">04</span>
+            <span class="role__dates label"><span class="mono">2013</span> &mdash; <span class="mono">2016</span></span>
+          </div>
+          <h2 class="role__company" data-splitting>Colosseum Entertainment</h2>
+          <h3 class="role__title">Senior Game Designer</h3>
+          <div class="role__rule"></div>
+        </div>
+        <div class="role__content">
+          <div class="role__summary">
+            <p class="role__description">First leadership role. Owned the combat and progression systems for a competitive arena game that demanded razor-sharp balance and endless replayability. Learned that elegant design emerges from constraint, not complexity.</p>
+          </div>
+          <div class="role__stats">
+            <div class="role__stat">
+              <span class="role__stat-value mono">6</span>
+              <span class="role__stat-label label">Designers managed</span>
+            </div>
+            <div class="role__stat">
+              <span class="role__stat-value mono">Combat</span>
+              <span class="role__stat-label label">Core system</span>
+            </div>
+          </div>
+          <blockquote class="role__quote">
+            <p>&ldquo;I learned that a great system isn't one that's complex — it's one that creates complex behavior from simple rules.&rdquo;</p>
+          </blockquote>
+          <div class="role__details">
+            <button class="role__expand" aria-expanded="false" aria-controls="details-4">
+              <span class="role__expand-text">View details</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </button>
+            <div class="role__details-content" id="details-4">
+              <h4 class="role__project-title">Shatterline</h4>
+              <p class="role__project-desc">Fast-paced competitive arena game with a deep metagame. Think chess meets fighting games — simple inputs, infinite strategic depth.</p>
+              <ul class="role__achievements">
+                <li>Designed and balanced 24 unique character kits with interconnected ability synergies</li>
+                <li>Built the progression system from scratch — skill-based ranking with meaningful cosmetic rewards</li>
+                <li>Managed a team of 6 designers, conducting weekly design reviews and establishing a culture of playtesting rigor</li>
+                <li>Reduced player churn by 18% through targeted onboarding redesign and difficulty curve smoothing</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="role__bg-accent" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ PHILOSOPHY PULL QUOTE 2 ============ -->
+    <section class="pullquote section" aria-label="Design philosophy">
+      <div class="container">
+        <div class="pullquote__mark" aria-hidden="true">&ldquo;</div>
+        <p class="pullquote__text" data-splitting>The best games don't tell you what to feel. They build a space where feeling is inevitable.</p>
+        <div class="pullquote__rule"></div>
+      </div>
+    </section>
+
+    <!-- ============ ROLE 5 ============ -->
+    <section class="role section" id="role-5" data-year="2011">
+      <div class="container">
+        <div class="role__header">
+          <div class="role__meta">
+            <span class="role__number label">05</span>
+            <span class="role__dates label"><span class="mono">2011</span> &mdash; <span class="mono">2013</span></span>
+          </div>
+          <h2 class="role__company" data-splitting>Foxfire Studios</h2>
+          <h3 class="role__title">Game Designer</h3>
+          <div class="role__rule"></div>
+        </div>
+        <div class="role__content">
+          <div class="role__summary">
+            <p class="role__description">Designed quest systems and world events for a live MMO with 10 million active players. A baptism by fire — where every design decision played out at massive scale, and player feedback was immediate and unforgiving.</p>
+          </div>
+          <div class="role__stats">
+            <div class="role__stat">
+              <span class="role__stat-value mono">10M</span>
+              <span class="role__stat-label label">Active players</span>
+            </div>
+            <div class="role__stat">
+              <span class="role__stat-value mono">First</span>
+              <span class="role__stat-label label">Shipped title</span>
+            </div>
+          </div>
+          <blockquote class="role__quote">
+            <p>&ldquo;My first shipped title. 10 million players found bugs I never imagined. Best education money can't buy.&rdquo;</p>
+          </blockquote>
+          <div class="role__details">
+            <button class="role__expand" aria-expanded="false" aria-controls="details-5">
+              <span class="role__expand-text">View details</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </button>
+            <div class="role__details-content" id="details-5">
+              <ul class="role__achievements">
+                <li>Designed 40+ quests across 3 content updates, balancing solo and group play experiences</li>
+                <li>Created the "World Pulse" event system — server-wide dynamic events triggered by aggregate player behavior</li>
+                <li>Collaborated with a 60-person content team across multiple time zones</li>
+                <li>Learned to design for scale: what works for 100 players breaks at 10 million</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="role__bg-accent" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ ROLE 6 ============ -->
+    <section class="role section" id="role-6" data-year="2009">
+      <div class="container">
+        <div class="role__header">
+          <div class="role__meta">
+            <span class="role__number label">06</span>
+            <span class="role__dates label"><span class="mono">2009</span> &mdash; <span class="mono">2011</span></span>
+          </div>
+          <h2 class="role__company" data-splitting>Smalltower Games</h2>
+          <h3 class="role__title">Junior Designer</h3>
+          <div class="role__rule"></div>
+        </div>
+        <div class="role__content">
+          <div class="role__summary">
+            <p class="role__description">QA-turned-designer at a scrappy 12-person indie studio. The place where it all started — where the love of games became the craft of making them. No hierarchy, no process docs, just making things and learning from every failure.</p>
+          </div>
+          <div class="role__stats">
+            <div class="role__stat">
+              <span class="role__stat-value mono">12</span>
+              <span class="role__stat-label label">Person studio</span>
+            </div>
+            <div class="role__stat">
+              <span class="role__stat-value mono">Origin</span>
+              <span class="role__stat-label label">Story</span>
+            </div>
+          </div>
+          <blockquote class="role__quote">
+            <p>&ldquo;They let me design a level on my second week. It was terrible. They let me try again. That's how you build designers.&rdquo;</p>
+          </blockquote>
+          <div class="role__details">
+            <button class="role__expand" aria-expanded="false" aria-controls="details-6">
+              <span class="role__expand-text">View details</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </button>
+            <div class="role__details-content" id="details-6">
+              <ul class="role__achievements">
+                <li>Transitioned from QA to design after identifying and proposing fixes for systemic gameplay issues</li>
+                <li>Designed 12 levels for a puzzle-platformer — iterated through 50+ prototypes</li>
+                <li>Learned every discipline by proximity: art, code, audio, marketing — the indie education</li>
+                <li>Shipped 2 titles in 2 years with a team small enough to fit in one room</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="role__bg-accent" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ SKILLS & CONTACT ============ -->
+    <section class="footer-section section" id="footer-section" data-year="2009">
+      <div class="container">
+
+        <!-- Skills -->
+        <div class="skills">
+          <h2 class="skills__heading">Expertise</h2>
+          <div class="skills__rule"></div>
+          <div class="skills__grid">
+            <span class="skills__tag">Game Design Direction</span>
+            <span class="skills__tag">Systems Design</span>
+            <span class="skills__tag">Combat Design</span>
+            <span class="skills__tag">Narrative Design</span>
+            <span class="skills__tag">Level Design</span>
+            <span class="skills__tag">UX Design</span>
+            <span class="skills__tag">Team Leadership</span>
+            <span class="skills__tag">Player Psychology</span>
+            <span class="skills__tag">Emergent Gameplay</span>
+            <span class="skills__tag">Progression Systems</span>
+            <span class="skills__tag">Balancing & Tuning</span>
+            <span class="skills__tag">Prototyping</span>
+            <span class="skills__tag">Unreal Engine</span>
+            <span class="skills__tag">Unity</span>
+            <span class="skills__tag">Design Documentation</span>
+            <span class="skills__tag">Agile / Scrum</span>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="contact">
+          <h2 class="contact__heading">Let's talk</h2>
+          <div class="contact__rule"></div>
+          <p class="contact__text">Available for creative direction, design consulting, and speaking engagements.</p>
+          <div class="contact__links">
+            <a href="mailto:elara@elarachen.com" class="contact__link">
+              <span class="contact__link-label label">Email</span>
+              <span class="contact__link-value">elara@elarachen.com</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4v7"/></svg>
+            </a>
+            <a href="#" class="contact__link">
+              <span class="contact__link-label label">LinkedIn</span>
+              <span class="contact__link-value">linkedin.com/in/elarachen</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4v7"/></svg>
+            </a>
+            <a href="#" class="contact__link">
+              <span class="contact__link-label label">Portfolio</span>
+              <span class="contact__link-value">elarachen.com</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4v7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer__rule"></div>
+          <p class="footer__copy">&copy; 2025 Elara Chen. Designed with intention.</p>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@latest/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/splitting@latest/dist/splitting.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
