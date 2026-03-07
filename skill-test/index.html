@@ -6,324 +6,309 @@
     <title>Kira Tanaka — Game Director</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Noise overlay -->
-    <div class="noise-overlay"></div>
-    
-    <!-- Scan line -->
-    <div class="scanline"></div>
 
-    <!-- Hero Section -->
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
     <section class="hero" id="hero">
-        <div class="hero-grid">
-            <div class="hero-corner top-left"></div>
-            <div class="hero-corner top-right"></div>
-            <div class="hero-corner bottom-left"></div>
-            <div class="hero-corner bottom-right"></div>
+        <div class="hero-frame">
+            <div class="hero-frame-corner tl"></div>
+            <div class="hero-frame-corner tr"></div>
+            <div class="hero-frame-corner bl"></div>
+            <div class="hero-frame-corner br"></div>
         </div>
-        
-        <div class="hero-content">
-            <div class="hero-label">GAME DIRECTOR</div>
-            <h1 class="hero-title">
-                <span class="title-line">KIRA</span>
-                <span class="title-line">TANAKA</span>
-            </h1>
-            <div class="hero-subtitle">Systems-driven design. Emergent storytelling. Player agency over scripted spectacle.</div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-value">14</div>
-                    <div class="stat-label">Years</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">92</div>
-                    <div class="stat-label">Metacritic</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">AAA Titles</div>
-                </div>
+
+        <div class="hero-badge anim-hero" style="--delay: 0.3s">
+            GAME DIRECTOR <span class="badge-sep">·</span> OBSIDIAN FORGE STUDIOS
+        </div>
+
+        <div class="hero-name">
+            <span class="hero-first anim-hero" style="--delay: 0.5s">KIRA</span>
+            <span class="hero-last anim-hero" style="--delay: 0.7s">TANAKA</span>
+        </div>
+
+        <div class="hero-rule anim-hero" style="--delay: 0.9s">
+            <span class="rule-line"></span>
+            <span class="rule-diamond"></span>
+            <span class="rule-line"></span>
+        </div>
+
+        <p class="hero-tagline anim-hero" style="--delay: 1.1s">
+            Systems-driven design. Emergent storytelling.<br>
+            Player agency over scripted spectacle.
+        </p>
+
+        <div class="hero-stats anim-hero" style="--delay: 1.3s">
+            <div class="hero-stat">
+                <span class="stat-num">14</span>
+                <span class="stat-lbl">Years</span>
+            </div>
+            <div class="hero-stat">
+                <span class="stat-num">92</span>
+                <span class="stat-lbl">Metacritic</span>
+            </div>
+            <div class="hero-stat">
+                <span class="stat-num">3</span>
+                <span class="stat-lbl">AAA Titles</span>
             </div>
         </div>
-        
-        <div class="scroll-indicator">
+
+        <div class="scroll-cue anim-hero" style="--delay: 1.6s">
             <span>SCROLL</span>
             <div class="scroll-line"></div>
         </div>
+
+        <div class="hero-accent-line" aria-hidden="true"></div>
     </section>
 
-    <!-- Philosophy Section -->
-    <section class="philosophy" id="philosophy">
-        <div class="section-header">
-            <span class="section-number">01</span>
-            <h2 class="section-title">PHILOSOPHY</h2>
+    <!-- ═══════════════ PHILOSOPHY ═══════════════ -->
+    <section class="section" id="philosophy">
+        <div class="section-label reveal-el">
+            <span class="section-num">01</span>
+            <span class="section-name">PHILOSOPHY</span>
         </div>
-        
-        <div class="philosophy-content">
-            <div class="philosophy-quote">
-                "The best games don't guide you — they give you tools and let you write your own story."
+
+        <blockquote class="philosophy-quote reveal-el">
+            "The best games don't guide you&hairsp;—&hairsp;they give you tools and let you write your own story."
+        </blockquote>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-card reveal-el">
+                <h3>Systems Over Scripts</h3>
+                <p>I don't believe in hand-holding. Players are smarter than we give them credit for. Build interconnected systems, establish clear rules, and step back. The stories that emerge from player choice are always more meaningful than anything we could write.</p>
             </div>
-            
-            <div class="philosophy-grid">
-                <div class="philosophy-block">
-                    <h3>Systems Over Scripts</h3>
-                    <p>I don't believe in hand-holding. Players are smarter than we give them credit for. Build interconnected systems, establish clear rules, and step back. The stories that emerge from player choice are always more meaningful than anything we could write.</p>
-                </div>
-                
-                <div class="philosophy-block">
-                    <h3>Respect the Player</h3>
-                    <p>Every design decision should ask: does this empower the player or patronize them? Challenge is respect. Ambiguity is respect. Letting them fail — and learn — is respect.</p>
-                </div>
-                
-                <div class="philosophy-block">
-                    <h3>Obsess Over Feel</h3>
-                    <p>A game's soul lives in the first 30 seconds. The weight of a jump. The snap of a menu. The rhythm of combat. If it doesn't feel right, nothing else matters.</p>
-                </div>
+            <div class="philosophy-card reveal-el">
+                <h3>Respect the Player</h3>
+                <p>Every design decision should ask: does this empower the player or patronize them? Challenge is respect. Ambiguity is respect. Letting them fail&hairsp;—&hairsp;and learn&hairsp;—&hairsp;is respect.</p>
+            </div>
+            <div class="philosophy-card reveal-el">
+                <h3>Obsess Over Feel</h3>
+                <p>A game's soul lives in the first 30 seconds. The weight of a jump. The snap of a menu. The rhythm of combat. If it doesn't feel right, nothing else matters.</p>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="section-header">
-            <span class="section-number">02</span>
-            <h2 class="section-title">SELECTED WORKS</h2>
+    <!-- ═══════════════ PROJECTS ═══════════════ -->
+    <section class="section" id="projects">
+        <div class="section-label reveal-el">
+            <span class="section-num">02</span>
+            <span class="section-name">SELECTED WORKS</span>
         </div>
-        
-        <div class="project-list">
-            <!-- Ashfall -->
-            <article class="project">
-                <div class="project-visual ashfall-visual"></div>
-                <div class="project-content">
-                    <div class="project-meta">
-                        <span class="project-year">2023</span>
-                        <span class="project-role">Director</span>
-                    </div>
-                    <h3 class="project-title">ASHFALL</h3>
-                    <p class="project-description">
-                        Open-world survival RPG set in a volcanic wasteland. Players navigate shifting ecosystems, manage resources under extreme pressure, and uncover the truth behind the collapse. No quest markers. No easy answers.
-                    </p>
-                    <div class="project-stats">
-                        <div class="project-stat">
-                            <span class="stat-label">Metacritic</span>
-                            <span class="stat-value">92</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="stat-label">Sales</span>
-                            <span class="stat-value">4.2M</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="stat-label">Awards</span>
-                            <span class="stat-value">DICE Winner</span>
-                        </div>
-                    </div>
-                    <div class="project-tags">
-                        <span>Open World</span>
-                        <span>Survival</span>
-                        <span>Systems-Driven</span>
-                    </div>
-                </div>
-            </article>
 
-            <!-- Veilbreaker -->
-            <article class="project">
-                <div class="project-visual veilbreaker-visual"></div>
-                <div class="project-content">
-                    <div class="project-meta">
-                        <span class="project-year">2021</span>
-                        <span class="project-role">Director</span>
-                    </div>
-                    <h3 class="project-title">VEILBREAKER</h3>
-                    <p class="project-description">
-                        Narrative action-adventure exploring memory and identity through non-linear storytelling. Players piece together fragmented timelines while battling manifestations of trauma. Built for player interpretation, not instruction.
-                    </p>
-                    <div class="project-stats">
-                        <div class="project-stat">
-                            <span class="stat-label">Metacritic</span>
-                            <span class="stat-value">88</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="stat-label">Sales</span>
-                            <span class="stat-value">2.1M</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="stat-label">Awards</span>
-                            <span class="stat-value">BAFTA Nom.</span>
-                        </div>
-                    </div>
-                    <div class="project-tags">
-                        <span>Narrative</span>
-                        <span>Action</span>
-                        <span>Non-linear</span>
-                    </div>
+        <!-- Ashfall -->
+        <article class="project reveal-el">
+            <div class="project-art ashfall-art" aria-hidden="true">
+                <div class="art-shape"></div>
+                <div class="art-shape-2"></div>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-year">2023</span>
+                    <span class="project-sep">·</span>
+                    <span class="project-role">Director</span>
                 </div>
-            </article>
+                <h3 class="project-title">ASHFALL</h3>
+                <p class="project-desc">Open-world survival RPG set in a volcanic wasteland. Players navigate shifting ecosystems, manage resources under extreme pressure, and uncover the truth behind the collapse. No quest markers. No easy answers.</p>
+                <div class="project-stats-row">
+                    <div class="project-stat"><span class="ps-val">92</span><span class="ps-lbl">Metacritic</span></div>
+                    <div class="project-stat"><span class="ps-val">4.2M</span><span class="ps-lbl">Sales</span></div>
+                    <div class="project-stat"><span class="ps-val">DICE</span><span class="ps-lbl">Winner</span></div>
+                </div>
+                <div class="project-tags">
+                    <span>Open World</span><span>Survival</span><span>Systems-Driven</span>
+                </div>
+            </div>
+        </article>
 
-            <!-- Echoes of the Deep -->
-            <article class="project">
-                <div class="project-visual echoes-visual"></div>
-                <div class="project-content">
-                    <div class="project-meta">
-                        <span class="project-year">2019</span>
-                        <span class="project-role">Director</span>
-                    </div>
-                    <h3 class="project-title">ECHOES OF THE DEEP</h3>
-                    <p class="project-description">
-                        Underwater exploration game that traded combat for curiosity. Players navigate alien ecosystems with limited oxygen, discovering emergent behaviors in AI-driven creatures. Silence, pressure, and wonder.
-                    </p>
-                    <div class="project-stats">
-                        <div class="project-stat">
-                            <span class="stat-label">Metacritic</span>
-                            <span class="stat-value">85</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="stat-label">Sales</span>
-                            <span class="stat-value">1.5M</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="stat-label">Awards</span>
-                            <span class="stat-value">IGF Finalist</span>
-                        </div>
-                    </div>
-                    <div class="project-tags">
-                        <span>Exploration</span>
-                        <span>Simulation</span>
-                        <span>Experimental</span>
-                    </div>
+        <!-- Veilbreaker -->
+        <article class="project reverse reveal-el">
+            <div class="project-art veilbreaker-art" aria-hidden="true">
+                <div class="art-shape"></div>
+                <div class="art-shape-2"></div>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-year">2021</span>
+                    <span class="project-sep">·</span>
+                    <span class="project-role">Director</span>
                 </div>
-            </article>
-        </div>
+                <h3 class="project-title">VEILBREAKER</h3>
+                <p class="project-desc">Narrative action-adventure exploring memory and identity through non-linear storytelling. Players piece together fragmented timelines while battling manifestations of trauma. Built for interpretation, not instruction.</p>
+                <div class="project-stats-row">
+                    <div class="project-stat"><span class="ps-val">88</span><span class="ps-lbl">Metacritic</span></div>
+                    <div class="project-stat"><span class="ps-val">2.1M</span><span class="ps-lbl">Sales</span></div>
+                    <div class="project-stat"><span class="ps-val">BAFTA</span><span class="ps-lbl">Nominee</span></div>
+                </div>
+                <div class="project-tags">
+                    <span>Narrative</span><span>Action</span><span>Non-Linear</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Echoes of the Deep -->
+        <article class="project reveal-el">
+            <div class="project-art echoes-art" aria-hidden="true">
+                <div class="art-shape"></div>
+                <div class="art-shape-2"></div>
+                <div class="art-shape-3"></div>
+            </div>
+            <div class="project-info">
+                <div class="project-meta">
+                    <span class="project-year">2019</span>
+                    <span class="project-sep">·</span>
+                    <span class="project-role">Director</span>
+                </div>
+                <h3 class="project-title">ECHOES OF THE DEEP</h3>
+                <p class="project-desc">Underwater exploration game that traded combat for curiosity. Players navigate alien ecosystems with limited oxygen, discovering emergent behaviors in AI-driven creatures. Silence, pressure, and wonder.</p>
+                <div class="project-stats-row">
+                    <div class="project-stat"><span class="ps-val">85</span><span class="ps-lbl">Metacritic</span></div>
+                    <div class="project-stat"><span class="ps-val">1.5M</span><span class="ps-lbl">Sales</span></div>
+                    <div class="project-stat"><span class="ps-val">IGF</span><span class="ps-lbl">Finalist</span></div>
+                </div>
+                <div class="project-tags">
+                    <span>Exploration</span><span>Simulation</span><span>Experimental</span>
+                </div>
+            </div>
+        </article>
     </section>
 
-    <!-- Timeline Section -->
-    <section class="timeline" id="timeline">
-        <div class="section-header">
-            <span class="section-number">03</span>
-            <h2 class="section-title">CAREER PATH</h2>
+    <!-- ═══════════════ TIMELINE ═══════════════ -->
+    <section class="section" id="timeline">
+        <div class="section-label reveal-el">
+            <span class="section-num">03</span>
+            <span class="section-name">CAREER PATH</span>
         </div>
-        
-        <div class="timeline-content">
-            <div class="timeline-item">
-                <div class="timeline-year">2024–NOW</div>
+
+        <div class="timeline-track">
+            <div class="timeline-line" aria-hidden="true"></div>
+
+            <div class="timeline-entry reveal-el">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2024&ndash;NOW</div>
                 <div class="timeline-details">
                     <h3>Game Director</h3>
-                    <p>Obsidian Forge Studios</p>
-                    <div class="timeline-note">Leading unannounced next-gen project</div>
+                    <p class="timeline-studio">Obsidian Forge Studios</p>
+                    <p class="timeline-note">Leading unannounced next-gen project</p>
                 </div>
             </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2022–2023</div>
+
+            <div class="timeline-entry reveal-el">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2022&ndash;2023</div>
                 <div class="timeline-details">
-                    <h3>Director — Ashfall</h3>
-                    <p>Obsidian Forge Studios</p>
-                    <div class="timeline-note">92 Metacritic, DICE Award Winner</div>
+                    <h3>Director &mdash; Ashfall</h3>
+                    <p class="timeline-studio">Obsidian Forge Studios</p>
+                    <p class="timeline-note">92 Metacritic, DICE Award Winner</p>
                 </div>
             </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2020–2021</div>
+
+            <div class="timeline-entry reveal-el">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2020&ndash;2021</div>
                 <div class="timeline-details">
-                    <h3>Director — Veilbreaker</h3>
-                    <p>Obsidian Forge Studios</p>
-                    <div class="timeline-note">BAFTA nominee, 88 Metacritic</div>
+                    <h3>Director &mdash; Veilbreaker</h3>
+                    <p class="timeline-studio">Obsidian Forge Studios</p>
+                    <p class="timeline-note">BAFTA nominee, 88 Metacritic</p>
                 </div>
             </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2018–2019</div>
+
+            <div class="timeline-entry reveal-el">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2018&ndash;2019</div>
                 <div class="timeline-details">
-                    <h3>Director — Echoes of the Deep</h3>
-                    <p>Obsidian Forge Studios</p>
-                    <div class="timeline-note">IGF Finalist, cult following</div>
+                    <h3>Director &mdash; Echoes of the Deep</h3>
+                    <p class="timeline-studio">Obsidian Forge Studios</p>
+                    <p class="timeline-note">IGF Finalist, cult following</p>
                 </div>
             </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2015–2018</div>
+
+            <div class="timeline-entry reveal-el">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2015&ndash;2018</div>
                 <div class="timeline-details">
                     <h3>Lead Game Designer</h3>
-                    <p>Major AAA Studio</p>
-                    <div class="timeline-note">Shipped 2 titles, 40M+ players</div>
+                    <p class="timeline-studio">Major AAA Studio</p>
+                    <p class="timeline-note">Shipped 2 titles, 40M+ players</p>
                 </div>
             </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2011–2015</div>
+
+            <div class="timeline-entry reveal-el">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2011&ndash;2015</div>
                 <div class="timeline-details">
                     <h3>Senior Game Designer</h3>
-                    <p>Independent Studio</p>
-                    <div class="timeline-note">Systems design, player progression</div>
+                    <p class="timeline-studio">Independent Studio</p>
+                    <p class="timeline-note">Systems design, player progression</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Speaking Section -->
-    <section class="speaking" id="speaking">
-        <div class="section-header">
-            <span class="section-number">04</span>
-            <h2 class="section-title">SPEAKING & WRITING</h2>
+    <!-- ═══════════════ SPEAKING ═══════════════ -->
+    <section class="section" id="speaking">
+        <div class="section-label reveal-el">
+            <span class="section-num">04</span>
+            <span class="section-name">SPEAKING &amp; WRITING</span>
         </div>
-        
+
         <div class="speaking-grid">
-            <div class="speaking-item">
-                <div class="speaking-type">GDC 2024</div>
+            <div class="speaking-card reveal-el">
+                <span class="speaking-type">GDC 2024</span>
                 <h3>Systems That Surprise You: Emergent Design in Ashfall</h3>
                 <p>How we built interconnected survival systems that created player stories we never anticipated.</p>
             </div>
-            
-            <div class="speaking-item">
-                <div class="speaking-type">GDC 2022</div>
+
+            <div class="speaking-card reveal-el">
+                <span class="speaking-type">GDC 2022</span>
                 <h3>Memory as Mechanic: Non-Linear Narrative in Veilbreaker</h3>
                 <p>Designing narrative systems where fragmentation is a feature, not a bug.</p>
             </div>
-            
-            <div class="speaking-item">
-                <div class="speaking-type">Gamasutra</div>
+
+            <div class="speaking-card reveal-el">
+                <span class="speaking-type">Gamasutra</span>
                 <h3>Against Hand-Holding: Why Players Deserve Ambiguity</h3>
                 <p>An argument for trusting players to figure things out on their own.</p>
             </div>
-            
-            <div class="speaking-item">
-                <div class="speaking-type">Game Makers Notebook</div>
+
+            <div class="speaking-card reveal-el">
+                <span class="speaking-type">Game Makers Notebook</span>
                 <h3>The Weight of a Jump: Obsessing Over Game Feel</h3>
                 <p>Podcast interview on the invisible design decisions that make games feel right.</p>
             </div>
-            
-            <div class="speaking-item">
-                <div class="speaking-type">Edge Magazine</div>
+
+            <div class="speaking-card reveal-el">
+                <span class="speaking-type">Edge Magazine</span>
                 <h3>14 Years of Failures: What Shipping Games Taught Me</h3>
                 <p>Reflections on what goes wrong, what goes right, and why both matter.</p>
             </div>
-            
-            <div class="speaking-item">
-                <div class="speaking-type">DICE Summit 2023</div>
+
+            <div class="speaking-card reveal-el">
+                <span class="speaking-type">DICE Summit 2023</span>
                 <h3>Player Agency in an Age of Spectacle</h3>
                 <p>Keynote on preserving meaningful choice in big-budget game development.</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="contact-content">
-            <div class="contact-label">AVAILABLE FOR</div>
-            <h2 class="contact-title">Director Roles / Speaking / Consulting</h2>
+    <!-- ═══════════════ CONTACT ═══════════════ -->
+    <section class="section contact" id="contact">
+        <div class="contact-inner reveal-el">
+            <span class="contact-label">AVAILABLE FOR</span>
+            <h2 class="contact-title">Director Roles <span class="contact-sep">&middot;</span> Speaking <span class="contact-sep">&middot;</span> Consulting</h2>
             <p class="contact-text">If you're building something that respects the player, I want to hear about it.</p>
-            <div class="contact-cta">
-                <a href="mailto:kira.tanaka@example.com" class="cta-button">Let's Build Something Extraordinary</a>
-            </div>
+            <a href="mailto:kira.tanaka@example.com" class="cta-btn">Let's Build Something Extraordinary</a>
         </div>
-        
-        <div class="contact-footer">
-            <div class="footer-links">
-                <span>Kira Tanaka</span>
-                <span>©2024</span>
-            </div>
-        </div>
+
+        <footer class="site-footer">
+            <span>Kira Tanaka</span>
+            <span class="footer-sep">&middot;</span>
+            <span>&copy; 2024</span>
+        </footer>
     </section>
 
     <script src="script.js"></script>
