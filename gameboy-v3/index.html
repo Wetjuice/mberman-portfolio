@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kira Tanaka — Game Director</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- BOOT OVERLAY -->
+  <div class="boot-overlay" id="bootOverlay">
+    <div class="scanline-sweep"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">K.T.<span class="nav-diamond">◆</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#profile">PROFILE</a></li>
+        <li><a href="#works">WORKS</a></li>
+        <li><a href="#log">LOG</a></li>
+        <li><a href="#codec">CODEC</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- SECTION 1: HERO / TITLE SCREEN -->
+  <section class="hero" id="hero">
+    <div class="hero-corner hero-corner--tl">[ KIRA TANAKA ]</div>
+    <div class="hero-corner hero-corner--br">2026 // SEATTLE WA</div>
+    <div class="hero-content">
+      <div class="hero-glow"></div>
+      <h1 class="hero-name anim-hero" style="--delay:0">KIRA TANAKA</h1>
+      <p class="hero-title anim-hero" style="--delay:1">GAME DIRECTOR</p>
+      <hr class="hero-rule anim-hero" style="--delay:2">
+      <p class="hero-studio anim-hero" style="--delay:3">OBSIDIAN FORGE STUDIOS</p>
+    </div>
+    <div class="hero-scroll anim-hero" style="--delay:4">▼ SCROLL</div>
+  </section>
+
+  <!-- SECTION 2: DIRECTOR PROFILE -->
+  <section class="section section--profile" id="profile">
+    <div class="section-inner profile-grid reveal">
+      <div class="profile-left">
+        <div class="section-number">01</div>
+        <div class="section-label">DIRECTOR.PROFILE</div>
+      </div>
+      <div class="profile-right">
+        <div class="stat-lines">
+          <div class="stat-line">[ SYS ] SYSTEMS OVER SPECTACLE</div>
+          <div class="stat-line">[ EMG ] EMERGENCE OVER SCRIPTING</div>
+          <div class="stat-line">[ AGN ] PLAYER AGENCY ALWAYS</div>
+        </div>
+        <p class="bio">
+          Kira Tanaka has spent 14 years building games where the player is the author.
+          From small indie teams to leading a 200-person AAA studio, her work centers on
+          one belief: the most memorable moments in games are the ones the designers never
+          planned. Systems-first design. Emergent narrative. Worlds that respond.
+        </p>
+        <div class="quick-stats">
+          <div class="pill">14 YRS</div>
+          <div class="pill">3 TITLES</div>
+          <div class="pill">7.8M SOLD</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SELECTED WORKS -->
+  <section class="section section--works" id="works">
+    <div class="section-inner">
+      <div class="section-header reveal">SELECTED.WORKS</div>
+
+      <!-- ASHFALL — data left, art right -->
+      <div class="project-card reveal" data-layout="data-left">
+        <div class="project-data">
+          <h3 class="project-title">ASHFALL</h3>
+          <p class="project-meta">Open-World Survival RPG — 2023</p>
+          <p class="project-desc">A living world that remembers. 200km² of interconnected ecosystems where every fire spreads, every structure decays, and every NPC faction evolves based on player actions. No quest markers. No hand-holding. Pure emergent survival.</p>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-num">92</span>
+              <span class="project-stat-label">METACRITIC</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-num">4.2M</span>
+              <span class="project-stat-label">SALES</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-num">DICE</span>
+              <span class="project-stat-label">AWARD</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-art project-art--ashfall">
+          <div class="project-art-watermark">ASHFALL</div>
+          <div class="project-art-scanline"></div>
+        </div>
+      </div>
+
+      <!-- VEILBREAKER — art left, data right -->
+      <div class="project-card reveal" data-layout="art-left">
+        <div class="project-art project-art--veilbreaker">
+          <div class="project-art-watermark">VEILBREAKER</div>
+          <div class="project-art-scanline"></div>
+        </div>
+        <div class="project-data">
+          <h3 class="project-title">VEILBREAKER</h3>
+          <p class="project-meta">Narrative Action-Adventure — 2021</p>
+          <p class="project-desc">A dimension-hopping action game where reality fractures around the player. Branching timelines built on a proprietary narrative graph engine. 47 unique endings, zero filler. Every choice compounds.</p>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-num">88</span>
+              <span class="project-stat-label">METACRITIC</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-num">2.1M</span>
+              <span class="project-stat-label">SALES</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-num">BAFTA</span>
+              <span class="project-stat-label">NOMINEE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ECHOES OF THE DEEP — data left, art right -->
+      <div class="project-card reveal" data-layout="data-left">
+        <div class="project-data">
+          <h3 class="project-title">ECHOES OF THE DEEP</h3>
+          <p class="project-meta">Underwater Exploration — 2019</p>
+          <p class="project-desc">Three kilometers below the surface, where sonar is your only sense. A procedurally-evolving ocean floor with bioluminescent ecosystems that grow, migrate, and die. Sound design as core mechanic.</p>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-num">85</span>
+              <span class="project-stat-label">METACRITIC</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-num">1.5M</span>
+              <span class="project-stat-label">SALES</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-num">IGF</span>
+              <span class="project-stat-label">FINALIST</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-art project-art--echoes">
+          <div class="project-art-watermark">ECHOES</div>
+          <div class="project-art-scanline"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CAREER LOG -->
+  <section class="section section--log" id="log">
+    <div class="section-inner">
+      <div class="section-header reveal">CAREER.LOG</div>
+      <div class="log-terminal reveal" id="logTerminal">
+        <div class="log-entry" data-index="0">2024 ▶ DIRECTOR [OBSIDIAN FORGE] ............. ACTIVE</div>
+        <div class="log-entry" data-index="1">2023 ▶ ASHFALL SHIPPED .................. [SUCCESS] ★92</div>
+        <div class="log-entry" data-index="2">2021 ▶ VEILBREAKER SHIPPED ............. [SUCCESS] ★88</div>
+        <div class="log-entry" data-index="3">2019 ▶ ECHOES OF THE DEEP SHIPPED ..... [SUCCESS] ★85</div>
+        <div class="log-entry" data-index="4">2015 ▶ LEAD DESIGNER [AAA STUDIO] ...... PROMOTED</div>
+        <div class="log-entry" data-index="5">2011 ▶ SR. DESIGNER [IND. STUDIO] ..... JOINED<span class="blink-cursor">█</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: CODEC / SPEAKING -->
+  <section class="section section--codec" id="codec">
+    <div class="section-inner">
+      <div class="section-header reveal">CODEC.TRANSMISSIONS</div>
+      <div class="codec-grid reveal">
+        <div class="codec-portrait">
+          <span class="codec-initials">K.T.</span>
+        </div>
+        <div class="codec-content">
+          <div class="codec-signal">SIGNAL STRENGTH: ████░ 80%</div>
+          <div class="codec-lines">
+            <div class="codec-line">GDC 2024 ............ EMERGENCE OVER SCRIPTED EXPERIENCE</div>
+            <div class="codec-line">DICE SUMMIT 2023 .... KEYNOTE SPEAKER</div>
+            <div class="codec-line">EDGE MAGAZINE ....... FEATURED INTERVIEW</div>
+            <div class="codec-line">GDC 2022 ............ ASHFALL: SYSTEMS IN PRACTICE</div>
+            <div class="codec-line">WAYPOINT PODCAST .... SYSTEMS DESIGN DEEP-DIVE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: CONTACT -->
+  <section class="section section--contact" id="contact">
+    <div class="section-inner contact-center reveal">
+      <div class="section-header">INITIATE.CONTACT</div>
+      <p class="contact-body">Open to speaking engagements, advisory roles, and collaboration on projects that push what games can be.</p>
+      <a href="mailto:kira@obsidianforge.studio" class="cta-btn">TRANSMIT ▶</a>
+      <div class="contact-links">
+        <span>kira@obsidianforge.studio</span>
+        <span>linkedin.com/in/kiratanaka</span>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
