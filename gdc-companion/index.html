@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>GDC 2026 // pocket companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #ff7a1a;
+  --dark: #1a1a1a;
+  --mid: #666;
+  --light: #999;
+  --border: #e0e0e0;
+  --bg: #fafafa;
+  --card-bg: #fff;
+  --tag-bg: #f5f5f5;
+  --risk-green: #22c55e;
+  --risk-yellow: #eab308;
+  --risk-red: #ef4444;
+  --risk-orange: #f97316;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+}
+
+/* grid texture */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--dark);
+  color: #fff;
+  padding: 12px 16px 8px;
+  border-bottom: 3px solid var(--orange);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.header h1 {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  color: var(--orange);
+}
+
+.header .date {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--light);
+}
+
+/* search */
+.search-wrap {
+  position: relative;
+}
+
+.search-wrap input {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  padding: 8px 12px 8px 32px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.search-wrap input::placeholder { color: rgba(255,255,255,0.4); }
+.search-wrap input:focus { border-color: var(--orange); }
+
+.search-wrap::before {
+  content: '⌕';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+}
+
+/* nav tabs */
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--dark);
+  border-top: 2px solid var(--orange);
+  display: flex;
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.nav button {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--light);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  text-transform: lowercase;
+  padding: 10px 4px 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.nav button .icon { font-size: 18px; }
+.nav button.active { color: var(--orange); }
+.nav button:active { opacity: 0.7; }
+
+/* main content */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 16px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* section headers */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  text-transform: lowercase;
+  letter-spacing: 1.5px;
+  color: var(--orange);
+  margin: 24px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label:first-child { margin-top: 8px; }
+
+/* cards */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+
+.card:active { border-color: var(--orange); }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: lowercase;
+  color: var(--dark);
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.card-body {
+  font-size: 14px;
+  color: var(--dark);
+  line-height: 1.55;
+}
+
+.card-body p { margin-bottom: 8px; }
+.card-body p:last-child { margin-bottom: 0; }
+
+.card-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--light);
+  margin-top: 8px;
+}
+
+/* tags */
+.tag {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  text-transform: lowercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.tag-orange { background: rgba(255,122,26,0.15); color: var(--orange); }
+.tag-dark { background: var(--tag-bg); color: var(--mid); }
+
+/* risk indicators */
+.risk-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.risk-low { background: var(--risk-green); }
+.risk-medium { background: var(--risk-yellow); }
+.risk-high { background: var(--risk-red); }
+.risk-elevated { background: var(--risk-orange); }
+
+/* expandable */
+.expandable .card-expand {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.expandable.open .card-expand { display: block; }
+
+.expand-toggle {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--orange);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  text-transform: lowercase;
+}
+
+/* day selector */
+.day-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.day-tab {
+  flex-shrink: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  text-transform: lowercase;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 14px;
+  cursor: pointer;
+  color: var(--mid);
+  transition: all 0.2s;
+}
+
+.day-tab.active {
+  background: var(--dark);
+  color: var(--orange);
+  border-color: var(--dark);
+}
+
+.day-content { display: none; }
+.day-content.active { display: block; }
+
+/* conversation cards */
+.convo-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.convo-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+
+.convo-text {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--dark);
+  line-height: 1.55;
+}
+
+/* studio grid */
+.studio-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.studio-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.studio-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+.studio-detail {
+  font-size: 13px;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.studio-detail strong { color: var(--dark); }
+
+.studio-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* stat blocks */
+.stat-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-block {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  text-transform: lowercase;
+  color: var(--light);
+  margin-top: 2px;
+}
+
+/* template section */
+.template-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.template-card .template-subject {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+
+.template-card .template-body {
+  font-size: 14px;
+  color: var(--dark);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* copy button */
+.copy-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--orange);
+  background: rgba(255,122,26,0.1);
+  border: 1px solid rgba(255,122,26,0.3);
+  border-radius: 3px;
+  padding: 4px 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  text-transform: lowercase;
+}
+
+.copy-btn:active { background: rgba(255,122,26,0.25); }
+
+/* no results */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--light);
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+}
+
+/* quick ref list */
+.ref-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.ref-item:last-child { border-bottom: none; }
+
+.ref-item strong {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* closed studios */
+.closed-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--mid);
+}
+
+.closed-item:last-child { border-bottom: none; }
+
+/* responsive */
+@media (min-width: 420px) {
+  .content { padding: 20px; max-width: 600px; margin: 0 auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <h1>gdc 2026 // pocket companion</h1>
+    <span class="date">mar 9–13</span>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="globalSearch" placeholder="search everything..." autocomplete="off">
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ============ SCHEDULE TAB ============ -->
+  <div id="tab-schedule" class="tab-panel active">
+    
+    <div class="day-tabs">
+      <button class="day-tab active" data-day="sun">sun 8</button>
+      <button class="day-tab" data-day="mon">mon 9</button>
+      <button class="day-tab" data-day="tue">tue 10</button>
+      <button class="day-tab" data-day="wed">wed 11</button>
+      <button class="day-tab" data-day="thu">thu 12</button>
+      <button class="day-tab" data-day="fri">fri 13</button>
+    </div>
+
+    <!-- SUNDAY -->
+    <div class="day-content active" data-day="sun">
+      <div class="section-label">pre-game</div>
+      <div class="card">
+        <div class="card-title">arrival + setup</div>
+        <div class="card-body">
+          <p>Check in, grab badge (early pickup if available). Browse gdcparties.com for final RSVPs.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">courage xl 2026 indie pre-party</div>
+          <span class="tag tag-orange">evening</span>
+        </div>
+        <div class="card-subtitle">The Great Northern — 7 PM</div>
+        <div class="card-body">
+          <p>Low-key warm-up. Indie devs are great conversationalists and future talent. Good for getting your social muscles going.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONDAY -->
+    <div class="day-content" data-day="mon">
+      <div class="section-label">summit day // 70% sessions, 30% social</div>
+      <div class="card expandable" data-search="ghost yotei sucker punch open world">
+        <div class="card-header">
+          <div class="card-title">🎯 ghost of yōtei — open world engagement</div>
+          <span class="tag tag-orange">must-see</span>
+        </div>
+        <div class="card-subtitle">Sucker Punch — Summit Session</div>
+        <div class="card-body">
+          <p>Fellow PS studio, open-world design methodology. Tools and strategies for non-linear world engagement.</p>
+        </div>
+        <button class="expand-toggle" onclick="toggleExpand(this)">+ why it matters</button>
+        <div class="card-expand">
+          <p>If Bend pivots back to open-world single-player, this is the playbook from your closest institutional peer. Required viewing.</p>
+        </div>
+      </div>
+      <div class="card expandable" data-search="ghost yotei sucker punch clues camping exploration">
+        <div class="card-header">
+          <div class="card-title">🎯 clues & camping in ghost of yōtei</div>
+          <span class="tag tag-orange">must-see</span>
+        </div>
+        <div class="card-subtitle">Sucker Punch</div>
+        <div class="card-body">
+          <p>Curating guided exploration in non-linear worlds. Player wandering, choices, hidden narrative elements.</p>
+        </div>
+        <button class="expand-toggle" onclick="toggleExpand(this)">+ why it matters</button>
+        <div class="card-expand">
+          <p>Design philosophy for keeping open worlds engaging without hand-holding — directly applicable to anything Bend builds next.</p>
+        </div>
+      </div>
+      <div class="card" data-search="design direction alpha puzzles">
+        <div class="card-title">alpha puzzles + shipped solutions</div>
+        <div class="card-subtitle">Francisco Souki, Schell Games</div>
+        <div class="card-body"><p>How design direction evolves from prototype through ship. Practical design leadership at the project level.</p></div>
+      </div>
+      <div class="card" data-search="networking lunch cafeteria">
+        <div class="card-title">💡 lunch tactic</div>
+        <div class="card-body"><p>Don't eat alone. Cafeteria and food trucks outside Moscone are natural mixing zones. Sit at a table with people you don't know.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">pocket gamer party</div>
+          <span class="tag tag-dark">evening</span>
+        </div>
+        <div class="card-subtitle">715 Harrison — 8:30 PM</div>
+        <div class="card-body"><p>Publisher/mobile-heavy crowd, good general networking. Low commitment, easy to leave early.</p></div>
+      </div>
+    </div>
+
+    <!-- TUESDAY -->
+    <div class="day-content" data-day="tue">
+      <div class="section-label">build momentum // playstation + indie focus</div>
+      <div class="card" data-search="design sense respawn evan nikolich">
+        <div class="card-title">🎯 developing your design sense</div>
+        <div class="card-subtitle">Evan Nikolich, Respawn Entertainment</div>
+        <div class="card-body"><p>Respawn on cultivating design instinct. Professional development for the core craft of game direction.</p></div>
+      </div>
+      <div class="card" data-search="sucker punch playstation peer networking sister studio">
+        <div class="card-title">💡 playstation peer connections</div>
+        <div class="card-body"><p>Any Sucker Punch sessions today are your highest-value targets. Sister PlayStation studio, same region, same genre. Use speaker wrap-up rooms.</p></div>
+      </div>
+      <div class="card" data-search="speed networking encounters">
+        <div class="card-title">gdc encounters — speed networking</div>
+        <div class="card-body"><p>3-minute rotations. Surprisingly effective for planting seeds with people you'd never otherwise meet.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">indie arcade party</div>
+          <span class="tag tag-orange">top pick</span>
+        </div>
+        <div class="card-subtitle">DNA Lounge — 7 PM (free w/ Unity/VIVERSE)</div>
+        <div class="card-body"><p>One of the best parties of the week. Great energy, diverse crowd. Bond over playing weird indie games together — natural conversation starter.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">ukrainian games festival</div>
+          <span class="tag tag-dark">evening</span>
+        </div>
+        <div class="card-subtitle">7 PM</div>
+        <div class="card-body"><p>Smaller but heartfelt. Good for connecting with the international dev community.</p></div>
+      </div>
+    </div>
+
+    <!-- WEDNESDAY -->
+    <div class="day-content" data-day="wed">
+      <div class="section-label">peak day // 50/50 sessions + social</div>
+      <div class="card" data-search="ai sima deepmind agents">
+        <div class="card-title">sima: general ai agents via video games</div>
+        <div class="card-subtitle">Google DeepMind</div>
+        <div class="card-body"><p>Frontier of AI-game intersection. Signals where NPC/agent tech is heading in 3–5 years.</p></div>
+      </div>
+      <div class="card" data-search="ai narrative multiagent planning content">
+        <div class="card-title">multiagent planning for narrative content</div>
+        <div class="card-subtitle">Trevor Santarra, Bitpart AI</div>
+        <div class="card-body"><p>AI-driven narrative content at scale. Directly relevant if Bend's next project is narrative-heavy.</p></div>
+      </div>
+      <div class="card" data-search="ai machine learning vehicles star wars ubisoft">
+        <div class="card-title">ml vehicles in star wars outlaws</div>
+        <div class="card-subtitle">Ubisoft</div>
+        <div class="card-body"><p>ML for vehicle physics in open worlds. Practical AAA application.</p></div>
+      </div>
+      <div class="card" data-search="ai innovation prototyping microsoft inworld">
+        <div class="card-title">ai innovation: research to prototyping</div>
+        <div class="card-subtitle">Microsoft + Inworld AI — Workshop</div>
+        <div class="card-body"><p>AI-assisted game prototyping. See what they're pitching vs. what you're already doing with Jarvis.</p></div>
+      </div>
+      <div class="card" data-search="speaker wrap-up room base camp lounge networking">
+        <div class="card-title">💡 speaker wrap-up rooms</div>
+        <div class="card-body"><p>Gold mine. Speakers are there specifically for deeper conversations. This is where 5-minute chats become real connections. Also: Base Camp Lounge for scheduled meetups.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⭐ diversion game tech leaders evening</div>
+          <span class="tag tag-orange">highest priority</span>
+        </div>
+        <div class="card-subtitle">Southside Spirit House — 8:30 PM</div>
+        <div class="card-body"><p>Curated for senior leadership. Smaller crowd, decision-makers, real conversations. <strong>Your #1 evening event of the week.</strong></p></div>
+      </div>
+    </div>
+
+    <!-- THURSDAY -->
+    <div class="day-content" data-day="thu">
+      <div class="section-label">keynote day + awards // 30% sessions, 70% social</div>
+      <div class="card expandable" data-search="rob pardo keynote bonfire games that last multiplayer">
+        <div class="card-header">
+          <div class="card-title">⭐ keynote: rob pardo</div>
+          <span class="tag tag-orange">9:00 am</span>
+        </div>
+        <div class="card-subtitle">"An Odyssey in Building Games That Last"</div>
+        <div class="card-body"><p>Ex-Blizzard, now Bonfire Studios. Building the healthy version of what live-service was supposed to be. Directly relevant to Bend's multiplayer direction.</p></div>
+        <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation angle</button>
+        <div class="card-expand">
+          <p>"Your framing of player love over retention metrics — how does that change the design process day-to-day?"</p>
+        </div>
+      </div>
+      <div class="card expandable" data-search="kojima keynote independence restarting zero">
+        <div class="card-header">
+          <div class="card-title">⭐ keynote: hideo kojima</div>
+          <span class="tag tag-orange">morning</span>
+        </div>
+        <div class="card-subtitle">"Restarting from Zero: A Message to Creators Considering Independence"</div>
+        <div class="card-body"><p>10-year retrospective on founding Kojima Productions. Framework for evaluating creative independence — worth absorbing even if staying at Bend.</p></div>
+        <button class="expand-toggle" onclick="toggleExpand(this)">+ why it matters</button>
+        <div class="card-expand">
+          <p>Industry is bifurcating — mega-studio AAA and lean creative-led teams. Understanding both paths sharpens strategic thinking. The keynote events also offer networking proximity to industry luminaries.</p>
+        </div>
+      </div>
+      <div class="card" data-search="toxic culture brilliant jerks fleur marty">
+        <div class="card-title">brilliant jerks: cost of toxic performance</div>
+        <div class="card-subtitle">Fleur Marty, Gearbox — if scheduled Thursday</div>
+        <div class="card-body"><p>Real-world case study on tolerating high-performing toxic individuals. Studio culture management, especially post-layoffs.</p></div>
+      </div>
+      <div class="card" data-search="brawl stars loot boxes monetization supercell">
+        <div class="card-title">brawl stars: removing loot boxes</div>
+        <div class="card-subtitle">Supercell</div>
+        <div class="card-body"><p>Walking back monetization without destroying a game. Understanding monetization evolution is table stakes.</p></div>
+      </div>
+      <div class="card" data-search="death stranding kojima map ui voxel">
+        <div class="card-title">death stranding 2: voxel 3d ui map</div>
+        <div class="card-subtitle">Ildar Valeev, Kojima Productions</div>
+        <div class="card-body"><p>Innovative map system design. Gold standard for UI/UX in open-world games.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⭐ game developers choice awards</div>
+          <span class="tag tag-orange">6:30 pm</span>
+        </div>
+        <div class="card-subtitle">Main Stage, North Hall</div>
+        <div class="card-body"><p>Every notable director, producer, and studio head in the room. <strong>The 30 minutes before and after the ceremony are prime networking time.</strong> The ceremony itself is secondary to the crowd.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title">💡 post-ceremony parties</div>
+        <div class="card-body"><p>Thursday night has the best parties. Check gdcparties.com — publishers host invite-only receptions, GDC Nights runs late.</p></div>
+      </div>
+    </div>
+
+    <!-- FRIDAY -->
+    <div class="day-content" data-day="fri">
+      <div class="section-label">closing day // all social</div>
+      <div class="card" data-search="toxic performance brilliant jerks fleur marty gearbox">
+        <div class="card-header">
+          <div class="card-title">brilliant jerks: cost of toxic performance</div>
+          <span class="tag tag-dark">9:30 am</span>
+        </div>
+        <div class="card-subtitle">Fleur Marty, Gearbox</div>
+        <div class="card-body"><p>Senior production leader with candid takes on studio culture. Studio culture management is a Game Director's hidden responsibility, especially post-layoffs.</p></div>
+      </div>
+      <div class="card" data-search="trust safety toxicity rachel kowert">
+        <div class="card-header">
+          <div class="card-title">the toxicity tax</div>
+          <span class="tag tag-dark">10:50 am</span>
+        </div>
+        <div class="card-subtitle">Rachel Kowert, Cambridge</div>
+        <div class="card-body"><p>Positions trust/safety as a leadership discipline, not just HR. Follows the Brilliant Jerks session.</p></div>
+      </div>
+      <div class="card" data-search="follow up coffee closing connections">
+        <div class="card-title">💡 friday strategy</div>
+        <div class="card-body">
+          <p>Use today for coffee meetings with people you connected with earlier. Friday is when guards are lowest and "we should actually talk more" conversations happen. Real opportunities surface when the week winds down.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CONTACTS TAB ============ -->
+  <div id="tab-contacts" class="tab-panel">
+    
+    <div class="section-label">tier 1 — playstation peers</div>
+    
+    <div class="card expandable" data-search="sucker punch ghost yotei bellevue open world">
+      <div class="card-header">
+        <div class="card-title">👻 sucker punch</div>
+        <span class="tag tag-orange">local — bellevue</span>
+      </div>
+      <div class="card-subtitle">Sister PS studio · Ghost of Yōtei · Open-world</div>
+      <div class="card-body"><p>Closest peer studio — same publisher, same region, same genre. Legends mode is relevant multiplayer reference.</p></div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation starters</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"Your approach to open-world engagement in Yōtei — how did you balance density vs. discovery?"</div>
+        </div>
+        <div class="convo-card">
+          <div class="convo-label">deeper</div>
+          <div class="convo-text">"It's rare we actually get to talk outside of the Sony structure. How did your team handle the single-project constraint? We're navigating something similar."</div>
+        </div>
+        <div class="convo-card">
+          <div class="convo-label">strategic</div>
+          <div class="convo-text">"Legends mode was a smart multiplayer play within a single-player franchise. What was the internal pitch process for that?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card expandable" data-search="naughty dog narrative single player intergalactic">
+      <div class="card-header">
+        <div class="card-title">🐾 naughty dog</div>
+        <span class="tag tag-dark">santa monica</span>
+      </div>
+      <div class="card-subtitle">PS narrative gold standard · Intergalactic (new IP, 2027)</div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation starters</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"The industry pivot back to single-player — do you think it's a permanent shift or a pendulum?"</div>
+        </div>
+        <div class="convo-card">
+          <div class="convo-label">deeper</div>
+          <div class="convo-text">"How do you pitch brand-new IP internally when you have two mega-franchises? What convinced Sony to greenlight a non-sequel at this budget tier?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card expandable" data-search="santa monica studio god of war ragnarok">
+      <div class="card-header">
+        <div class="card-title">⚔️ santa monica studio</div>
+        <span class="tag tag-dark">los angeles</span>
+      </div>
+      <div class="card-subtitle">God of War · Unannounced project (reveal summer '26?)</div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation starters</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"Building design culture through a rebuild — what stayed and what changed after Ragnarök?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card expandable" data-search="insomniac spider-man wolverine marvel production">
+      <div class="card-header">
+        <div class="card-title">🕷️ insomniac games</div>
+        <span class="tag tag-dark">burbank</span>
+      </div>
+      <div class="card-subtitle">Wolverine (Sep 2026) · Marvel partnership · Sony's AAA factory</div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation starters</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"Your production cadence is legendary — what's the leadership philosophy behind shipping that fast?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">tier 2 — industry peers</div>
+
+    <div class="card expandable" data-search="rob pardo bonfire studios blizzard multiplayer">
+      <div class="card-header">
+        <div class="card-title">rob pardo</div>
+        <span class="tag tag-dark">bonfire studios</span>
+      </div>
+      <div class="card-subtitle">Thursday keynote · Ex-Blizzard · "Games that last"</div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation angle</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"Your framing of player love over retention metrics — how does that change the design process day-to-day?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card expandable" data-search="clair obscur expedition 33 debut studio goty">
+      <div class="card-header">
+        <div class="card-title">clair obscur: expedition 33 team</div>
+        <span class="tag tag-orange">gdc darling</span>
+      </div>
+      <div class="card-subtitle">8 nominations · Turn-based RPG · Debut studio GOTY nominee</div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation angle</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"Shipping a GOTY-nominated debut — what did you get right that bigger studios keep getting wrong?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card expandable" data-search="remedy control alan wake firebreak live service">
+      <div class="card-header">
+        <div class="card-title">remedy leadership</div>
+        <span class="tag tag-dark">helsinki</span>
+      </div>
+      <div class="card-subtitle">Control/Alan Wake · Navigated FBC: Firebreak live-service stumble</div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ conversation angle</button>
+      <div class="card-expand">
+        <div class="convo-card">
+          <div class="convo-label">opener</div>
+          <div class="convo-text">"Remedy's pivot back to what works after Firebreak — we went through something similar. What was your framework for deciding what to keep?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">tier 3 — strategic contacts</div>
+
+    <div class="card" data-search="guerrilla horizon hunters co-op multiplayer">
+      <div class="card-title">guerrilla games</div>
+      <div class="card-subtitle">Horizon Hunters Gathering (co-op) · Amsterdam</div>
+      <div class="card-body"><p><strong>Directly relevant to Bend.</strong> Doing what Bend might be attempting — multiplayer within open-world franchise DNA. Their co-op scope (not full GaaS) appears to be the model Sony now favours.</p></div>
+    </div>
+
+    <div class="card" data-search="housemarque saros returnal helsinki launch">
+      <div class="card-title">housemarque</div>
+      <div class="card-subtitle">Saros launching GDC week (Apr 30) · Helsinki</div>
+      <div class="card-body"><p>Transitioning from roguelike to permanent-progression. Lessons on Sony support infrastructure (Nixxes assist).</p></div>
+    </div>
+
+    <div class="card" data-search="recruiter talent hiring">
+      <div class="card-title">recruiters</div>
+      <div class="card-body"><p>Not because you're looking — because knowing the market keeps you sharp. Let them come to you. Your 16yr + Game Director + open-world expertise puts you in the thinnest talent pyramid.</p></div>
+    </div>
+  </div>
+
+  <!-- ============ STUDIOS TAB ============ -->
+  <div id="tab-studios" class="tab-panel">
+
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-value">17+</div>
+        <div class="stat-label">active studios</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-value">6</div>
+        <div class="stat-label">closed (ps5 gen)</div>
+      </div>
+    </div>
+
+    <div class="section-label">tier 1 — flagship</div>
+
+    <div class="studio-card expandable" data-search="insomniac wolverine spider-man marvel burbank">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">🕷️ insomniac games</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Wolverine — Sep 15, 2026</div>
+      <div class="studio-detail"><strong>Status:</strong> Full production · 300+ staff</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">burbank, ca</span>
+        <span class="tag tag-orange">sony's #1 factory</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body">
+          <p>Sony's most reliable AAA factory. Wolverine is first entry in broader X-Men initiative. Long-term Marvel partnership locked in. Survived Feb 2024 layoffs and devastating Dec 2023 ransomware attack (1.6TB stolen).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="studio-card expandable" data-search="naughty dog intergalactic heretic prophet new ip">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">🐾 naughty dog</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Intergalactic: The Heretic Prophet — Mid 2027</div>
+      <div class="studio-detail"><strong>Status:</strong> Advanced dev (localisation underway) · 7yr cycle</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">santa monica, ca</span>
+        <span class="tag tag-orange">prestige narrative</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body">
+          <p>Sony's prestige narrative studio. First non-sequel since Uncharted 1 — massive bet on new IP. TLOU HBO adds franchise value. Overtime mandated to hit 2027.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="studio-card expandable" data-search="santa monica god of war unannounced 2027">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">⚔️ santa monica studio</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Unannounced — reveal Summer 2026?</div>
+      <div class="studio-detail"><strong>Status:</strong> Multi-year development</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">los angeles, ca</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body"><p>May be fresh take within GoW universe or rebooted classic IP. Core GoW talent leading. Several years in.</p></div>
+      </div>
+    </div>
+
+    <div class="studio-card expandable" data-search="sucker punch ghost yotei legends bellevue">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">👻 sucker punch</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Ghost of Yōtei: Legends (free MP expansion) + deciding next</div>
+      <div class="studio-detail"><strong>Status:</strong> Post-launch · New studio heads</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">bellevue, wa</span>
+        <span class="tag tag-orange">local ally</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body"><p>Closest PS studio geographically. Single-project studio (Brian Fleming confirmed). Debating Ghost series, reviving Sly/Infamous, or new IP. 2026 quiet for announcements. Natural ally for Bend.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label">tier 2 — active development</div>
+
+    <div class="studio-card expandable" data-search="housemarque saros returnal helsinki">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">🌑 housemarque</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Saros — Apr 30, 2026</div>
+      <div class="studio-detail"><strong>Status:</strong> Final production · Nixxes assisting</div>
+      <div class="studio-tags"><span class="tag tag-dark">helsinki, fi</span></div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body"><p>Evolving beyond arcade-roots into narrative-driven action. Permanent progression (not roguelike) — deliberate pivot. Launches during GDC week.</p></div>
+      </div>
+    </div>
+
+    <div class="studio-card expandable" data-search="guerrilla horizon hunters gathering co-op amsterdam">
+      <div class="studio-header">
+        <span class="risk-dot risk-medium"></span>
+        <span class="studio-name">🌿 guerrilla games</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Horizon Hunters Gathering — 3P co-op (PS5 + PC day-one)</div>
+      <div class="studio-detail"><strong>Status:</strong> Active dev · Post-Feb 2024 layoffs</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">amsterdam, nl</span>
+        <span class="tag tag-orange">bend parallel</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body"><p>Their co-op game is the "right way" to do multiplayer within existing franchise — smaller scope, proven IP, not GaaS. Day-one PC. This is likely the template Sony wants other studios to follow. <strong>Directly relevant to Bend's situation.</strong></p></div>
+      </div>
+    </div>
+
+    <div class="studio-card" data-search="firesprite liverpool aaa dark action">
+      <div class="studio-header">
+        <span class="risk-dot risk-elevated"></span>
+        <span class="studio-name">🔥 firesprite</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Unannounced dark action IP</div>
+      <div class="studio-detail"><strong>Status:</strong> Early-mid dev · High risk (unproven at AAA scale)</div>
+      <div class="studio-tags"><span class="tag tag-dark">liverpool, uk</span></div>
+    </div>
+
+    <div class="studio-card" data-search="media molecule dreams new ip guildford">
+      <div class="studio-header">
+        <span class="risk-dot risk-elevated"></span>
+        <span class="studio-name">🎨 media molecule</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> New IP — "more traditional game" (late 2026 / early 2027?)</div>
+      <div class="studio-detail"><strong>Status:</strong> Active dev · Survived near-closure</div>
+      <div class="studio-tags"><span class="tag tag-dark">guildford, uk</span><span class="tag tag-orange">thin ice</span></div>
+    </div>
+
+    <div class="section-label">tier 3 — support / early stage</div>
+
+    <div class="studio-card" data-search="team asobi astro bot goty tokyo">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">🤖 team asobi</span>
+      </div>
+      <div class="studio-detail"><strong>Recent:</strong> Astro Bot — GOTY at TGA 2024</div>
+      <div class="studio-detail"><strong>Status:</strong> Hiring for next project · Big internal capital</div>
+      <div class="studio-tags"><span class="tag tag-dark">tokyo, jp</span></div>
+    </div>
+
+    <div class="studio-card" data-search="polyphony gran turismo tokyo">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">🏎️ polyphony digital</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> GT7 live updates · GT8 early planning</div>
+      <div class="studio-tags"><span class="tag tag-dark">tokyo, jp</span></div>
+    </div>
+
+    <div class="studio-card" data-search="nixxes pc ports support utrecht">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">🔧 nixxes software</span>
+      </div>
+      <div class="studio-detail"><strong>Role:</strong> PC ports + studio support (currently on Saros)</div>
+      <div class="studio-tags"><span class="tag tag-dark">utrecht, nl</span><span class="tag tag-dark">infrastructure</span></div>
+    </div>
+
+    <div class="studio-card" data-search="valkyrie co-development seattle support">
+      <div class="studio-header">
+        <span class="risk-dot risk-low"></span>
+        <span class="studio-name">⚙️ valkyrie entertainment</span>
+      </div>
+      <div class="studio-detail"><strong>Role:</strong> Co-dev support for other PS studios</div>
+      <div class="studio-tags"><span class="tag tag-dark">seattle, wa</span><span class="tag tag-orange">local</span></div>
+    </div>
+
+    <div class="section-label">tier 4 — high risk</div>
+
+    <div class="studio-card expandable" data-search="bungie marathon destiny extraction shooter bellevue">
+      <div class="studio-header">
+        <span class="risk-dot risk-high"></span>
+        <span class="studio-name">🏃 bungie</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Marathon — launched Mar 5, 2026</div>
+      <div class="studio-detail"><strong>Status:</strong> Post-launch critical period · $204M impairment</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">bellevue, wa</span>
+        <span class="tag tag-orange">existential</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body"><p>Marathon is existential — if it fails, Bungie's independence within Sony is over. 17% layoffs (2024), director replaced, delayed from Sep 2025 after poor alpha. Early reception mixed. Marathon launched 3 days before GDC — their team is either celebrating or in damage control.</p></div>
+      </div>
+    </div>
+
+    <div class="studio-card expandable" data-search="haven fairgames jade raymond montreal">
+      <div class="studio-header">
+        <span class="risk-dot risk-high"></span>
+        <span class="studio-name">🎯 haven studios</span>
+      </div>
+      <div class="studio-detail"><strong>Project:</strong> Fairgame$ — heist PvPvE (Spring 2026, low credibility)</div>
+      <div class="studio-detail"><strong>Status:</strong> Lost founder + creative director</div>
+      <div class="studio-tags">
+        <span class="tag tag-dark">montreal, ca</span>
+        <span class="tag tag-orange">likely next closure</span>
+      </div>
+      <button class="expand-toggle" onclick="toggleExpand(this)">+ details</button>
+      <div class="card-expand">
+        <div class="card-body"><p>Jade Raymond left May 2025 after poor external test. Game director left Aug 2025. Negative test: "generic, no identity." Writing on the wall. If Haven people are at GDC, they're likely networking for exit options.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label">closed studios (ps5 generation)</div>
+
+    <div class="closed-item"><span>Japan Studio</span><span>2021 — restructured → Team Asobi</span></div>
+    <div class="closed-item"><span>PixelOpus</span><span>2023 — cancelled project</span></div>
+    <div class="closed-item"><span>London Studio</span><span>Feb 2024 — 900-person restructuring</span></div>
+    <div class="closed-item"><span>Firewalk Studios</span><span>2024 — Concord catastrophe</span></div>
+    <div class="closed-item"><span>Neon Koi</span><span>2024 — mobile LS cancelled</span></div>
+    <div class="closed-item"><span>Bluepoint Games</span><span>Feb 2026 — GoW LS cancelled</span></div>
+
+    <div class="card" style="margin-top: 16px; border-left: 3px solid var(--risk-red);">
+      <div class="card-title">⚠️ the pattern</div>
+      <div class="card-body"><p>Every closed studio was either (a) working on a live-service game that got cancelled, or (b) couldn't secure a new greenlit project after cancellation. <strong>Directly relevant to Bend's situation.</strong></p></div>
+    </div>
+  </div>
+
+  <!-- ============ PLAYBOOK TAB ============ -->
+  <div id="tab-playbook" class="tab-panel">
+
+    <div class="section-label">conversation frameworks</div>
+
+    <div class="convo-card" data-search="opener introduction">
+      <div class="convo-label">the opener — don't lead with title</div>
+      <div class="convo-text">❌ "Hi, I'm [name], Game Director at Bend Studio."
+
+✅ "Hey, I really liked your point about [X]. I've been wrestling with something similar — [brief context]."
+
+Your title comes up naturally. When it does, it lands harder because they already respect your thinking.</div>
+    </div>
+
+    <div class="convo-card" data-search="cancelled project bend deflection">
+      <div class="convo-label">when they ask about bend's cancelled project</div>
+      <div class="convo-text">"Yeah, it was a tough call but ultimately the right one. The team learned a lot, and what we're building now is stronger for it. Can't say much yet, but I'm genuinely excited about where we're headed."
+
+Acknowledge it happened. Frame as learning. Pivot to momentum. Never badmouth Sony, the project, or former colleagues.</div>
+    </div>
+
+    <div class="convo-card" data-search="looking job career opportunity">
+      <div class="convo-label">when they ask if you're looking</div>
+      <div class="convo-text">"I'm always interested in what's happening across the industry — that's half the reason to be at GDC. Right now I'm focused on what we're cooking at Bend, but I never close doors."
+
+Keeps options open without signaling desperation or disloyalty.</div>
+    </div>
+
+    <div class="convo-card" data-search="explore opportunity subtle coffee">
+      <div class="convo-label">when you want to explore (subtly)</div>
+      <div class="convo-text">"That sounds like a fascinating challenge. I'd love to hear more about where that project is headed — maybe grab coffee later this week?"
+
+Move to 1:1. Never discuss career moves in a group or near your studio colleagues.</div>
+    </div>
+
+    <div class="convo-card" data-search="playstation peer sony internal">
+      <div class="convo-label">for playstation peers</div>
+      <div class="convo-text">"It's rare we actually get to talk outside of the Sony structure. I'd love to hear how your team handled [specific challenge] — we're navigating something similar at Bend."
+
+PS peers are the most valuable connections — allies, collaborators, internal advocates.</div>
+    </div>
+
+    <div class="convo-card" data-search="close end conversation contact">
+      <div class="convo-label">the close</div>
+      <div class="convo-text">"This was great — I'd love to keep this going. Can I grab your email / are you on LinkedIn?"
+
+Then immediately note: "Sarah - Naughty Dog - narrative systems." You will forget by Thursday if you don't.</div>
+    </div>
+
+    <div class="section-label">strategic questions for ps peers</div>
+
+    <div class="card" data-search="greenlight pitch process">
+      <div class="card-body">
+        <div class="ref-item"><strong>1.</strong> "How is the internal greenlight process evolving? What does a successful pitch look like now?"</div>
+        <div class="ref-item"><strong>2.</strong> "What's the appetite for new IP vs. franchise extension at the studio level?"</div>
+        <div class="ref-item"><strong>3.</strong> "How are teams sizing multiplayer scope after the live-service corrections?"</div>
+        <div class="ref-item"><strong>4.</strong> "What does Hulst's team look at when evaluating whether a studio stays open?"</div>
+      </div>
+    </div>
+
+    <div class="section-label">hallway conversations — what everyone's talking about</div>
+
+    <div class="card" data-search="ai studio adoption">
+      <div class="card-title">"what's your studio doing about AI?"</div>
+      <div class="card-body"><p>Every studio is asked this. Have a thoughtful answer. 52% negative sentiment — frame as empowering creators, not replacing them. 36% adoption rate.</p></div>
+    </div>
+    <div class="card" data-search="rebuilding layoffs morale culture">
+      <div class="card-title">"how are you rebuilding after layoffs?"</div>
+      <div class="card-body"><p>Team culture and morale post-cuts is the elephant in every room. 28% of devs laid off in past 2 years.</p></div>
+    </div>
+    <div class="card" data-search="live service dead gaas">
+      <div class="card-title">"is live-service dead?"</div>
+      <div class="card-body"><p>No, but the bar just got astronomically higher. 11/19 major 2025 launches lost 80-99% of players. Only top-5 in each genre survive.</p></div>
+    </div>
+    <div class="card" data-search="sony playstation next move silence">
+      <div class="card-title">"what's sony's next move?"</div>
+      <div class="card-body"><p>Their GDC silence fuels speculation. Scaled-back presence — only PS Indie Breakfast confirmed. Strategic silence, not disengagement.</p></div>
+    </div>
+
+    <div class="section-label">follow-up templates</div>
+
+    <div class="template-card" data-search="follow up email template general">
+      <div class="template-subject">general connection</div>
+      <div class="template-body">Subject: Great meeting you at GDC — [your name]
+
+Hi [Name],
+
+Really enjoyed our conversation at [event/session] about [specific topic]. Your perspective on [detail] stuck with me.
+
+Would love to stay connected and continue the conversation. If you're ever interested in comparing notes on [shared interest], I'm always up for it.
+
+Cheers,
+[Name]
+Game Director, Bend Studio</div>
+      <button class="copy-btn" onclick="copyTemplate(this)">copy</button>
+    </div>
+
+    <div class="template-card" data-search="follow up email template opportunity collaboration">
+      <div class="template-subject">potential opportunity</div>
+      <div class="template-body">Subject: Following up — [topic you discussed]
+
+Hi [Name],
+
+Thanks for the great conversation at GDC. What you shared about [project/challenge/opportunity] was genuinely compelling.
+
+I'd love to hear more when the dust settles from the conference. Would you have 30 minutes for a call in the next week or two?
+
+Best,
+[Name]</div>
+      <button class="copy-btn" onclick="copyTemplate(this)">copy</button>
+    </div>
+
+    <div class="template-card" data-search="follow up email template playstation peer">
+      <div class="template-subject">playstation peer</div>
+      <div class="template-body">Subject: Fellow PS director checking in
+
+Hi [Name],
+
+One of the highlights of my GDC was getting to actually talk shop with you outside the usual Sony structure. Your insight on [topic] was exactly what I needed to hear.
+
+Let's not wait until next GDC to do this again. Happy to jump on a call anytime.
+
+[Name]</div>
+      <button class="copy-btn" onclick="copyTemplate(this)">copy</button>
+    </div>
+
+    <div class="template-card" data-search="follow up email template recruiter warm">
+      <div class="template-subject">recruiter / keep warm</div>
+      <div class="template-body">Subject: Thanks for the conversation
+
+Hi [Name],
+
+Appreciated you taking the time to chat at GDC. The work your team is doing on [project] sounds impressive.
+
+I'm not actively looking to make a move, but I'm always interested in staying connected with great people. Let's keep in touch.
+
+Best,
+[Name]</div>
+      <button class="copy-btn" onclick="copyTemplate(this)">copy</button>
+    </div>
+
+    <div class="section-label">unwritten rules</div>
+
+    <div class="card" data-search="networking rules tips logistics">
+      <div class="card-body">
+        <div class="ref-item"><strong>🏢 real gdc happens outside moscone.</strong> Budget 40%+ of time for unstructured social time.</div>
+        <div class="ref-item"><strong>🤝 conversations > cards.</strong> One genuine 20-min chat beats 50 card exchanges.</div>
+        <div class="ref-item"><strong>🍺 buy the first round.</strong> Low-cost, high-signal move at any after-party.</div>
+        <div class="ref-item"><strong>⏰ 48-hour follow-up rule.</strong> Personalized follow-up within 48 hours or the connection fades.</div>
+        <div class="ref-item"><strong>🤐 never trash talk.</strong> Industry is shockingly small. Everything gets back.</div>
+        <div class="ref-item"><strong>🚪 the hallway test.</strong> "Going to grab a coffee — great chatting." No one is offended.</div>
+        <div class="ref-item"><strong>🔋 energy management.</strong> GDC is a marathon. Sharp on Thursday > burned out by Wednesday.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INTEL TAB ============ -->
+  <div id="tab-intel" class="tab-panel">
+    
+    <div class="section-label">industry state of play</div>
+
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-value">$62.8B</div>
+        <div class="stat-label">us game spend</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-value">25K+</div>
+        <div class="stat-label">layoffs since '22</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-value">11/19</div>
+        <div class="stat-label">LS launches failed</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-value">82%</div>
+        <div class="stat-label">union support (us)</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-value">52%</div>
+        <div class="stat-label">ai negative sent.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-value">4/6</div>
+        <div class="stat-label">goty = single-player</div>
+      </div>
+    </div>
+
+    <div class="section-label">what this means for bend</div>
+
+    <div class="card" data-search="single player validation open world resurgence">
+      <div class="card-title">✅ industry validates bend's return to SP</div>
+      <div class="card-body"><p>Every data point — sales, awards, player retention, GDC session focus — points the same direction. Bend's DNA (Syphon Filter → Days Gone) aligns with the market.</p></div>
+    </div>
+
+    <div class="card" data-search="ghost yotei benchmark sucker punch">
+      <div class="card-title">🎯 ghost of yōtei is the benchmark</div>
+      <div class="card-body"><p>Sucker Punch's open-world sessions are the most strategically relevant content at this GDC. GOTY nominee, fellow PS studio.</p></div>
+    </div>
+
+    <div class="card" data-search="ai adoption culturally radioactive sentiment negative">
+      <div class="card-title">🤖 ai: useful but culturally radioactive</div>
+      <div class="card-body"><p>52% negative sentiment rising. Must frame as empowering creators, not replacing them. Your AI-assisted work is ahead of the curve but deploy carefully in studio settings.</p></div>
+    </div>
+
+    <div class="card" data-search="job market experienced directors hiring">
+      <div class="card-title">📊 job market favours experienced directors</div>
+      <div class="card-body"><p>16yr + Game Director + open-world = thinnest talent pyramid. Hiring pool is deepest in a decade. You have leverage whether staying or exploring.</p></div>
+    </div>
+
+    <div class="card" data-search="live service reckoning failure graveyard">
+      <div class="card-title">💀 live-service graveyard</div>
+      <div class="card-body"><p>Supervive (-99.4%), FragPunk (-98%), most 2025 launches cratered. FBC: Firebreak — beloved SP studio forced into LS with predictable results. Ammunition for any internal debate about project direction.</p></div>
+    </div>
+
+    <div class="section-label">bend's risk factors</div>
+
+    <div class="card" style="border-left: 3px solid var(--risk-red);" data-search="bluepoint precedent closure risk">
+      <div class="card-title">1. the bluepoint precedent</div>
+      <div class="card-body"><p>Survived initial cancellation but couldn't get new project greenlit → closed. Bend MUST ensure current project has strong internal support.</p></div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--risk-yellow);" data-search="multiplayer scope co-op not gaas">
+      <div class="card-title">2. multiplayer ≠ live-service</div>
+      <div class="card-body"><p>Guerrilla's co-op approach (smaller scope, proven IP, not GaaS) is the approved model. Full GaaS is toxic internally.</p></div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--risk-yellow);" data-search="creative director hire vacancy">
+      <div class="card-title">3. creative director vacancy</div>
+      <div class="card-body"><p>Not having a locked-in creative lead is a vulnerability. Arguably the most important hire Bend makes this year.</p></div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--risk-yellow);" data-search="days gone ip franchise no established">
+      <div class="card-title">4. no established franchise for multiplayer</div>
+      <div class="card-body"><p>Unlike Guerrilla (Horizon) or Insomniac (Marvel), Bend doesn't have a franchise to build MP around. Days Gone IP status uncertain within Sony.</p></div>
+    </div>
+
+    <div class="section-label">awards — what the nominees signal</div>
+
+    <div class="card" data-search="goty nominees awards signal clair obscur">
+      <div class="card-title">game of the year nominees</div>
+      <div class="card-body">
+        <div class="ref-item"><strong>Clair Obscur: Expedition 33</strong> — leads with 8 nominations, turn-based RPG, debut studio</div>
+        <div class="ref-item"><strong>Blue Prince</strong> — puzzle/exploration indie</div>
+        <div class="ref-item"><strong>Donkey Kong Bananza</strong> — Nintendo IP</div>
+        <div class="ref-item"><strong>Ghost of Yōtei</strong> — Sucker Punch, open-world action</div>
+        <div class="ref-item"><strong>Hollow Knight: Silksong</strong> — long-awaited indie sequel</div>
+        <div class="ref-item"><strong>Split Fiction</strong> — Hazelight co-op narrative</div>
+        <p style="margin-top: 10px; color: var(--orange); font-family: 'Space Mono', monospace; font-size: 12px;">Zero live-service games nominated. The creative class has spoken.</p>
+      </div>
+    </div>
+
+    <div class="section-label">what to listen for at gdc</div>
+
+    <div class="card" data-search="hulst keynote sony evaluate sustainable">
+      <div class="card-body">
+        <div class="ref-item"><strong>Hulst's themes:</strong> Signals about how Sony evaluates studio projects. Watch for "sustainable development" and "right-sized teams."</div>
+        <div class="ref-item"><strong>Marathon reception:</strong> If it struggles, Sony's MP appetite from other studios (including Bend) could cool further.</div>
+        <div class="ref-item"><strong>Haven whispers:</strong> Fairgame$ cancellation would signal Sony still cutting LS bets — raises Bend's risk profile.</div>
+        <div class="ref-item"><strong>Guerrilla's framing:</strong> How they talk about Horizon Hunters reveals what "good MP" looks like to Sony now.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="nav">
+  <button class="active" data-tab="schedule"><span class="icon">📅</span>schedule</button>
+  <button data-tab="contacts"><span class="icon">👥</span>contacts</button>
+  <button data-tab="studios"><span class="icon">🏢</span>studios</button>
+  <button data-tab="playbook"><span class="icon">💬</span>playbook</button>
+  <button data-tab="intel"><span class="icon">📊</span>intel</button>
+</div>
+
+<script>
+// Tab navigation
+document.querySelectorAll('.nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+// Day tabs
+document.querySelectorAll('.day-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector('.day-content[data-day="' + tab.dataset.day + '"]').classList.add('active');
+  });
+});
+
+// Expand/collapse
+function toggleExpand(btn) {
+  const card = btn.closest('.expandable');
+  card.classList.toggle('open');
+  btn.textContent = card.classList.contains('open') ? '− collapse' : '+ ' + btn.textContent.replace(/^[+−] /, '');
+}
+
+// Copy template
+function copyTemplate(btn) {
+  const text = btn.previousElementSibling.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied ✓';
+    setTimeout(() => btn.textContent = 'copy', 2000);
+  });
+}
+
+// Global search
+const searchInput = document.getElementById('globalSearch');
+let searchTimeout;
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    const query = searchInput.value.toLowerCase().trim();
+    
+    if (!query) {
+      // Show everything
+      document.querySelectorAll('.card, .convo-card, .studio-card, .template-card, .closed-item, .ref-item, .stat-row, .stat-block, .section-label, .day-tabs, .day-content, .day-tab').forEach(el => {
+        el.style.display = '';
+      });
+      // Reset to schedule tab showing current day or first
+      return;
+    }
+
+    const words = query.split(/\s+/);
+    
+    // Search across all tabs - show matching items, hide non-matching
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      panel.classList.add('active'); // temporarily show all panels for search
+    });
+    
+    // Hide day tabs during search
+    document.querySelectorAll('.day-tabs').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.day-content').forEach(el => {
+      el.style.display = 'block';
+    });
+
+    // Search cards
+    const searchables = document.querySelectorAll('.card, .convo-card, .studio-card, .template-card');
+    let hasResults = {};
+    
+    searchables.forEach(el => {
+      const searchText = (el.textContent + ' ' + (el.dataset.search || '')).toLowerCase();
+      const matches = words.every(w => searchText.includes(w));
+      el.style.display = matches ? '' : 'none';
+      if (matches) {
+        const panel = el.closest('.tab-panel');
+        if (panel) hasResults[panel.id] = true;
+      }
+    });
+
+    // Hide section labels that have no visible cards after them
+    document.querySelectorAll('.section-label').forEach(label => {
+      let next = label.nextElementSibling;
+      let hasVisible = false;
+      while (next && !next.classList.contains('section-label')) {
+        if (next.style.display !== 'none' && (next.classList.contains('card') || next.classList.contains('convo-card') || next.classList.contains('studio-card') || next.classList.contains('template-card'))) {
+          hasVisible = true;
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+      label.style.display = hasVisible ? '' : 'none';
+    });
+
+    // Hide stat rows during search
+    document.querySelectorAll('.stat-row').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.closed-item').forEach(el => el.style.display = 'none');
+
+    // Hide empty tab panels
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      if (!hasResults[panel.id]) {
+        panel.classList.remove('active');
+      }
+    });
+
+    // Highlight active nav buttons
+    document.querySelectorAll('.nav button').forEach(btn => {
+      const tabId = 'tab-' + btn.dataset.tab;
+      btn.style.opacity = hasResults[tabId] ? '1' : '0.3';
+    });
+
+  }, 200);
+});
+
+// Clear search restores normal state
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+    searchInput.blur();
+    
+    // Restore proper tab state
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    const activeTab = document.querySelector('.nav button.active');
+    if (activeTab) {
+      document.getElementById('tab-' + activeTab.dataset.tab).classList.add('active');
+    }
+    document.querySelectorAll('.nav button').forEach(b => b.style.opacity = '1');
+    document.querySelectorAll('.day-tabs').forEach(el => el.style.display = '');
+    document.querySelectorAll('.stat-row').forEach(el => el.style.display = '');
+    document.querySelectorAll('.closed-item').forEach(el => el.style.display = '');
+  }
+});
+
+// Auto-select today's day tab
+const today = new Date();
+const dayMap = {0:'sun',1:'mon',2:'tue',3:'wed',4:'thu',5:'fri',6:'sat'};
+const todayKey = dayMap[today.getDay()];
+const todayTab = document.querySelector('.day-tab[data-day="'+todayKey+'"]');
+if (todayTab) {
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+  todayTab.classList.add('active');
+  const dc = document.querySelector('.day-content[data-day="'+todayKey+'"]');
+  if (dc) dc.classList.add('active');
+}
+</script>
+
+</body>
+</html>
