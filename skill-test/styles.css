@@ -1,21 +1,24 @@
 /* ══════════════════════════════════════════
    Kira Tanaka — Game Director Portfolio
-   Teenage Engineering Aesthetic
-   Space Mono + Outfit | Orange on White
+   TE EP-133 × Game Boy Retro-Futuristic
+   Space Mono + Outfit | TE Orange-Red on Cream
    ══════════════════════════════════════════ */
 
 /* ===== VARIABLES ===== */
 :root {
-    --bg: #ffffff;
-    --bg-elevated: #f4f4f4;
-    --bg-card: #f4f4f4;
-    --orange: #ff7a1a;
-    --orange-hover: #e35b00;
-    --orange-dim: rgba(255, 122, 26, 0.12);
-    --border: #d6d6d6;
-    --text: #444444;
-    --text-dim: #6b6b6b;
-    --text-bright: #111111;
+    --bg: #e8e6e0;           /* warm cream — Game Boy body colour */
+    --bg-elevated: #d8d6d0;  /* slightly darker cream for cards */
+    --bg-card: #dedad3;
+    --bg-dark: #111111;      /* TE nav black */
+    --orange: #ff3c00;       /* TE hardware orange-red — EP-133 buttons */
+    --orange-hover: #cc2e00;
+    --orange-dim: rgba(255, 60, 0, 0.12);
+    --accent-green: #4a7c59; /* Game Boy screen green — used very sparingly */
+    --border: #b8b5ae;       /* warm gray border */
+    --border-dark: #888580;
+    --text: #3a3835;
+    --text-dim: #6e6b66;
+    --text-bright: #1a1816;
     --font-mono: 'Space Mono', monospace;
     --font-body: 'Outfit', sans-serif;
     --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -39,17 +42,15 @@ body {
     overflow-x: hidden;
 }
 
-/* ===== ENGINEERING GRID TEXTURE ===== */
+/* ===== DOT-MATRIX TEXTURE (Game Boy screen feel) ===== */
 .grid-texture {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.035;
-    background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 8px 8px;
+    opacity: 0.18;
+    background-image: radial-gradient(circle, var(--border-dark) 1px, transparent 1px);
+    background-size: 6px 6px;
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -82,6 +83,48 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════
    HERO
    ═══════════════════════════════════════ */
+/* TE Nav Bar */
+.te-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 40px;
+    border-bottom: 1px solid #333;
+}
+
+.te-nav-brand {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.08em;
+}
+
+.te-nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.te-nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: #888;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+}
+
+.te-nav-links a:hover {
+    color: var(--orange);
+}
+
 .hero {
     min-height: 100vh;
     min-height: 100dvh;
@@ -91,7 +134,7 @@ h1, h2, h3 {
     justify-content: center;
     text-align: center;
     position: relative;
-    padding: 3rem 2rem;
+    padding: 5rem 2rem 3rem;
     background: var(--bg);
     overflow: hidden;
     z-index: 1;
@@ -406,15 +449,16 @@ h1, h2, h3 {
 /* ── PROJECT CARDS (image overlay style) ── */
 .project-card {
     margin-bottom: 4rem;
-    border-radius: 12px;
+    border-radius: 3px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    transition: box-shadow 0.4s var(--ease);
+    border: 1px solid var(--border-dark);
+    background: var(--bg-elevated);
+    transition: box-shadow 0.4s var(--ease), border-color 0.3s var(--ease);
 }
 
 .project-card:hover {
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+    border-color: var(--orange);
+    box-shadow: 3px 3px 0 var(--orange);
 }
 
 .project-card-image {
@@ -546,12 +590,13 @@ h1, h2, h3 {
     font-family: var(--font-mono);
     font-size: 0.6rem;
     font-weight: 400;
-    padding: 0.4rem 0.85rem;
-    border: 1px solid var(--border);
-    border-radius: 100px;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border-dark);
+    border-radius: 2px;
     color: var(--text-dim);
     letter-spacing: 0.04em;
-    transition: background 0.3s var(--ease), border-color 0.3s var(--ease), color 0.3s var(--ease);
+    background: var(--bg);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .project-tags span:hover {
@@ -651,10 +696,11 @@ h1, h2, h3 {
 }
 
 .speaking-card {
-    background: var(--bg);
-    border: none;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-dark);
+    border-radius: 2px;
     padding: 2rem;
-    transition: background 0.3s var(--ease);
+    transition: background 0.3s var(--ease), border-color 0.2s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
 }
@@ -755,23 +801,23 @@ h1, h2, h3 {
 
 .cta-btn {
     display: inline-block;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 1rem 2.5rem;
-    background: var(--orange);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    padding: 0.9rem 2.5rem;
+    background: var(--bg-dark);
     color: #ffffff;
     text-decoration: none;
     letter-spacing: 0.04em;
-    border-radius: 100px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+    border-radius: 2px;
+    border: 1px solid var(--bg-dark);
+    transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .cta-btn:hover {
-    background: var(--orange-hover);
-    transform: translateY(-2px);
+    background: var(--orange);
+    border-color: var(--orange);
+    box-shadow: 2px 2px 0 var(--bg-dark);
 }
 
 /* Footer */
@@ -881,5 +927,15 @@ h1, h2, h3 {
     .hero-stats {
         flex-direction: column;
         gap: 1.5rem;
+    }
+}
+
+/* TE Nav responsive */
+@media (max-width: 600px) {
+    .te-nav-links {
+        display: none;
+    }
+    .te-nav-brand {
+        font-size: 0.65rem;
     }
 }
