@@ -476,6 +476,267 @@ body::before {
 
 .closed-item:last-child { border-bottom: none; }
 
+/* tracker tab styles */
+.tracker-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.tracker-form label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  color: var(--mid);
+  display: block;
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+.tracker-form label:first-child { margin-top: 0; }
+
+.tracker-form input,
+.tracker-form select,
+.tracker-form textarea {
+  width: 100%;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--dark);
+  outline: none;
+}
+
+.tracker-form input:focus,
+.tracker-form select:focus,
+.tracker-form textarea:focus {
+  border-color: var(--orange);
+}
+
+.tracker-form textarea { resize: vertical; min-height: 60px; }
+
+.tracker-form select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.tracker-add-btn {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  text-transform: lowercase;
+  background: var(--dark);
+  color: var(--orange);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  margin-top: 14px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.tracker-add-btn:active { opacity: 0.8; }
+
+.contact-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.contact-card.urgent { border-left: 3px solid var(--risk-red); }
+.contact-card.soon { border-left: 3px solid var(--risk-yellow); }
+.contact-card.sent { border-left: 3px solid var(--risk-green); opacity: 0.7; }
+
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.contact-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+.contact-company {
+  font-size: 13px;
+  color: var(--mid);
+}
+
+.contact-context {
+  font-size: 14px;
+  color: var(--dark);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.contact-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--light);
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.contact-actions button {
+  flex: 1;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  text-transform: lowercase;
+  padding: 6px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--mid);
+}
+
+.contact-actions button.primary {
+  background: rgba(255,122,26,0.1);
+  border-color: rgba(255,122,26,0.3);
+  color: var(--orange);
+}
+
+.contact-actions button:active { opacity: 0.7; }
+
+.countdown-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.countdown-badge.red { background: rgba(239,68,68,0.15); color: var(--risk-red); }
+.countdown-badge.yellow { background: rgba(234,179,8,0.15); color: #b8860b; }
+.countdown-badge.green { background: rgba(34,197,94,0.15); color: var(--risk-green); }
+
+.tracker-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.tracker-stat {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+}
+
+.tracker-stat .stat-value { font-size: 18px; }
+
+.tracker-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+.tracker-filter button {
+  flex-shrink: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  text-transform: lowercase;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: var(--mid);
+}
+
+.tracker-filter button.active {
+  background: var(--dark);
+  color: var(--orange);
+  border-color: var(--dark);
+}
+
+.email-preview {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-line;
+  display: none;
+}
+
+.email-preview.visible { display: block; }
+
+.export-btn {
+  display: block;
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  text-transform: lowercase;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--mid);
+  text-align: center;
+  margin-top: 16px;
+}
+
+.export-btn:active { border-color: var(--orange); color: var(--orange); }
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--light);
+}
+
+.empty-state .icon { font-size: 32px; margin-bottom: 12px; }
+
+.empty-state p {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--light);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.delete-btn:hover { color: var(--risk-red); }
+
 /* responsive */
 @media (min-width: 420px) {
   .content { padding: 20px; max-width: 600px; margin: 0 auto; }
@@ -1267,6 +1528,69 @@ Best,
     </div>
   </div>
 
+  <!-- ============ TRACKER TAB ============ -->
+  <div id="tab-tracker" class="tab-panel">
+
+    <div class="tracker-stats" id="trackerStats">
+      <div class="tracker-stat">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">contacts</div>
+      </div>
+      <div class="tracker-stat">
+        <div class="stat-value" id="statPending">0</div>
+        <div class="stat-label">need follow-up</div>
+      </div>
+      <div class="tracker-stat">
+        <div class="stat-value" id="statSent">0</div>
+        <div class="stat-label">sent</div>
+      </div>
+    </div>
+
+    <div class="tracker-filter" id="trackerFilter">
+      <button class="active" data-filter="all">all</button>
+      <button data-filter="urgent">⏰ urgent</button>
+      <button data-filter="pending">pending</button>
+      <button data-filter="sent">sent ✓</button>
+    </div>
+
+    <!-- Add contact form -->
+    <div class="tracker-form" id="addContactForm">
+      <div class="section-label" style="margin-top: 0;">+ quick add contact</div>
+      <label>name *</label>
+      <input type="text" id="ctName" placeholder="sarah chen" autocomplete="off">
+      <label>company / studio</label>
+      <input type="text" id="ctCompany" placeholder="naughty dog">
+      <label>where you met</label>
+      <select id="ctWhere">
+        <option value="">select...</option>
+        <option value="session">session / talk</option>
+        <option value="party">party / social event</option>
+        <option value="hallway">hallway / cafeteria</option>
+        <option value="speaker-room">speaker wrap-up room</option>
+        <option value="meeting">scheduled meeting</option>
+        <option value="other">other</option>
+      </select>
+      <label>context / what you discussed</label>
+      <textarea id="ctContext" placeholder="talked about open-world design philosophy, interested in co-op scope approach..."></textarea>
+      <label>priority</label>
+      <select id="ctPriority">
+        <option value="high">🔴 high — follow up within 24h</option>
+        <option value="medium" selected>🟡 medium — follow up within 48h</option>
+        <option value="low">🟢 low — nice to stay connected</option>
+      </select>
+      <label>email (if you got it)</label>
+      <input type="email" id="ctEmail" placeholder="sarah@studio.com" autocomplete="off">
+      <button class="tracker-add-btn" onclick="addContact()">+ add contact</button>
+    </div>
+
+    <!-- Contact list -->
+    <div id="contactList"></div>
+
+    <button class="export-btn" onclick="exportContacts()" id="exportBtn" style="display:none;">
+      📋 export all contacts as text
+    </button>
+  </div>
+
   <!-- ============ INTEL TAB ============ -->
   <div id="tab-intel" class="tab-panel">
     
@@ -1380,10 +1704,11 @@ Best,
 
 <!-- BOTTOM NAV -->
 <div class="nav">
-  <button class="active" data-tab="schedule"><span class="icon">📅</span>schedule</button>
+  <button class="active" data-tab="schedule"><span class="icon">📅</span>sched</button>
   <button data-tab="contacts"><span class="icon">👥</span>contacts</button>
   <button data-tab="studios"><span class="icon">🏢</span>studios</button>
   <button data-tab="playbook"><span class="icon">💬</span>playbook</button>
+  <button data-tab="tracker"><span class="icon">📝</span>tracker</button>
   <button data-tab="intel"><span class="icon">📊</span>intel</button>
 </div>
 
@@ -1523,6 +1848,261 @@ searchInput.addEventListener('keydown', (e) => {
     document.querySelectorAll('.closed-item').forEach(el => el.style.display = '');
   }
 });
+
+// ============ TRACKER FUNCTIONALITY ============
+
+// localStorage key
+const TRACKER_KEY = 'gdc2026_contacts';
+
+function getContacts() {
+  try { return JSON.parse(localStorage.getItem(TRACKER_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveContacts(contacts) {
+  localStorage.setItem(TRACKER_KEY, JSON.stringify(contacts));
+}
+
+function addContact() {
+  const name = document.getElementById('ctName').value.trim();
+  if (!name) { document.getElementById('ctName').style.borderColor = 'var(--risk-red)'; return; }
+
+  const contact = {
+    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+    name: name,
+    company: document.getElementById('ctCompany').value.trim(),
+    where: document.getElementById('ctWhere').value,
+    context: document.getElementById('ctContext').value.trim(),
+    priority: document.getElementById('ctPriority').value,
+    email: document.getElementById('ctEmail').value.trim(),
+    addedAt: new Date().toISOString(),
+    status: 'pending', // pending | sent
+    sentAt: null
+  };
+
+  const contacts = getContacts();
+  contacts.unshift(contact);
+  saveContacts(contacts);
+
+  // Reset form
+  document.getElementById('ctName').value = '';
+  document.getElementById('ctCompany').value = '';
+  document.getElementById('ctWhere').value = '';
+  document.getElementById('ctContext').value = '';
+  document.getElementById('ctPriority').value = 'medium';
+  document.getElementById('ctEmail').value = '';
+  document.getElementById('ctName').style.borderColor = '';
+
+  renderContacts();
+}
+
+function deleteContact(id) {
+  if (!confirm('Remove this contact?')) return;
+  const contacts = getContacts().filter(c => c.id !== id);
+  saveContacts(contacts);
+  renderContacts();
+}
+
+function markSent(id) {
+  const contacts = getContacts();
+  const c = contacts.find(x => x.id === id);
+  if (c) {
+    c.status = c.status === 'sent' ? 'pending' : 'sent';
+    c.sentAt = c.status === 'sent' ? new Date().toISOString() : null;
+    saveContacts(contacts);
+    renderContacts();
+  }
+}
+
+function getFollowUpTemplate(contact) {
+  const name = contact.name.split(' ')[0]; // first name
+  const company = contact.company || 'your studio';
+  const context = contact.context || '[specific topic you discussed]';
+  const where = {
+    'session': 'after the session',
+    'party': 'at the party',
+    'hallway': 'in the hallway at Moscone',
+    'speaker-room': 'in the speaker wrap-up room',
+    'meeting': 'during our meeting',
+    'other': 'at GDC'
+  }[contact.where] || 'at GDC';
+
+  // Check if it's a PS studio for the PS-specific template
+  const psStudios = ['sucker punch', 'naughty dog', 'santa monica', 'insomniac', 'guerrilla', 'housemarque', 'firesprite', 'media molecule', 'team asobi', 'polyphony', 'nixxes', 'valkyrie', 'bungie', 'haven'];
+  const isPS = psStudios.some(s => (contact.company || '').toLowerCase().includes(s));
+
+  if (isPS) {
+    return `Subject: Fellow PS director checking in
+
+Hi ${name},
+
+One of the highlights of my GDC was getting to actually talk shop with you ${where}. Your insight on ${context} was exactly what I needed to hear.
+
+Let's not wait until next GDC to do this again. Happy to jump on a call anytime.
+
+Best,
+Matt Berman
+Game Director, Bend Studio`;
+  }
+
+  return `Subject: Great meeting you at GDC — Matt Berman
+
+Hi ${name},
+
+Really enjoyed our conversation ${where} about ${context}. Your perspective stuck with me.
+
+Would love to stay connected and continue the conversation. If you're ever interested in comparing notes, I'm always up for it.
+
+Cheers,
+Matt Berman
+Game Director, Bend Studio`;
+}
+
+function toggleEmail(id) {
+  const el = document.getElementById('email-' + id);
+  if (el) el.classList.toggle('visible');
+}
+
+function copyEmail(id) {
+  const contacts = getContacts();
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  const text = getFollowUpTemplate(c);
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(`[data-copy="${id}"]`);
+    if (btn) { btn.textContent = 'copied ✓'; setTimeout(() => btn.textContent = 'copy email', 2000); }
+  });
+}
+
+function getHoursAgo(isoDate) {
+  return Math.floor((Date.now() - new Date(isoDate).getTime()) / (1000 * 60 * 60));
+}
+
+function getCountdownBadge(contact) {
+  if (contact.status === 'sent') return '<span class="countdown-badge green">sent ✓</span>';
+  const hours = getHoursAgo(contact.addedAt);
+  const limit = contact.priority === 'high' ? 24 : contact.priority === 'medium' ? 48 : 72;
+  const remaining = limit - hours;
+  if (remaining <= 0) return `<span class="countdown-badge red">⏰ ${Math.abs(remaining)}h overdue</span>`;
+  if (remaining <= 12) return `<span class="countdown-badge red">${remaining}h left</span>`;
+  if (remaining <= 24) return `<span class="countdown-badge yellow">${remaining}h left</span>`;
+  return `<span class="countdown-badge green">${remaining}h left</span>`;
+}
+
+function getContactClass(contact) {
+  if (contact.status === 'sent') return 'sent';
+  const hours = getHoursAgo(contact.addedAt);
+  const limit = contact.priority === 'high' ? 24 : contact.priority === 'medium' ? 48 : 72;
+  const remaining = limit - hours;
+  if (remaining <= 0) return 'urgent';
+  if (remaining <= 12) return 'urgent';
+  if (remaining <= 24) return 'soon';
+  return '';
+}
+
+let currentFilter = 'all';
+
+function renderContacts() {
+  const contacts = getContacts();
+  const list = document.getElementById('contactList');
+  const exportBtn = document.getElementById('exportBtn');
+
+  // Stats
+  document.getElementById('statTotal').textContent = contacts.length;
+  document.getElementById('statPending').textContent = contacts.filter(c => c.status === 'pending').length;
+  document.getElementById('statSent').textContent = contacts.filter(c => c.status === 'sent').length;
+
+  // Filter
+  let filtered = contacts;
+  if (currentFilter === 'urgent') {
+    filtered = contacts.filter(c => {
+      if (c.status === 'sent') return false;
+      const hours = getHoursAgo(c.addedAt);
+      const limit = c.priority === 'high' ? 24 : c.priority === 'medium' ? 48 : 72;
+      return (limit - hours) <= 12;
+    });
+  } else if (currentFilter === 'pending') {
+    filtered = contacts.filter(c => c.status === 'pending');
+  } else if (currentFilter === 'sent') {
+    filtered = contacts.filter(c => c.status === 'sent');
+  }
+
+  exportBtn.style.display = contacts.length > 0 ? '' : 'none';
+
+  if (filtered.length === 0) {
+    if (contacts.length === 0) {
+      list.innerHTML = `<div class="empty-state"><div class="icon">🤝</div><p>no contacts yet.<br>add people you meet at gdc<br>and track your follow-ups.</p></div>`;
+    } else {
+      list.innerHTML = `<div class="empty-state"><p>no contacts match this filter.</p></div>`;
+    }
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => {
+    const whereLabel = { 'session': '📎 session', 'party': '🍺 party', 'hallway': '🚶 hallway', 'speaker-room': '🎤 speaker room', 'meeting': '📅 meeting', 'other': '📌 other' }[c.where] || '';
+    const addedDate = new Date(c.addedAt);
+    const dayNames = ['sun','mon','tue','wed','thu','fri','sat'];
+    const timeStr = dayNames[addedDate.getDay()] + ' ' + addedDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
+
+    return `<div class="contact-card ${getContactClass(c)}">
+      <button class="delete-btn" onclick="deleteContact('${c.id}')" title="remove">×</button>
+      <div class="contact-header">
+        <div>
+          <div class="contact-name">${c.name}</div>
+          ${c.company ? `<div class="contact-company">${c.company}</div>` : ''}
+        </div>
+        ${getCountdownBadge(c)}
+      </div>
+      ${c.context ? `<div class="contact-context">${c.context}</div>` : ''}
+      <div class="contact-meta">
+        <span>${whereLabel} · ${timeStr}</span>
+        <span>${c.email ? '✉️' : ''}</span>
+      </div>
+      <div class="contact-actions">
+        <button class="primary" onclick="toggleEmail('${c.id}')">✉️ draft email</button>
+        <button onclick="markSent('${c.id}')">${c.status === 'sent' ? '↩ undo sent' : '✓ mark sent'}</button>
+      </div>
+      <div class="email-preview" id="email-${c.id}">
+        <div style="white-space: pre-line; font-size: 13px; line-height: 1.55;">${getFollowUpTemplate(c)}</div>
+        <button class="copy-btn" data-copy="${c.id}" onclick="copyEmail('${c.id}')" style="margin-top: 8px;">copy email</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function exportContacts() {
+  const contacts = getContacts();
+  const text = contacts.map(c => {
+    const hours = getHoursAgo(c.addedAt);
+    return `${c.name}${c.company ? ' — ' + c.company : ''}
+  Status: ${c.status === 'sent' ? 'Follow-up sent' : 'Pending (' + hours + 'h ago)'}
+  ${c.context ? 'Context: ' + c.context : ''}
+  ${c.email ? 'Email: ' + c.email : 'No email'}
+  Priority: ${c.priority}`;
+  }).join('\n\n');
+
+  navigator.clipboard.writeText('GDC 2026 Contacts\n' + '='.repeat(30) + '\n\n' + text).then(() => {
+    const btn = document.getElementById('exportBtn');
+    btn.textContent = '✓ copied to clipboard';
+    setTimeout(() => btn.textContent = '📋 export all contacts as text', 2000);
+  });
+}
+
+// Tracker filter buttons
+document.querySelectorAll('.tracker-filter button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tracker-filter button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderContacts();
+  });
+});
+
+// Initial render
+renderContacts();
+
+// Refresh countdown badges every minute
+setInterval(renderContacts, 60000);
 
 // Auto-select today's day tab
 const today = new Date();
