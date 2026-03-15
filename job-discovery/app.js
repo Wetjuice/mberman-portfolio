@@ -5,7 +5,14 @@ const STORAGE_KEY = 'job-discovery-data';
 function loadData() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-        return JSON.parse(stored);
+        const savedData = JSON.parse(stored);
+        
+        // Merge: use latest eligibleJobs but preserve decisions
+        // This allows new jobs to appear without losing user's choices
+        return {
+            jobs: eligibleJobs,
+            decisions: savedData.decisions || {}
+        };
     }
     return {
         jobs: eligibleJobs, // Use filtered jobs
