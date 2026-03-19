@@ -3,699 +3,1026 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>michael berman // game director</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<title>PAGE ME — Michael Berman</title>
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --orange: #ff7a1a;
-  --pink: #ff71ce;
-  --cyan: #01cdfe;
-  --purple: #b967ff;
-  --lemon: #fffb96;
-  --white: #ffffff;
-  --black: #0a0a0a;
-  --grid: 8px;
-  --font-mono: 'Space Mono', monospace;
-  --font-sans: 'Outfit', sans-serif;
+  --lcd-green: #7b9f35;
+  --lcd-green-dark: #4a6320;
+  --lcd-green-ghost: rgba(123, 159, 53, 0.12);
+  --lcd-bg: #b8c99a;
+  --lcd-bg-dark: #a3b585;
+  --pager-body: #2a2a2e;
+  --pager-body-light: #3a3a3e;
+  --pager-accent: #1a1a1e;
+  --clip-metal: #6a6a6e;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 body {
-  font-family: var(--font-sans);
-  background: var(--white);
-  color: var(--black);
-  text-transform: lowercase;
-  overflow-x: hidden;
-  line-height: 1.5;
+  background: #1a1a1a;
+  background-image:
+    radial-gradient(ellipse at 30% 50%, #2a2020 0%, transparent 70%),
+    radial-gradient(ellipse at 70% 50%, #20202a 0%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  user-select: none;
 }
 
-/* scanline overlay */
-body::after {
+/* THE DESK SURFACE */
+.desk {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 800px;
+}
+
+/* PAGER DEVICE */
+.pager {
+  position: relative;
+  width: 320px;
+  height: 540px;
+  background: var(--pager-body);
+  border-radius: 20px 20px 24px 24px;
+  box-shadow:
+    0 2px 0 #1a1a1e,
+    0 4px 0 #151518,
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  transform: rotateX(5deg);
+  transition: transform 0.3s ease;
+}
+
+.pager:hover {
+  transform: rotateX(2deg) scale(1.02);
+}
+
+/* Belt clip */
+.belt-clip {
+  position: absolute;
+  top: -8px;
+  right: 30px;
+  width: 40px;
+  height: 50px;
+  background: var(--clip-metal);
+  border-radius: 4px 4px 0 0;
+  z-index: -1;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.3);
+}
+.belt-clip::after {
   content: '';
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  right: 5px;
+  height: 3px;
+  background: #555;
+  border-radius: 0 0 2px 2px;
+}
+
+/* Brand label */
+.brand {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.15);
+  text-transform: uppercase;
+}
+
+/* Model number */
+.model {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.08);
+}
+
+/* LCD SCREEN */
+.lcd-frame {
+  position: absolute;
+  top: 50px;
+  left: 24px;
+  right: 24px;
+  height: 180px;
+  background: #1a1a1e;
+  border-radius: 6px;
+  padding: 6px;
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.5),
+    0 1px 0 rgba(255,255,255,0.05);
+}
+
+.lcd-screen {
+  width: 100%;
+  height: 100%;
+  background: var(--lcd-bg);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* LCD scanline effect */
+.lcd-screen::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: repeating-linear-gradient(
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.015) 2px,
-    rgba(0, 0, 0, 0.015) 4px
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
   );
   pointer-events: none;
-  z-index: 9999;
+  z-index: 2;
 }
 
-/* grid background */
-.grid-bg {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
-  background-size: calc(var(--grid) * 4) calc(var(--grid) * 4);
+/* LCD pixel grid effect */
+.lcd-screen::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
 }
 
-/* vaporwave gradient strip */
-.vapor-strip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--pink), var(--cyan), var(--purple), var(--orange), var(--pink));
-  background-size: 300% 100%;
-  animation: gradient-shift 8s ease infinite;
-  z-index: 10000;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* layout */
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 calc(var(--grid) * 3);
-  position: relative;
-  z-index: 1;
-}
-
-/* navigation bar */
-nav {
-  position: fixed;
-  top: 3px;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  padding: calc(var(--grid) * 2) 0;
-}
-
-nav .container {
+.lcd-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 9px;
+  color: var(--lcd-green-dark);
+  margin-bottom: 4px;
+  flex-shrink: 0;
 }
 
-.nav-logo {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--orange);
-}
-
-.nav-logo .blink {
-  animation: blink 1.2s step-end infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-.nav-links {
+.lcd-signal {
   display: flex;
-  gap: calc(var(--grid) * 3);
-  list-style: none;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  gap: 1px;
+  align-items: flex-end;
+}
+.lcd-signal span {
+  display: block;
+  width: 3px;
+  background: var(--lcd-green-dark);
 }
 
-.nav-links a {
-  text-decoration: none;
-  color: var(--black);
-  transition: color 0.2s;
-  position: relative;
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--orange);
-  transition: width 0.3s ease;
-}
-
-.nav-links a:hover { color: var(--orange); }
-.nav-links a:hover::after { width: 100%; }
-
-/* hero */
-.hero {
-  min-height: 100vh;
+.lcd-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: calc(var(--grid) * 12);
-  padding-bottom: calc(var(--grid) * 8);
-  position: relative;
+  overflow: hidden;
 }
 
-.hero-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--purple);
-  margin-bottom: calc(var(--grid) * 2);
-  letter-spacing: 0.15em;
+.lcd-text {
+  font-size: 14px;
+  color: var(--lcd-green-dark);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-.hero h1 {
-  font-family: var(--font-sans);
-  font-size: clamp(3rem, 10vw, 7rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  margin-bottom: calc(var(--grid) * 3);
-}
-
-.hero h1 .first-name {
+.lcd-text .big {
+  font-size: 28px;
+  letter-spacing: 3px;
   display: block;
-  color: var(--black);
+  text-align: center;
+  margin: 4px 0;
 }
 
-.hero h1 .last-name {
+.lcd-text .med {
+  font-size: 16px;
+  letter-spacing: 1px;
   display: block;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--orange);
-  text-stroke: 2px var(--orange);
-}
-
-.hero-title {
-  font-family: var(--font-mono);
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-  color: var(--black);
-  opacity: 0.6;
-  margin-bottom: calc(var(--grid) * 4);
-}
-
-.hero-stats {
-  display: flex;
-  gap: calc(var(--grid) * 5);
-  flex-wrap: wrap;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-number {
-  font-family: var(--font-mono);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--orange);
-  line-height: 1;
-}
-
-.stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  opacity: 0.5;
-  margin-top: 4px;
-}
-
-/* floating nostalgia shapes */
-.shape {
-  position: absolute;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.08;
-}
-
-.shape-grid {
-  width: 200px;
-  height: 200px;
-  right: -40px;
-  top: 30%;
-  background:
-    linear-gradient(var(--cyan) 1px, transparent 1px),
-    linear-gradient(90deg, var(--cyan) 1px, transparent 1px);
-  background-size: 20px 20px;
-  transform: perspective(400px) rotateX(60deg) rotateZ(-15deg);
-}
-
-.shape-sun {
-  width: 280px;
-  height: 280px;
-  right: 10%;
-  top: 15%;
-  border-radius: 50%;
-  background: linear-gradient(180deg, var(--pink) 0%, var(--orange) 50%, transparent 50%);
-  opacity: 0.06;
-}
-
-.shape-triangle {
-  width: 0;
-  height: 0;
-  border-left: 60px solid transparent;
-  border-right: 60px solid transparent;
-  border-bottom: 100px solid var(--purple);
-  left: -20px;
-  top: 60%;
-  opacity: 0.05;
-  transform: rotate(15deg);
-}
-
-/* section base */
-section {
-  padding: calc(var(--grid) * 10) 0;
-}
-
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--purple);
-  margin-bottom: calc(var(--grid) * 5);
-  display: flex;
-  align-items: center;
-  gap: calc(var(--grid) * 2);
-}
-
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, var(--purple), transparent);
-  opacity: 0.3;
-}
-
-/* highlights / career cards */
-.highlights-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: calc(var(--grid) * 3);
-}
-
-.card {
-  background: var(--white);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 2px;
-  padding: calc(var(--grid) * 4);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--orange), var(--pink));
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.card:hover::before { opacity: 1; }
-
-.card-index {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--cyan);
-  margin-bottom: calc(var(--grid) * 2);
-  letter-spacing: 0.1em;
-}
-
-.card h3 {
-  font-family: var(--font-sans);
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: calc(var(--grid) * 1);
-  line-height: 1.2;
-}
-
-.card-meta {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--orange);
-  margin-bottom: calc(var(--grid) * 2);
-  letter-spacing: 0.05em;
-}
-
-.card p {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  opacity: 0.7;
-}
-
-/* skills strip */
-.skills-strip {
-  padding: calc(var(--grid) * 6) 0;
-  overflow: hidden;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.skills-track {
-  display: flex;
-  gap: calc(var(--grid) * 4);
-  animation: scroll-left 20s linear infinite;
-  width: max-content;
-}
-
-.skills-track span {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  opacity: 0.4;
-  transition: opacity 0.3s;
-}
-
-.skills-track span::before {
-  content: '//';
-  color: var(--orange);
-  margin-right: 8px;
-}
-
-.skills-track:hover span { opacity: 0.7; }
-
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* contact */
-.contact {
-  padding: calc(var(--grid) * 12) 0 calc(var(--grid) * 8);
-}
-
-.contact-inner {
-  background: var(--black);
-  color: var(--white);
-  border-radius: 2px;
-  padding: calc(var(--grid) * 6);
-  position: relative;
-  overflow: hidden;
-}
-
-.contact-inner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--pink), var(--cyan), var(--purple), var(--orange));
-}
-
-.contact-inner::after {
-  content: '';
-  position: absolute;
-  bottom: -60px;
-  right: -60px;
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, var(--purple), var(--pink));
-  border-radius: 50%;
-  opacity: 0.08;
-}
-
-.contact h2 {
-  font-family: var(--font-sans);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  margin-bottom: calc(var(--grid) * 1);
-}
-
-.contact-sub {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  opacity: 0.5;
-  margin-bottom: calc(var(--grid) * 4);
-}
-
-.contact-links {
-  display: flex;
-  gap: calc(var(--grid) * 3);
-  flex-wrap: wrap;
-}
-
-.contact-links a {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--white);
-  text-decoration: none;
-  padding: calc(var(--grid) * 1.5) calc(var(--grid) * 3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1;
-}
-
-.contact-links a:hover {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: var(--white);
-}
-
-/* footer */
-footer {
-  padding: calc(var(--grid) * 4) 0;
   text-align: center;
 }
 
-footer p {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  opacity: 0.3;
-  letter-spacing: 0.1em;
+.lcd-footer {
+  font-size: 8px;
+  color: var(--lcd-green-dark);
+  opacity: 0.6;
+  text-align: center;
+  margin-top: 4px;
+  flex-shrink: 0;
 }
 
-/* glitch text effect on hover */
-.glitch-wrap {
-  position: relative;
-  display: inline-block;
+/* Ghost text (LCD segments not lit) */
+.ghost {
+  color: var(--lcd-green-ghost);
 }
 
-.glitch-wrap:hover .glitch-text {
-  animation: glitch 0.4s ease;
+/* Blinking cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor {
+  animation: blink 1s step-end infinite;
 }
 
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-3px, 2px); filter: hue-rotate(90deg); }
-  40% { transform: translate(2px, -2px); }
-  60% { transform: translate(-1px, 1px); filter: hue-rotate(0deg); }
-  80% { transform: translate(1px, -1px); }
-  100% { transform: translate(0); }
+/* MESSAGE INDICATOR LED */
+.led {
+  position: absolute;
+  top: 58px;
+  left: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #333;
+  transition: all 0.1s;
+}
+.led.active {
+  background: #ff3b30;
+  box-shadow: 0 0 8px #ff3b30, 0 0 16px rgba(255,59,48,0.4);
+  animation: ledBlink 0.5s ease-in-out 3;
+}
+@keyframes ledBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
-/* scroll reveal */
-.reveal {
+/* SIDE BUTTONS */
+.side-btn {
+  position: absolute;
+  right: -6px;
+  width: 6px;
+  height: 30px;
+  background: #222;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+  transition: background 0.1s;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.3);
+  border: none;
+}
+.side-btn:active { background: #444; width: 4px; }
+.side-btn.top { top: 80px; }
+.side-btn.mid { top: 120px; }
+.side-btn.bot { top: 160px; }
+
+/* KEYPAD */
+.keypad {
+  position: absolute;
+  top: 250px;
+  left: 24px;
+  right: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.key {
+  height: 44px;
+  background: #222;
+  border: none;
+  border-radius: 6px;
+  color: rgba(255,255,255,0.8);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 2px 0 #111,
+    0 3px 0 #0a0a0a,
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: all 0.05s;
+  -webkit-tap-highlight-color: transparent;
+}
+.key:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #111, inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.key .sub {
+  font-size: 6px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 1px;
+}
+.key.wide {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.key.send {
+  background: #1a3a1a;
+  color: #7b9f35;
+}
+.key.send:active { background: #2a4a2a; }
+.key.clr {
+  background: #3a1a1a;
+  color: #cc4444;
+}
+.key.clr:active { background: #4a2a2a; }
+
+/* CODE BOOK — the little reference card */
+.codebook {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 220px;
+  background: #f5f0e0;
+  border-radius: 2px;
+  padding: 16px 14px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: #333;
+  transform: rotate(3deg);
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.3);
+  cursor: default;
+  z-index: 10;
+  transition: transform 0.3s ease;
+  line-height: 1.6;
+}
+.codebook:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+.codebook h3 {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #999;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  color: #555;
+}
+.codebook .code-entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.codebook .code-num {
+  color: #8b0000;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.codebook .code-meaning {
+  color: #555;
+  text-align: right;
+}
+.codebook .divider {
+  border: none;
+  border-top: 1px dashed #bbb;
+  margin: 6px 0;
+}
+.codebook .hint {
+  font-size: 8px;
+  color: #999;
+  text-align: center;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* Stain on the codebook for realism */
+.codebook::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(139,90,43,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* NEW MESSAGE POPUP */
+.new-msg {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff3b30;
+  color: white;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border-radius: 10px;
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.3s, top 0.3s;
+  pointer-events: none;
 }
-
-.reveal.visible {
+.new-msg.show {
   opacity: 1;
-  transform: translateY(0);
+  top: -30px;
 }
 
-/* mobile */
-@media (max-width: 640px) {
-  .hero-stats { gap: calc(var(--grid) * 3); }
-  .stat-number { font-size: 1.5rem; }
-  .nav-links { gap: calc(var(--grid) * 2); }
-  .contact-inner { padding: calc(var(--grid) * 4); }
-  .shape { display: none; }
-  .highlights-grid { grid-template-columns: 1fr; }
+/* MESSAGE ARRIVAL ANIMATION */
+@keyframes screenFlash {
+  0% { background: var(--lcd-bg); }
+  15% { background: #c8d8a8; }
+  100% { background: var(--lcd-bg); }
+}
+.lcd-screen.flash {
+  animation: screenFlash 0.3s ease;
 }
 
-/* selection color */
-::selection {
-  background: var(--pink);
-  color: var(--white);
+/* VIBRATION */
+@keyframes vibrate {
+  0%, 100% { transform: rotateX(5deg) translateX(0); }
+  10% { transform: rotateX(5deg) translateX(-2px) rotate(-0.5deg); }
+  20% { transform: rotateX(5deg) translateX(2px) rotate(0.5deg); }
+  30% { transform: rotateX(5deg) translateX(-1px) rotate(-0.3deg); }
+  40% { transform: rotateX(5deg) translateX(1px) rotate(0.3deg); }
+  50% { transform: rotateX(5deg) translateX(0); }
+}
+.pager.vibrate {
+  animation: vibrate 0.4s ease;
+}
+
+/* INSTRUCTION OVERLAY */
+.instructions {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 2px;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+.instructions .fade {
+  animation: fadeInOut 6s ease forwards;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Speaker grille */
+.speaker {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+.speaker span {
+  width: 24px;
+  height: 3px;
+  background: #1a1a1e;
+  border-radius: 1px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
+}
+
+/* Scuff marks on pager body */
+.pager::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 40%),
+    linear-gradient(225deg, transparent 60%, rgba(0,0,0,0.05) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* MOBILE */
+@media (max-width: 500px) {
+  .pager {
+    width: 280px;
+    height: 480px;
+    transform: rotateX(0deg);
+    border-radius: 16px 16px 20px 20px;
+  }
+  .pager:hover { transform: rotateX(0deg); }
+  .lcd-frame { top: 44px; left: 20px; right: 20px; height: 160px; }
+  .keypad { top: 222px; left: 20px; right: 20px; gap: 5px; }
+  .key { height: 38px; font-size: 14px; }
+  .codebook {
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    transform: rotate(0deg);
+    padding: 10px 12px;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+  .codebook:hover { transform: none; }
+  .belt-clip { display: none; }
+  .instructions { font-size: 9px; top: 10px; }
+  .side-btn { display: none; }
+  @keyframes vibrate {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-2px); }
+    20% { transform: translateX(2px); }
+    30% { transform: translateX(-1px); }
+    40% { transform: translateX(1px); }
+    50% { transform: translateX(0); }
+  }
+}
+
+@media (max-height: 640px) {
+  .codebook { display: none; }
 }
 </style>
 </head>
 <body>
 
-<div class="vapor-strip"></div>
-<div class="grid-bg"></div>
+<div class="instructions">
+  <div class="fade">ENTER A CODE OR WAIT FOR PAGES</div>
+</div>
 
-<nav>
-  <div class="container">
-    <div class="nav-logo">mb<span class="blink">_</span></div>
-    <ul class="nav-links">
-      <li><a href="#work">work</a></li>
-      <li><a href="#contact">contact</a></li>
-    </ul>
-  </div>
-</nav>
+<div class="desk">
+  <div class="pager" id="pager">
+    <div class="belt-clip"></div>
+    <div class="brand">MOTOROLA</div>
+    <div class="model">BRAVO+ FLX</div>
 
-<header class="hero">
-  <div class="container">
-    <div class="shape shape-sun"></div>
-    <div class="shape shape-grid"></div>
-    <div class="shape shape-triangle"></div>
+    <div class="led" id="led"></div>
+    <div class="new-msg" id="newMsg">NEW PAGE</div>
 
-    <div class="hero-label">// portfolio.exe v2.026</div>
-    <h1 class="glitch-wrap">
-      <span class="first-name glitch-text">michael</span>
-      <span class="last-name">berman</span>
-    </h1>
-    <div class="hero-title">game director / design leader / systems thinker</div>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-number">16</span>
-        <span class="stat-label">years in games</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number">aaa</span>
-        <span class="stat-label">studio experience</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number glitch-wrap"><span class="glitch-text">&infin;</span></span>
-        <span class="stat-label">player-first mindset</span>
+    <div class="lcd-frame">
+      <div class="lcd-screen" id="lcdScreen">
+        <div class="lcd-header">
+          <div class="lcd-signal">
+            <span style="height:4px"></span>
+            <span style="height:7px"></span>
+            <span style="height:10px"></span>
+            <span style="height:13px"></span>
+          </div>
+          <span id="clock">12:00</span>
+          <span id="msgIndicator">MSG</span>
+        </div>
+        <div class="lcd-body">
+          <div class="lcd-text" id="lcdText">
+            <span class="big">READY</span>
+            <span class="med" style="opacity:0.5">ENTER CODE</span>
+          </div>
+        </div>
+        <div class="lcd-footer" id="lcdFooter">▲ ▼ SCROLL</div>
       </div>
     </div>
-  </div>
-</header>
 
-<section id="work">
-  <div class="container">
-    <div class="section-label reveal">career highlights</div>
-
-    <div class="highlights-grid">
-      <div class="card reveal">
-        <div class="card-index">01</div>
-        <h3>sony / bend studio</h3>
-        <div class="card-meta">16 years // 2008 - present</div>
-        <p>grew from designer to director at one of playstation's core studios. shipped titles that defined open-world survival action for millions of players worldwide.</p>
-      </div>
-
-      <div class="card reveal">
-        <div class="card-index">02</div>
-        <h3>game direction</h3>
-        <div class="card-meta">creative + strategic leadership</div>
-        <p>owned the creative vision end-to-end. aligned design, engineering, art, and narrative teams around a unified player experience across multi-year development cycles.</p>
-      </div>
-
-      <div class="card reveal">
-        <div class="card-index">03</div>
-        <h3>product ownership</h3>
-        <div class="card-meta">roadmap // prioritization // delivery</div>
-        <p>bridged studio leadership and production. defined feature priorities, managed scope tradeoffs, and ensured the team shipped the right thing at the right quality bar.</p>
-      </div>
-
-      <div class="card reveal">
-        <div class="card-index">04</div>
-        <h3>design management</h3>
-        <div class="card-meta">teams // mentorship // culture</div>
-        <p>built and led design teams. fostered a culture of rapid prototyping, honest feedback, and systems-level thinking that elevated the craft across the studio.</p>
-      </div>
+    <div class="keypad">
+      <button class="key" data-val="1"><span>1</span></button>
+      <button class="key" data-val="2"><span>2</span><span class="sub">ABC</span></button>
+      <button class="key" data-val="3"><span>3</span><span class="sub">DEF</span></button>
+      <button class="key" data-val="4"><span>4</span><span class="sub">GHI</span></button>
+      <button class="key" data-val="5"><span>5</span><span class="sub">JKL</span></button>
+      <button class="key" data-val="6"><span>6</span><span class="sub">MNO</span></button>
+      <button class="key" data-val="7"><span>7</span><span class="sub">PQRS</span></button>
+      <button class="key" data-val="8"><span>8</span><span class="sub">TUV</span></button>
+      <button class="key" data-val="9"><span>9</span><span class="sub">WXYZ</span></button>
+      <button class="key wide clr" data-val="CLR">CLR</button>
+      <button class="key" data-val="0"><span>0</span></button>
+      <button class="key wide send" data-val="SEND">SEND</button>
     </div>
-  </div>
-</section>
 
-<div class="skills-strip">
-  <div class="skills-track" id="skills-track">
-    <span>systems design</span>
-    <span>open-world games</span>
-    <span>player experience</span>
-    <span>creative direction</span>
-    <span>team leadership</span>
-    <span>prototyping</span>
-    <span>ux strategy</span>
-    <span>agile development</span>
-    <span>cross-discipline collaboration</span>
-    <span>live operations</span>
-    <span>systems design</span>
-    <span>open-world games</span>
-    <span>player experience</span>
-    <span>creative direction</span>
-    <span>team leadership</span>
-    <span>prototyping</span>
-    <span>ux strategy</span>
-    <span>agile development</span>
-    <span>cross-discipline collaboration</span>
-    <span>live operations</span>
+    <div class="speaker">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <button class="side-btn top" title="Scroll Up" onclick="scrollMsg(-1)"></button>
+    <button class="side-btn mid" title="Read" onclick="readCurrentMsg()"></button>
+    <button class="side-btn bot" title="Scroll Down" onclick="scrollMsg(1)"></button>
   </div>
 </div>
 
-<section class="contact" id="contact">
-  <div class="container">
-    <div class="contact-inner reveal">
-      <h2>let's build something</h2>
-      <div class="contact-sub">// ready for the next level</div>
-      <div class="contact-links">
-        <a href="mailto:hello@michaelberman.dev">email</a>
-        <a href="https://linkedin.com/in/michaelberman" target="_blank" rel="noopener">linkedin</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p>&copy; 2026 michael berman // rendered in-browser</p>
-  </div>
-</footer>
+<div class="codebook">
+  <h3>Pager Code Book</h3>
+  <div class="code-entry"><span class="code-num">411</span><span class="code-meaning">WHO IS THIS?</span></div>
+  <div class="code-entry"><span class="code-num">143</span><span class="code-meaning">I LOVE GAMES</span></div>
+  <div class="code-entry"><span class="code-num">911</span><span class="code-meaning">FEATURED WORK</span></div>
+  <div class="code-entry"><span class="code-num">007</span><span class="code-meaning">CLASSIFIED</span></div>
+  <div class="code-entry"><span class="code-num">360</span><span class="code-meaning">FULL CIRCLE</span></div>
+  <div class="code-entry"><span class="code-num">808</span><span class="code-meaning">PHILOSOPHY</span></div>
+  <div class="code-entry"><span class="code-num">104</span><span class="code-meaning">GET IN TOUCH</span></div>
+  <hr class="divider">
+  <div class="code-entry"><span class="code-num">1996</span><span class="code-meaning">???</span></div>
+  <div class="hint">type codes on keypad or keyboard</div>
+</div>
 
 <script>
-// scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, i * 80);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
+const lcdText = document.getElementById('lcdText');
+const lcdScreen = document.getElementById('lcdScreen');
+const lcdFooter = document.getElementById('lcdFooter');
+const led = document.getElementById('led');
+const newMsg = document.getElementById('newMsg');
+const pager = document.getElementById('pager');
+const clock = document.getElementById('clock');
 
-reveals.forEach(el => observer.observe(el));
+let inputBuffer = '';
+let currentView = 'ready';
+let scrollIndex = 0;
+let currentMessage = null;
 
-// smooth nav hide/show
-let lastScroll = 0;
-const nav = document.querySelector('nav');
-window.addEventListener('scroll', () => {
-  const current = window.scrollY;
-  if (current > lastScroll && current > 100) {
-    nav.style.transform = 'translateY(-100%)';
-    nav.style.transition = 'transform 0.3s ease';
-  } else {
-    nav.style.transform = 'translateY(0)';
+// Audio context for beep
+let audioCtx;
+function beep(freq = 1400, dur = 0.1) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.value = freq;
+    gain.gain.value = 0.05;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.stop(audioCtx.currentTime + dur);
+  } catch(e) {}
+}
+
+function beepPattern() {
+  beep(1400, 0.1);
+  setTimeout(() => beep(1400, 0.1), 150);
+  setTimeout(() => beep(1800, 0.15), 350);
+}
+
+// Update clock
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  clock.textContent = `${h12}:${m}${ampm}`;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// CODE DATABASE
+const codes = {
+  '411': {
+    title: 'WHO IS THIS?',
+    lines: [
+      'MICHAEL BERMAN',
+      '━━━━━━━━━━━━━━━━',
+      'GAME DIRECTOR',
+      '',
+      '16 YRS @ SONY',
+      'BEND STUDIO',
+      '',
+      'PRODUCT OWNER',
+      'DESIGN MANAGER',
+      'SYSTEMS THINKER',
+    ]
+  },
+  '143': {
+    title: 'I LOVE GAMES',
+    lines: [
+      'PLAYER-FIRST',
+      'DESIGN',
+      '━━━━━━━━━━━━━━━━',
+      '',
+      'EVERY DECISION',
+      'STARTS WITH:',
+      '"IS THIS FUN?"',
+      '',
+      'NOT METRICS.',
+      'NOT TRENDS.',
+      'THE PLAYER.',
+      '',
+      '16 YEARS MAKING',
+      'GAMES PEOPLE LOVE',
+    ]
+  },
+  '911': {
+    title: 'FEATURED WORK',
+    lines: [
+      'DAYS GONE [2019]',
+      '━━━━━━━━━━━━━━━━',
+      'OPEN WORLD',
+      'SURVIVAL ACTION',
+      '',
+      'LED DESIGN TEAM',
+      'THROUGH 3 YEARS',
+      'OF PRODUCTION',
+      '',
+      'SHIPPED AAA',
+      'ON PS4 + PC',
+      '',
+      '> 9M PLAYERS',
+    ]
+  },
+  '007': {
+    title: 'CLASSIFIED',
+    lines: [
+      'LEADERSHIP',
+      '━━━━━━━━━━━━━━━━',
+      '',
+      '> TEAM BUILDING',
+      '  ACROSS DEPTS',
+      '',
+      '> VISION HOLDER',
+      '  & COMMUNICATOR',
+      '',
+      '> SCOPE MASTER',
+      '  SHIP > PERFECT',
+      '',
+      '> MENTOR & COACH',
+      '  GROW THE TEAM',
+    ]
+  },
+  '360': {
+    title: 'FULL CIRCLE',
+    lines: [
+      'THE JOURNEY',
+      '━━━━━━━━━━━━━━━━',
+      '',
+      '2008  QA > DESIGN',
+      '2010  JR DESIGNER',
+      '2013  SR DESIGNER',
+      '2015  LEAD',
+      '2017  PROD OWNER',
+      '2019  DESIGN MGR',
+      '2022  DIRECTOR',
+      '',
+      '16 YRS. 1 STUDIO.',
+      'DEEP ROOTS.',
+    ]
+  },
+  '808': {
+    title: 'PHILOSOPHY',
+    lines: [
+      'HOW I WORK',
+      '━━━━━━━━━━━━━━━━',
+      '',
+      'SYSTEMS > FEATURES',
+      '',
+      'EVERY MECHANIC IS',
+      'A CONVERSATION',
+      'WITH THE PLAYER',
+      '',
+      'COMPLEXITY SHOULD',
+      'EMERGE, NEVER BE',
+      'IMPOSED',
+      '',
+      'TRUST YOUR TEAM',
+    ]
+  },
+  '104': {
+    title: 'CONTACT',
+    lines: [
+      'GET IN TOUCH',
+      '━━━━━━━━━━━━━━━━',
+      '',
+      'PAGE ME BACK:',
+      '',
+      'LINKEDIN:',
+      '/IN/BABORMAN',
+      '',
+      'EMAIL:',
+      'HELLO@BERMAN.DEV',
+      '',
+      '..OR JUST',
+      'SEND 143',
+    ]
+  },
+  '1996': {
+    title: 'EASTER EGG',
+    lines: [
+      '░█░█░█░█░█░█░█░',
+      '',
+      'YOU FOUND IT.',
+      '',
+      'YEAR I GOT MY',
+      'FIRST PAGER.',
+      '',
+      'ALSO THE YEAR',
+      'I KNEW I WANTED',
+      'TO MAKE GAMES.',
+      '',
+      'SOME THINGS',
+      'NEVER CHANGE.',
+      '',
+      '░█░█░█░█░█░█░█░',
+    ]
   }
-  lastScroll = current;
-}, { passive: true });
+};
 
-// duplicate skills track for seamless loop
-const track = document.getElementById('skills-track');
-track.innerHTML += track.innerHTML;
+// Show code result
+function lookupCode(code) {
+  const entry = codes[code];
+  if (entry) {
+    scrollIndex = 0;
+    currentView = 'message';
+    renderMessage(entry);
+    beep(800, 0.05);
+  } else {
+    currentView = 'error';
+    lcdText.innerHTML = '<span class="big">' + code + '</span><span class="med" style="opacity:0.7">CODE NOT FOUND</span>';
+    lcdFooter.textContent = 'TRY CODEBOOK >';
+    beep(200, 0.2);
+    setTimeout(() => {
+      if (currentView === 'error') showReady();
+    }, 2500);
+  }
+}
+
+function renderMessage(entry) {
+  currentMessage = entry;
+  const maxVisible = 7;
+  const lines = entry.lines;
+  const visible = lines.slice(scrollIndex, scrollIndex + maxVisible);
+
+  let html = '';
+  visible.forEach(line => {
+    html += line + '\n';
+  });
+
+  lcdText.innerHTML = html;
+
+  const canUp = scrollIndex > 0;
+  const canDown = scrollIndex + maxVisible < lines.length;
+  if (canUp && canDown) lcdFooter.textContent = '▲ ▼ SCROLL';
+  else if (canDown) lcdFooter.textContent = '▼ MORE';
+  else if (canUp) lcdFooter.textContent = '▲ BACK';
+  else lcdFooter.textContent = 'CLR TO EXIT';
+}
+
+function scrollMsg(dir) {
+  if (!currentMessage) return;
+  const maxVisible = 7;
+  const max = Math.max(0, currentMessage.lines.length - maxVisible);
+  scrollIndex = Math.max(0, Math.min(max, scrollIndex + dir * 3));
+  renderMessage(currentMessage);
+  beep(600, 0.03);
+}
+
+function showReady() {
+  currentView = 'ready';
+  currentMessage = null;
+  scrollIndex = 0;
+  lcdText.innerHTML = '<span class="big">READY</span><span class="med" style="opacity:0.5">ENTER CODE</span>';
+  lcdFooter.textContent = '▲ ▼ SCROLL';
+}
+
+function showInput() {
+  currentView = 'input';
+  lcdText.innerHTML = '<span class="big">' + inputBuffer + '<span class="cursor">_</span></span><span class="med" style="opacity:0.4">PRESS SEND</span>';
+  lcdFooter.textContent = 'CLR TO ERASE';
+}
+
+// Keypad handler
+function handleKey(val) {
+  if (val === 'CLR') {
+    inputBuffer = '';
+    showReady();
+    beep(300, 0.05);
+    return;
+  }
+  if (val === 'SEND') {
+    if (inputBuffer) {
+      lookupCode(inputBuffer);
+      inputBuffer = '';
+    }
+    return;
+  }
+  // Number input
+  if (inputBuffer.length < 6) {
+    inputBuffer += val;
+    showInput();
+    beep(1000 + Math.random() * 400, 0.03);
+  }
+}
+
+// Keypad click events
+document.querySelectorAll('.key').forEach(key => {
+  key.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleKey(key.dataset.val);
+  });
+});
+
+// Keyboard support
+document.addEventListener('keydown', (e) => {
+  if (e.key >= '0' && e.key <= '9') {
+    handleKey(e.key);
+  } else if (e.key === 'Enter') {
+    handleKey('SEND');
+  } else if (e.key === 'Backspace' || e.key === 'Escape') {
+    handleKey('CLR');
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    scrollMsg(-1);
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    scrollMsg(1);
+  }
+});
+
+// AUTO-PAGING SYSTEM — incoming messages arrive on their own
+const autoPages = [
+  { delay: 4000, from: 'BEND STUDIO', text: 'NEW HIRE? PAGE 411' },
+  { delay: 16000, from: 'RECRUITING', text: 'CAREER TIMELINE: 360' },
+  { delay: 32000, from: 'GAME DEV', text: 'DESIGN PHILOSOPHY > 808' },
+  { delay: 50000, from: 'UNKNOWN', text: 'TRY 1996... TRUST ME' },
+];
+
+let pageIndex = 0;
+
+function triggerPage(page) {
+  // LED flash
+  led.classList.add('active');
+  setTimeout(() => led.classList.remove('active'), 2000);
+
+  // New message popup
+  newMsg.classList.add('show');
+  setTimeout(() => newMsg.classList.remove('show'), 2500);
+
+  // Screen flash
+  lcdScreen.classList.add('flash');
+  setTimeout(() => lcdScreen.classList.remove('flash'), 300);
+
+  // Vibrate
+  pager.classList.add('vibrate');
+  setTimeout(() => pager.classList.remove('vibrate'), 400);
+
+  // Beep pattern
+  beepPattern();
+
+  // Show incoming page on screen (only if idle)
+  if (currentView === 'ready' || currentView === 'page-alert') {
+    lcdText.innerHTML = '<span style="font-size:9px;opacity:0.6">FROM: ' + page.from + '</span>\n<span class="med">' + page.text + '</span>';
+    lcdFooter.textContent = 'ENTER CODE TO READ';
+    currentView = 'page-alert';
+
+    setTimeout(() => {
+      if (currentView === 'page-alert') showReady();
+    }, 8000);
+  }
+}
+
+function scheduleNextPage() {
+  if (pageIndex >= autoPages.length) return;
+  const page = autoPages[pageIndex];
+  const prevDelay = pageIndex > 0 ? autoPages[pageIndex - 1].delay : 0;
+  const wait = page.delay - prevDelay;
+
+  setTimeout(() => {
+    triggerPage(page);
+    pageIndex++;
+    scheduleNextPage();
+  }, wait);
+}
+
+scheduleNextPage();
+
+// Side button: read
+function readCurrentMsg() {
+  if (currentMessage) {
+    scrollIndex = 0;
+    renderMessage(currentMessage);
+  }
+}
+
+// Boot sequence
+(function bootSequence() {
+  const steps = [
+    { html: '<span class="med">MOTOROLA</span>\n<span class="med">BRAVO+ FLX</span>', dur: 800 },
+    { html: '<span style="font-size:11px">SIGNAL CHECK...\n████████░░ OK</span>', dur: 600 },
+    { html: '<span style="font-size:11px">LOADING CODES...\n████████████ OK</span>', dur: 500 },
+    { html: '<span class="big">READY</span><span class="med" style="opacity:0.5">ENTER CODE</span>', dur: 0 },
+  ];
+
+  let i = 0;
+  function next() {
+    if (i >= steps.length) return;
+    lcdText.innerHTML = steps[i].html;
+    beep(800 + i * 200, 0.05);
+    const dur = steps[i].dur;
+    i++;
+    if (dur > 0) setTimeout(next, dur);
+  }
+  next();
+})();
 </script>
-
 </body>
 </html>

@@ -1,7 +1,7 @@
 # Portfolio Experiment 2026-03-19
 
 ## Creative Direction
-Punch card computer: career data as Hollerith cards, holes = binary info visualization
+Pager/beeper interface: numeric codes reveal info (143=Sony, 911=urgent project, etc), retro LCD screen
 
 ## CRITICAL REQUIREMENTS
 - This must be RADICALLY different from any traditional portfolio site AND all previous experiments
