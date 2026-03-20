@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>offer calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #ff7a1a;
+    --orange-light: #fff3eb;
+    --orange-dim: rgba(255,122,26,0.08);
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --text-dim: #666;
+    --border: #e0e0e0;
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --card-radius: 12px;
+    --grid: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* header */
+  .header {
+    padding: 16px 16px 12px;
+    border-bottom: 2px solid var(--text);
+  }
+  .header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: lowercase;
+    letter-spacing: -0.5px;
+  }
+  .header p {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* tabs */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 8px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: lowercase;
+    color: var(--text-dim);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .tab.active {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* panels */
+  .panel { display: none; padding: 16px; }
+  .panel.active { display: block; }
+
+  /* cards */
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: lowercase;
+    margin-bottom: 12px;
+    color: var(--orange);
+  }
+
+  /* form elements */
+  .form-group {
+    margin-bottom: 12px;
+  }
+  .form-group label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: lowercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--orange);
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: lowercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+    width: 100%;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-secondary {
+    background: var(--orange-dim);
+    color: var(--orange);
+    width: 100%;
+  }
+  .btn-danger {
+    background: var(--red-bg);
+    color: var(--red);
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+  .btn-small {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+
+  /* offer cards */
+  .offer-card {
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .offer-card.best {
+    border-color: var(--green);
+    background: var(--green-bg);
+  }
+  .offer-card .offer-rank {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: var(--green);
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .offer-company {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: lowercase;
+  }
+  .offer-role {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .offer-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .stat {
+    padding: 8px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 6px;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: lowercase;
+    color: var(--text-dim);
+  }
+  .stat-value {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .stat-value.positive { color: var(--green); }
+  .stat-value.negative { color: var(--red); }
+  .stat-sub {
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  /* comparison bar */
+  .comp-bar {
+    margin: 8px 0;
+  }
+  .comp-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+  .comp-bar-track {
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .comp-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* scenario table */
+  .scenario-grid {
+    display: grid;
+    gap: 8px;
+  }
+  .scenario-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 8px;
+  }
+  .scenario-label {
+    font-size: 13px;
+  }
+  .scenario-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* empty state */
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-dim);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 13px; margin-bottom: 16px; }
+
+  /* offer list item */
+  .offer-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  .offer-list-item:hover { border-color: var(--orange); }
+  .offer-list-left {
+    display: flex;
+    flex-direction: column;
+  }
+  .offer-list-company {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: lowercase;
+  }
+  .offer-list-comp {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .offer-list-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  /* toggle */
+  .toggle-group {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: lowercase;
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: var(--text-dim);
+  }
+  .toggle-btn.active {
+    background: var(--orange);
+    color: white;
+  }
+
+  /* separator */
+  .sep {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  /* note */
+  .note {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    padding: 8px 12px;
+    background: var(--orange-dim);
+    border-radius: 6px;
+    margin-top: 12px;
+  }
+
+  /* current baseline */
+  .baseline-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: lowercase;
+    border-radius: 4px;
+    background: var(--blue-bg);
+    color: var(--blue);
+  }
+
+  /* winner banner */
+  .winner-banner {
+    background: var(--green-bg);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .winner-banner .icon { font-size: 24px; }
+  .winner-banner .text {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: lowercase;
+  }
+  .winner-banner .detail {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 offer calculator</h1>
+  <p>compare total compensation · adjusted for cost of living</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="offers" onclick="switchTab('offers')">offers</button>
+  <button class="tab" data-tab="compare" onclick="switchTab('compare')">compare</button>
+  <button class="tab" data-tab="runway" onclick="switchTab('runway')">runway</button>
+  <button class="tab" data-tab="scenarios" onclick="switchTab('scenarios')">scenarios</button>
+</div>
+
+<!-- OFFERS TAB -->
+<div id="tab-offers" class="panel active">
+  <div class="card">
+    <div class="card-title">your baseline (current / last known)</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>base salary ($)</label>
+        <input type="number" id="baseline-salary" placeholder="185000" value="">
+      </div>
+      <div class="form-group">
+        <label>total comp ($)</label>
+        <input type="number" id="baseline-total" placeholder="220000" value="">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>location</label>
+        <select id="baseline-location">
+          <option value="seattle">seattle / eastside WA</option>
+          <option value="sf">san francisco bay area</option>
+          <option value="la">los angeles</option>
+          <option value="portland">portland</option>
+          <option value="austin">austin</option>
+          <option value="montreal">montreal</option>
+          <option value="berlin">berlin</option>
+          <option value="london">london</option>
+          <option value="remote-us">remote (US avg)</option>
+          <option value="custom">custom COL index</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>monthly expenses ($)</label>
+        <input type="number" id="baseline-expenses" placeholder="8000" value="">
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-small" onclick="saveBaseline()">save baseline</button>
+  </div>
+
+  <div id="offers-list"></div>
+
+  <button class="btn btn-primary" onclick="showAddOffer()">+ add offer</button>
+
+  <!-- Add/Edit Offer Form (hidden by default) -->
+  <div id="offer-form" style="display:none; margin-top:16px;">
+    <div class="card">
+      <div class="card-title" id="form-title">add new offer</div>
+      <div class="form-group">
+        <label>company</label>
+        <input type="text" id="offer-company" placeholder="e.g. epic games">
+      </div>
+      <div class="form-group">
+        <label>role</label>
+        <input type="text" id="offer-role" placeholder="e.g. design director">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>base salary ($)</label>
+          <input type="number" id="offer-base" placeholder="200000">
+        </div>
+        <div class="form-group">
+          <label>signing bonus ($)</label>
+          <input type="number" id="offer-signing" placeholder="25000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>annual bonus target ($)</label>
+          <input type="number" id="offer-bonus" placeholder="30000">
+        </div>
+        <div class="form-group">
+          <label>equity / RSU annual ($)</label>
+          <input type="number" id="offer-equity" placeholder="50000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>location</label>
+          <select id="offer-location">
+            <option value="seattle">seattle / eastside WA</option>
+            <option value="sf">san francisco bay area</option>
+            <option value="la">los angeles</option>
+            <option value="portland">portland</option>
+            <option value="austin">austin</option>
+            <option value="montreal">montreal</option>
+            <option value="berlin">berlin</option>
+            <option value="london">london</option>
+            <option value="remote-us">remote (US avg)</option>
+            <option value="custom">custom COL index</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>custom col index</label>
+          <input type="number" id="offer-col-custom" placeholder="100" step="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>relocation pkg ($)</label>
+          <input type="number" id="offer-relocation" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>PTO days / year</label>
+          <input type="number" id="offer-pto" placeholder="20">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>parental leave (weeks paid)</label>
+        <input type="number" id="offer-parental" placeholder="12">
+      </div>
+      <div class="form-group">
+        <label>notes (optional)</label>
+        <input type="text" id="offer-notes" placeholder="any flags, vibes, negotiation context">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="btn btn-primary" onclick="saveOffer()" style="flex:1">save offer</button>
+        <button class="btn btn-secondary" onclick="cancelOffer()" style="flex:0 0 auto">cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE TAB -->
+<div id="tab-compare" class="panel">
+  <div id="compare-content"></div>
+</div>
+
+<!-- RUNWAY TAB -->
+<div id="tab-runway" class="panel">
+  <div class="card">
+    <div class="card-title">transition runway calculator</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>liquid savings ($)</label>
+        <input type="number" id="runway-savings" placeholder="50000" oninput="calcRunway()">
+      </div>
+      <div class="form-group">
+        <label>monthly burn ($)</label>
+        <input type="number" id="runway-burn" placeholder="8000" oninput="calcRunway()">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>severance (weeks)</label>
+        <input type="number" id="runway-severance" placeholder="8" oninput="calcRunway()">
+      </div>
+      <div class="form-group">
+        <label>severance weekly ($)</label>
+        <input type="number" id="runway-sev-weekly" placeholder="3558" oninput="calcRunway()">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>PFML weeks</label>
+        <input type="number" id="runway-pfml" placeholder="12" value="12" oninput="calcRunway()">
+      </div>
+      <div class="form-group">
+        <label>PFML weekly ($)</label>
+        <input type="number" id="runway-pfml-weekly" placeholder="1647" value="1647" oninput="calcRunway()">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>unemployment weeks</label>
+        <input type="number" id="runway-ui" placeholder="26" value="26" oninput="calcRunway()">
+      </div>
+      <div class="form-group">
+        <label>UI weekly ($)</label>
+        <input type="number" id="runway-ui-weekly" placeholder="1047" value="1047" oninput="calcRunway()">
+      </div>
+    </div>
+  </div>
+
+  <div id="runway-results"></div>
+</div>
+
+<!-- SCENARIOS TAB -->
+<div id="tab-scenarios" class="panel">
+  <div class="card">
+    <div class="card-title">what if? quick scenarios</div>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:16px;">
+      Auto-calculated from your offers. Shows how each option plays out financially over 12 months.
+    </p>
+  </div>
+  <div id="scenarios-content"></div>
+</div>
+
+<script>
+// Cost of Living indices (Seattle = 100 baseline)
+const COL_INDEX = {
+  'seattle': 100,
+  'sf': 115,
+  'la': 105,
+  'portland': 88,
+  'austin': 82,
+  'montreal': 68,
+  'berlin': 65,
+  'london': 110,
+  'remote-us': 85,
+  'custom': 100
+};
+
+const COL_LABELS = {
+  'seattle': 'Seattle/Eastside WA',
+  'sf': 'San Francisco Bay Area',
+  'la': 'Los Angeles',
+  'portland': 'Portland',
+  'austin': 'Austin',
+  'montreal': 'Montreal',
+  'berlin': 'Berlin',
+  'london': 'London',
+  'remote-us': 'Remote (US avg)',
+  'custom': 'Custom'
+};
+
+// State
+let offers = JSON.parse(localStorage.getItem('oc-offers') || '[]');
+let baseline = JSON.parse(localStorage.getItem('oc-baseline') || '{}');
+let editingIndex = -1;
+
+function init() {
+  if (baseline.salary) document.getElementById('baseline-salary').value = baseline.salary;
+  if (baseline.total) document.getElementById('baseline-total').value = baseline.total;
+  if (baseline.location) document.getElementById('baseline-location').value = baseline.location;
+  if (baseline.expenses) document.getElementById('baseline-expenses').value = baseline.expenses;
+  renderOffersList();
+}
+
+function saveBaseline() {
+  baseline = {
+    salary: parseFloat(document.getElementById('baseline-salary').value) || 0,
+    total: parseFloat(document.getElementById('baseline-total').value) || 0,
+    location: document.getElementById('baseline-location').value,
+    expenses: parseFloat(document.getElementById('baseline-expenses').value) || 0
+  };
+  localStorage.setItem('oc-baseline', JSON.stringify(baseline));
+  renderOffersList();
+}
+
+function showAddOffer() {
+  editingIndex = -1;
+  document.getElementById('form-title').textContent = 'add new offer';
+  ['company','role','base','signing','bonus','equity','relocation','pto','parental','notes'].forEach(f => {
+    document.getElementById('offer-' + f).value = '';
+  });
+  document.getElementById('offer-location').value = 'seattle';
+  document.getElementById('offer-col-custom').value = '';
+  document.getElementById('offer-form').style.display = 'block';
+  document.getElementById('offer-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+function editOffer(idx) {
+  editingIndex = idx;
+  const o = offers[idx];
+  document.getElementById('form-title').textContent = 'edit offer';
+  document.getElementById('offer-company').value = o.company || '';
+  document.getElementById('offer-role').value = o.role || '';
+  document.getElementById('offer-base').value = o.base || '';
+  document.getElementById('offer-signing').value = o.signing || '';
+  document.getElementById('offer-bonus').value = o.bonus || '';
+  document.getElementById('offer-equity').value = o.equity || '';
+  document.getElementById('offer-location').value = o.location || 'seattle';
+  document.getElementById('offer-col-custom').value = o.colCustom || '';
+  document.getElementById('offer-relocation').value = o.relocation || '';
+  document.getElementById('offer-pto').value = o.pto || '';
+  document.getElementById('offer-parental').value = o.parental || '';
+  document.getElementById('offer-notes').value = o.notes || '';
+  document.getElementById('offer-form').style.display = 'block';
+  document.getElementById('offer-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+function saveOffer() {
+  const o = {
+    company: document.getElementById('offer-company').value.trim(),
+    role: document.getElementById('offer-role').value.trim(),
+    base: parseFloat(document.getElementById('offer-base').value) || 0,
+    signing: parseFloat(document.getElementById('offer-signing').value) || 0,
+    bonus: parseFloat(document.getElementById('offer-bonus').value) || 0,
+    equity: parseFloat(document.getElementById('offer-equity').value) || 0,
+    location: document.getElementById('offer-location').value,
+    colCustom: parseFloat(document.getElementById('offer-col-custom').value) || null,
+    relocation: parseFloat(document.getElementById('offer-relocation').value) || 0,
+    pto: parseFloat(document.getElementById('offer-pto').value) || 0,
+    parental: parseFloat(document.getElementById('offer-parental').value) || 0,
+    notes: document.getElementById('offer-notes').value.trim()
+  };
+  if (!o.company) { alert('Company name is required'); return; }
+
+  if (editingIndex >= 0) {
+    offers[editingIndex] = o;
+  } else {
+    offers.push(o);
+  }
+  localStorage.setItem('oc-offers', JSON.stringify(offers));
+  document.getElementById('offer-form').style.display = 'none';
+  editingIndex = -1;
+  renderOffersList();
+}
+
+function cancelOffer() {
+  document.getElementById('offer-form').style.display = 'none';
+  editingIndex = -1;
+}
+
+function deleteOffer(idx) {
+  if (confirm('Delete ' + offers[idx].company + '?')) {
+    offers.splice(idx, 1);
+    localStorage.setItem('oc-offers', JSON.stringify(offers));
+    renderOffersList();
+  }
+}
+
+function getColIndex(loc, custom) {
+  if (loc === 'custom' && custom) return custom;
+  return COL_INDEX[loc] || 100;
+}
+
+function getTotalComp(o) {
+  return o.base + o.bonus + o.equity;
+}
+
+function getYear1Total(o) {
+  return o.base + o.signing + o.bonus + o.equity;
+}
+
+function getAdjustedComp(o) {
+  const col = getColIndex(o.location, o.colCustom);
+  const baselineCol = getColIndex(baseline.location || 'seattle');
+  return getTotalComp(o) * (baselineCol / col);
+}
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function fmtK(n) {
+  if (n >= 1000) return '$' + Math.round(n/1000) + 'k';
+  return '$' + Math.round(n);
+}
+
+function renderOffersList() {
+  const el = document.getElementById('offers-list');
+  if (offers.length === 0) {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">📋</div>
+        <p>no offers yet — add your first one below</p>
+      </div>
+    `;
+    return;
+  }
+
+  el.innerHTML = offers.map((o, i) => {
+    const tc = getTotalComp(o);
+    const col = getColIndex(o.location, o.colCustom);
+    return `
+      <div class="offer-list-item" onclick="editOffer(${i})">
+        <div class="offer-list-left">
+          <div class="offer-list-company">${o.company}</div>
+          <div class="offer-list-comp">${o.role} · ${fmt(tc)} TC · ${COL_LABELS[o.location] || o.location} (COL ${col})</div>
+        </div>
+        <div class="offer-list-actions" onclick="event.stopPropagation()">
+          <button class="btn btn-danger btn-small" onclick="deleteOffer(${i})">×</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  renderCompare();
+  renderScenarios();
+}
+
+function renderCompare() {
+  const el = document.getElementById('compare-content');
+  if (offers.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div class="icon">⚖️</div><p>add at least one offer to compare</p></div>';
+    return;
+  }
+
+  // Sort by COL-adjusted comp
+  const sorted = offers.map((o, i) => ({
+    ...o,
+    idx: i,
+    tc: getTotalComp(o),
+    y1: getYear1Total(o),
+    adj: getAdjustedComp(o),
+    col: getColIndex(o.location, o.colCustom)
+  })).sort((a, b) => b.adj - a.adj);
+
+  const maxAdj = sorted[0].adj;
+  const baselineTotal = baseline.total || 0;
+
+  let html = '';
+
+  if (sorted.length > 1) {
+    const best = sorted[0];
+    const diff = best.adj - sorted[1].adj;
+    html += `
+      <div class="winner-banner">
+        <div class="icon">🏆</div>
+        <div>
+          <div class="text">${best.company} leads by ${fmtK(diff)}/yr (COL-adjusted)</div>
+          <div class="detail">${fmt(best.adj)} adjusted vs ${fmt(sorted[1].adj)} for ${sorted[1].company}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  html += sorted.map((o, rank) => {
+    const baselineDiff = baselineTotal ? ((o.adj - baselineTotal) / baselineTotal * 100).toFixed(1) : null;
+    const barWidth = maxAdj > 0 ? Math.round(o.adj / maxAdj * 100) : 0;
+    const colors = ['var(--green)', 'var(--orange)', 'var(--blue)', '#9333ea', '#ec4899'];
+    const color = colors[rank % colors.length];
+
+    return `
+      <div class="offer-card ${rank === 0 ? 'best' : ''}">
+        ${rank === 0 ? '<div class="offer-rank">best value</div>' : ''}
+        <div class="offer-company">${o.company}</div>
+        <div class="offer-role">${o.role} · ${COL_LABELS[o.location]}</div>
+        <div class="offer-stats">
+          <div class="stat">
+            <div class="stat-label">base salary</div>
+            <div class="stat-value">${fmtK(o.base)}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">total comp (annual)</div>
+            <div class="stat-value">${fmtK(o.tc)}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">year 1 (w/ signing)</div>
+            <div class="stat-value">${fmtK(o.y1)}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">COL-adjusted</div>
+            <div class="stat-value ${baselineDiff > 0 ? 'positive' : baselineDiff < 0 ? 'negative' : ''}">${fmtK(o.adj)}</div>
+            ${baselineDiff !== null ? `<div class="stat-sub">${baselineDiff > 0 ? '+' : ''}${baselineDiff}% vs baseline</div>` : ''}
+          </div>
+        </div>
+        <div class="comp-bar">
+          <div class="comp-bar-label">
+            <span style="font-family:'Space Mono',monospace;font-size:9px;text-transform:lowercase;">adjusted purchasing power</span>
+            <span style="font-size:10px;font-weight:600">${fmtK(o.adj)}</span>
+          </div>
+          <div class="comp-bar-track">
+            <div class="comp-bar-fill" style="width:${barWidth}%;background:${color}"></div>
+          </div>
+        </div>
+        ${o.pto ? `<div style="font-size:11px;color:var(--text-dim);margin-top:6px;">📅 ${o.pto} PTO days · 👶 ${o.parental || '?'} wks parental leave</div>` : ''}
+        ${o.notes ? `<div class="note">${o.notes}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  // Quick comparison table
+  if (sorted.length > 1) {
+    html += `<div class="card"><div class="card-title">side-by-side</div>`;
+    html += `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">`;
+    html += `<tr style="border-bottom:1px solid var(--border);">
+      <th style="text-align:left;padding:6px;font-family:'Space Mono',monospace;font-size:10px;text-transform:lowercase;">metric</th>
+      ${sorted.map(o => `<th style="text-align:right;padding:6px;font-family:'Space Mono',monospace;font-size:10px;text-transform:lowercase;">${o.company}</th>`).join('')}
+    </tr>`;
+    const rows = [
+      ['base salary', o => fmtK(o.base)],
+      ['bonus', o => fmtK(o.bonus)],
+      ['equity/RSU', o => fmtK(o.equity)],
+      ['signing', o => fmtK(o.signing)],
+      ['total comp', o => fmtK(o.tc)],
+      ['year 1', o => fmtK(o.y1)],
+      ['COL index', o => o.col.toString()],
+      ['COL-adjusted', o => fmtK(o.adj)],
+      ['PTO days', o => (o.pto || '—').toString()],
+      ['parental wks', o => (o.parental || '—').toString()],
+      ['relocation', o => o.relocation ? fmtK(o.relocation) : '—']
+    ];
+    rows.forEach(([label, fn]) => {
+      html += `<tr style="border-bottom:1px solid #f0f0f0;">
+        <td style="padding:6px;color:var(--text-dim);">${label}</td>
+        ${sorted.map(o => `<td style="text-align:right;padding:6px;font-weight:500;">${fn(o)}</td>`).join('')}
+      </tr>`;
+    });
+    html += `</table></div></div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function calcRunway() {
+  const savings = parseFloat(document.getElementById('runway-savings').value) || 0;
+  const burn = parseFloat(document.getElementById('runway-burn').value) || 0;
+  const sevWeeks = parseFloat(document.getElementById('runway-severance').value) || 0;
+  const sevWeekly = parseFloat(document.getElementById('runway-sev-weekly').value) || 0;
+  const pfmlWeeks = parseFloat(document.getElementById('runway-pfml').value) || 0;
+  const pfmlWeekly = parseFloat(document.getElementById('runway-pfml-weekly').value) || 0;
+  const uiWeeks = parseFloat(document.getElementById('runway-ui').value) || 0;
+  const uiWeekly = parseFloat(document.getElementById('runway-ui-weekly').value) || 0;
+
+  if (burn <= 0) {
+    document.getElementById('runway-results').innerHTML = '';
+    return;
+  }
+
+  const sevTotal = sevWeeks * sevWeekly;
+  const pfmlTotal = pfmlWeeks * pfmlWeekly;
+  const uiTotal = uiWeeks * uiWeekly;
+  const totalSafetyNet = sevTotal + pfmlTotal + uiTotal;
+  const totalAll = savings + totalSafetyNet;
+
+  const savingsMonths = savings / burn;
+  const sevMonths = sevTotal / burn;
+  const pfmlMonths = pfmlTotal / burn;
+  const uiMonths = uiTotal / burn;
+  const totalMonths = totalAll / burn;
+
+  // Optimal sequence timeline
+  const phases = [];
+  let weekCounter = 0;
+  if (sevWeeks > 0) {
+    phases.push({ name: 'Severance', weeks: sevWeeks, weekly: sevWeekly, color: 'var(--blue)' });
+    weekCounter += sevWeeks;
+  }
+  if (pfmlWeeks > 0) {
+    phases.push({ name: 'PFML', weeks: pfmlWeeks, weekly: pfmlWeekly, color: 'var(--green)' });
+    weekCounter += pfmlWeeks;
+  }
+  if (uiWeeks > 0) {
+    phases.push({ name: 'Unemployment', weeks: uiWeeks, weekly: uiWeekly, color: 'var(--orange)' });
+    weekCounter += uiWeeks;
+  }
+
+  const el = document.getElementById('runway-results');
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title">total runway</div>
+      <div style="text-align:center;padding:16px 0;">
+        <div style="font-size:48px;font-weight:700;font-family:'Space Mono',monospace;">${totalMonths.toFixed(1)}</div>
+        <div style="font-size:12px;color:var(--text-dim);">months at ${fmt(burn)}/mo burn</div>
+      </div>
+      <div class="sep"></div>
+      <div class="scenario-grid">
+        <div class="scenario-row">
+          <div class="scenario-label">💰 Liquid savings</div>
+          <div class="scenario-value">${fmt(savings)} <span style="font-weight:400;color:var(--text-dim)">(${savingsMonths.toFixed(1)} mo)</span></div>
+        </div>
+        <div class="scenario-row">
+          <div class="scenario-label">📦 Severance (${sevWeeks} wks)</div>
+          <div class="scenario-value">${fmt(sevTotal)} <span style="font-weight:400;color:var(--text-dim)">(${sevMonths.toFixed(1)} mo)</span></div>
+        </div>
+        <div class="scenario-row">
+          <div class="scenario-label">👶 PFML (${pfmlWeeks} wks)</div>
+          <div class="scenario-value">${fmt(pfmlTotal)} <span style="font-weight:400;color:var(--text-dim)">(${pfmlMonths.toFixed(1)} mo)</span></div>
+        </div>
+        <div class="scenario-row">
+          <div class="scenario-label">🏛️ Unemployment (${uiWeeks} wks)</div>
+          <div class="scenario-value">${fmt(uiTotal)} <span style="font-weight:400;color:var(--text-dim)">(${uiMonths.toFixed(1)} mo)</span></div>
+        </div>
+        <div class="scenario-row" style="background:var(--green-bg);">
+          <div class="scenario-label"><strong>🛡️ Safety net total</strong></div>
+          <div class="scenario-value" style="color:var(--green)">${fmt(totalSafetyNet)}</div>
+        </div>
+        <div class="scenario-row" style="background:var(--orange-dim);">
+          <div class="scenario-label"><strong>🔥 Grand total</strong></div>
+          <div class="scenario-value" style="color:var(--orange)">${fmt(totalAll)}</div>
+        </div>
+      </div>
+    </div>
+
+    ${phases.length > 0 ? `
+    <div class="card">
+      <div class="card-title">optimal sequence (PFML → sev → UI)</div>
+      <div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:12px;">
+        ${phases.map(p => {
+          const pct = (p.weeks / weekCounter * 100).toFixed(1);
+          return `<div style="width:${pct}%;background:${p.color};display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px;color:white;">${p.weeks}w</div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        ${phases.map(p => `<div style="display:flex;align-items:center;gap:4px;font-size:11px;"><div style="width:8px;height:8px;border-radius:2px;background:${p.color}"></div>${p.name} (${fmt(p.weekly)}/wk)</div>`).join('')}
+      </div>
+      <div class="note">
+        💡 Optimal order: take PFML during baby bonding (weeks 1-12), then collect severance lump sum, then file unemployment. Total coverage: ${weekCounter} weeks (${(weekCounter/4.33).toFixed(1)} months) of income before touching savings.
+      </div>
+    </div>
+    ` : ''}
+  `;
+}
+
+function renderScenarios() {
+  const el = document.getElementById('scenarios-content');
+  if (offers.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div class="icon">🔮</div><p>add offers to see scenario analysis</p></div>';
+    return;
+  }
+
+  const monthlyExpenses = baseline.expenses || 8000;
+  const baselineTotal = baseline.total || 0;
+
+  let html = '';
+
+  offers.forEach((o, i) => {
+    const tc = getTotalComp(o);
+    const y1 = getYear1Total(o);
+    const col = getColIndex(o.location, o.colCustom);
+    const baselineCol = getColIndex(baseline.location || 'seattle');
+
+    // Adjust expenses for COL difference
+    const adjExpenses = monthlyExpenses * (col / baselineCol);
+    const monthlyTakehome = tc / 12 * 0.72; // ~28% effective tax
+    const y1MonthlyTakehome = y1 / 12 * 0.72;
+    const monthlySurplus = monthlyTakehome - adjExpenses;
+    const y1MonthlySurplus = y1MonthlyTakehome - adjExpenses;
+
+    const needsRelocation = !['seattle', 'remote-us'].includes(o.location);
+
+    html += `
+      <div class="card">
+        <div class="card-title">${o.company} — ${o.role}</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:12px;">${COL_LABELS[o.location]} · COL index ${col}</div>
+        <div class="scenario-grid">
+          <div class="scenario-row">
+            <div class="scenario-label">Monthly take-home (est. 72%)</div>
+            <div class="scenario-value">${fmt(monthlyTakehome)}</div>
+          </div>
+          <div class="scenario-row">
+            <div class="scenario-label">Adj. monthly expenses</div>
+            <div class="scenario-value">${fmt(adjExpenses)}</div>
+          </div>
+          <div class="scenario-row" style="background:${monthlySurplus >= 0 ? 'var(--green-bg)' : 'var(--red-bg)'}">
+            <div class="scenario-label"><strong>Monthly surplus/deficit</strong></div>
+            <div class="scenario-value" style="color:${monthlySurplus >= 0 ? 'var(--green)' : 'var(--red)'}">${monthlySurplus >= 0 ? '+' : ''}${fmt(monthlySurplus)}</div>
+          </div>
+          <div class="scenario-row">
+            <div class="scenario-label">Year 1 net (w/ signing)</div>
+            <div class="scenario-value">${fmt(y1MonthlySurplus * 12)}</div>
+          </div>
+          <div class="scenario-row">
+            <div class="scenario-label">12-month savings impact</div>
+            <div class="scenario-value" style="color:${monthlySurplus >= 0 ? 'var(--green)' : 'var(--red)'}">
+              ${monthlySurplus >= 0 ? '+' : ''}${fmt(monthlySurplus * 12)}
+            </div>
+          </div>
+          ${needsRelocation ? `
+          <div class="scenario-row" style="background:var(--orange-dim)">
+            <div class="scenario-label">⚠️ Relocation required</div>
+            <div class="scenario-value">${o.relocation ? fmt(o.relocation) + ' pkg' : 'none listed'}</div>
+          </div>
+          ` : ''}
+        </div>
+        ${baselineTotal > 0 ? `
+        <div class="comp-bar" style="margin-top:12px;">
+          <div class="comp-bar-label">
+            <span style="font-family:'Space Mono',monospace;font-size:9px">vs baseline (${fmt(baselineTotal)} TC)</span>
+            <span style="font-size:10px;font-weight:600;color:${tc >= baselineTotal ? 'var(--green)' : 'var(--red)'}">${tc >= baselineTotal ? '+' : ''}${((tc - baselineTotal)/baselineTotal * 100).toFixed(0)}%</span>
+          </div>
+          <div class="comp-bar-track">
+            <div class="comp-bar-fill" style="width:${Math.min(100, tc/baselineTotal*100).toFixed(0)}%;background:${tc >= baselineTotal ? 'var(--green)' : 'var(--red)'}"></div>
+          </div>
+        </div>
+        ` : ''}
+        ${o.notes ? `<div class="note">${o.notes}</div>` : ''}
+      </div>
+    `;
+  });
+
+  el.innerHTML = html;
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-tab="${name}"]`).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+
+  if (name === 'compare') renderCompare();
+  if (name === 'runway') calcRunway();
+  if (name === 'scenarios') renderScenarios();
+}
+
+// Init
+init();
+</script>
+
+</body>
+</html>
